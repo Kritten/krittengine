@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>BTF Renderer</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	</head>
+	<body>
+		<div class="row">
+			<div class="col-sm-6">
+				<canvas id="canvas" width="800" height="500"></canvas>
+			</div>
+			<div class="col-sm-6">
+				<form>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6">
+								<label for="mesh">select mesh</label>
+								<select id="mesh" class="form-control">
+									<option value="monkey">monkey</option>
+									<option value="couch">couch</option>
+									<option value="plane">plane</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6">
+								<label for="material">select material</label>
+								<select id="material" class="form-control">
+									<option value="color">color</option>
+									<option value="texture">texture</option>
+									<option value="btf">btf</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<label>
+						<button type="button" id="load_btf" class="btn btn-primary">load btf-material</button>
+					</label>
+				</form>
+			</div>
+		</div>
+
+
+		<script id="shader_vertex_btf" type="x-shader/x-vertex">#version 300 es
+		    precision mediump float;
+		    precision mediump sampler2DArray;
+
+		    layout(location=0) in vec3 vertex_position;
+			layout(location=1) in vec2 vertex_texture_coords;
+		    layout(location=2) in vec3 vertex_normal;
+		    layout(location=3) in vec3 vertex_tangent;
+		    layout(location=4) in vec3 vertex_bitangent;
+
+		    // uniform mat4 matrix_modelview;
+		    uniform mat4 matrix_view;
+		    uniform mat4 matrix_model;
+		    uniform mat4 matrix_perspective;
+		    uniform mat4 matrix_normal;
+
+			out vec3 passed_normal;
+			out vec2 passed_texture_coords;
+			out vec4 passed_position_view_space;
+			out vec3 passed_tangent;
+			out vec3 passed_bitangent;
+
+		    void main(void) {
+		    	passed_normal = normalize((matrix_normal * vec4(vertex_normal, 0.0)).xyz);
+		    	passed_tangent = vertex_tangent;
+		    	passed_bitangent = vertex_bitangent;
+
+		    	passed_position_view_space = matrix_view * matrix_model * vec4(vertex_position, 1.0);
+	    		passed_texture_coords = vertex_texture_coords;
+		        gl_Position = matrix_perspective * matrix_view * matrix_model * vec4(vertex_position, 1.0);
+		        // gl_Position = matrix_perspective * matrix_modelview * vec4(vertex_position, 1.0);
+		    }
+		</script>
+		<script id="shader_fragment_btf" type="x-shader/x-fragment">#version 300 es
+		    precision mediump float;
+		    precision mediump sampler2DArray;
+
+			in vec4 passed_position_view_space;
+			in vec2 passed_texture_coords;
+			in vec3 passed_normal;
+			in vec3 passed_tangent;
+			in vec3 passed_bitangent;
+
+			uniform sampler2DArray texArray[3];
+		    uniform mat4 matrix_normal;
+			// uniform sampler2DArray texArray[2];
+			uniform int texArraySize;
+			uniform int texCounter;
+			uniform sampler2D tex;
+		    uniform mat4 matrix_view;
+
+			uniform float phiInterval[6];	 
+			uniform float phiIntervalCount[7];	 
+
+	   		int texPerViewDir = 81;
+			float thetaMaxAngle = 75.0;
+			float thetaInterval = 15.0;
+			float thetaLightEach = 1.0;
+			float phiLightEach = 1.0;
+			float thetaViewEach = 1.0;
+			float phiViewEach = 1.0;
+			float tcm = 35.0;
+			
+			uniform vec4 position_light;
+
+		    out vec4 theColor;
+			vec4 mixPhiLight(in int thetaLightID, in float phiLight, in float texIDAccum)
+			{
+				float phiLightID = phiLight / phiInterval[thetaLightID] / phiLightEach;
+				float phiLightFl  = floor(phiLightID) * phiLightEach;
+				float phiLightCe  = ceil (phiLightID) * phiLightEach;
+				float phiLightMix = fract(phiLightID);
+				
+				float texIDAccumFl = texIDAccum + phiIntervalCount[thetaLightID] + phiLightFl;
+				float texIDAccumCe = texIDAccum + phiIntervalCount[thetaLightID] + phiLightCe;
+				
+				//	if (phiIntervalCount[thetaLightID] + phiLightCe >= phiIntervalCount[thetaLightID+1])
+				if (phiLight + phiInterval[int(thetaLightID)] >= 360.0)
+				{
+					texIDAccumCe = texIDAccum + phiIntervalCount[thetaLightID];
+				}
+				vec4 fl[10];
+				vec4 ce[10];
+				for (int i = 0; i < 3; ++i)
+				{
+					fl[i] = texture(texArray[i], vec3(passed_texture_coords * tcm, mod(texIDAccumFl,2048.0)));
+					ce[i] = texture(texArray[i], vec3(passed_texture_coords * tcm, mod(texIDAccumCe,2048.0)));
+				}
+				vec4 phiLightFlCol = fl[int(floor(texIDAccumFl/2048.0))];
+				vec4 phiLightCeCol = ce[int(floor(texIDAccumCe/2048.0))];
+
+				return mix(phiLightFlCol, phiLightCeCol, phiLightMix);
+			}
+
+			vec4 mixThetaLight(in float thetaLight, in float phiLight, in float texIDAccum)
+			{
+				float thetaLightID = thetaLight / thetaInterval / thetaLightEach;
+				float thetaLightFl  = floor(thetaLightID) * thetaLightEach;
+				float thetaLightCe  = ceil (thetaLightID) * thetaLightEach;
+				float thetaLightMix = fract(thetaLightID);
+
+				vec4 thetaLightFlCol = mixPhiLight(int(thetaLightFl), phiLight, texIDAccum);
+				vec4 thetaLightCeCol = mixPhiLight(int(thetaLightCe), phiLight, texIDAccum);
+				
+				// upper bound, if higher -> no light/shadow
+				// e.g. theta = 80
+				// =>   thetaFloor = 75 -- ok
+				//      thetaCeil  = 90 !! not available, no light
+				//  ==> thetaCeilColor  = black
+				float maxThetaLightID = thetaMaxAngle/thetaInterval;
+				if (thetaLightFl > maxThetaLightID)
+				{
+					thetaLightFlCol = vec4(0.0, 0.0, 0.0, 1.0);
+				}
+				if (thetaLightCe > maxThetaLightID)
+				{
+					thetaLightCeCol = vec4(0.0, 0.0, 0.0, 1.0);
+				}	
+
+				
+				return mix(thetaLightFlCol, thetaLightCeCol, thetaLightMix);
+			}
+
+
+			vec4 mixPhiView(in int thetaViewID, in float phiView, in float thetaLight, in float phiLight)
+			{
+				float phiViewID = phiView / phiInterval[thetaViewID] / phiViewEach;
+				float phiViewFl  = floor(phiViewID) * phiViewEach;
+				float phiViewCe  = ceil (phiViewID) * phiViewEach;
+				float phiViewMix = fract(phiViewID);
+				
+				float texIDAccumFl = float(texPerViewDir) * (phiIntervalCount[thetaViewID]+phiViewFl);
+				float texIDAccumCe = float(texPerViewDir) * (phiIntervalCount[thetaViewID]+phiViewCe);
+				
+				// upper bound, wrap around to phi = 0
+				// e.g. phi = 345, interval = 60
+				// =>   phiFloor = 300
+				//      phiCeil  = 360 !! 360 not available, but 360 == 0
+				//  ==> phiCeil  = 0
+				//	if (phiIntervalCount[thetaViewID] + phiViewCe >= phiIntervalCount[thetaViewID+1])
+				if (phiView + phiInterval[int(thetaViewID)] >= 360.0)
+				{
+					texIDAccumCe = float(texPerViewDir) * phiIntervalCount[thetaViewID];
+				}
+				
+				vec4 phiViewFlCol = mixThetaLight(thetaLight, phiLight, texIDAccumFl);
+				vec4 phiViewCeCol = mixThetaLight(thetaLight, phiLight, texIDAccumCe);
+				
+				return mix(phiViewFlCol, phiViewCeCol, phiViewMix);	
+			}
+
+			vec4 calcColor(in float thetaView, in float phiView, in float thetaLight, in float phiLight)
+			{
+				// nearest lower angle, nearest higher angle and interpolation factor
+				float thetaViewID = thetaView / thetaInterval / thetaViewEach;
+				float thetaViewFl  = floor(thetaViewID) * thetaViewEach;
+				float thetaViewCe  = ceil (thetaViewID) * thetaViewEach;
+				float thetaViewMix = fract(thetaViewID);
+				
+				// upper bound, clamp to highest available theta
+				// e.g. theta = 80
+				// =>   thetaFloor = 75
+				//      thetaCeil  = 90 !! not available 
+				//  ==> thetaCeil  = 75
+				float maxThetaViewID = thetaMaxAngle/thetaInterval;
+				if (thetaViewFl > maxThetaViewID)
+				{
+					thetaViewFl = maxThetaViewID;
+				//		thetaViewCeCol = vec4(0.0, 0.0, 0.0, 1.0);
+				}
+				if (thetaViewCe > maxThetaViewID)
+				{
+					thetaViewCe = maxThetaViewID;
+				//		thetaViewCeCol = vec4(0.0, 0.0, 0.0, 1.0);
+				}
+				
+				vec4 thetaViewFlCol = mixPhiView(int(thetaViewFl), phiView, thetaLight, phiLight);
+				vec4 thetaViewCeCol = mixPhiView(int(thetaViewCe), phiView, thetaLight, phiLight);	
+				
+				return mix(thetaViewFlCol, thetaViewCeCol, thetaViewMix);
+			}
+
+		    void main(void) {
+		    	vec3 normal = normalize(passed_normal);
+		    	vec3 tangent = normalize(vec3((matrix_normal * vec4(passed_tangent, 0)).xyz)); 
+			    vec3 bitangent = normalize(vec3((matrix_normal * vec4(passed_bitangent, 0)).xyz)); 
+			    mat3 tangentSpace = mat3(tangent, bitangent, normal);
+			    mat3 inverse_tbn = inverse(tangentSpace);
+
+
+				vec3 dirLightTangent = inverse_tbn * ((matrix_view * position_light).xyz - passed_position_view_space.xyz);
+				vec3 dirViewTangent = inverse_tbn * (-passed_position_view_space.xyz);
+				vec3 normalTangent = normalize(inverse_tbn * normal);
+				vec3 tangentTangent = normalize(inverse_tbn * tangent);
+				vec3 biTangentTangent = normalize(inverse_tbn * bitangent);
+
+				float tld = dot(normalTangent.xyz, normalize(dirLightTangent));
+				float thetaLight = degrees(acos(tld));
+
+				vec3 dltt = vec3(dirLightTangent.xy, 0.0);
+				float pltd = dot(tangentTangent, normalize(dltt));
+				float phiLight = degrees(acos(pltd));
+				if (dirLightTangent.y < 0.0)
+				{
+					phiLight = 360.0 - phiLight;
+				}
+				
+				float tvd = dot(normalTangent.xyz, normalize(dirViewTangent));
+				float thetaView = degrees(acos(tvd));
+				
+				vec3 dvtt = vec3(dirViewTangent.xy, 0.0);
+				float pvtd = dot(tangentTangent, normalize(dvtt));
+				float phiView = degrees(acos(pvtd));
+				if (dirViewTangent.y < 0.0)
+				{
+					phiView = 360.0 - phiView;
+				}
+		
+				// interpolate final color
+				vec3 col = calcColor(thetaView, phiView, thetaLight, phiLight).xyz;
+
+		    	// vec4 test = texture(texArray, vec3(0.7, 0.3, 1));
+				// vec4 phiLightFlCol = texture(texArray, vec3(passed_texture_coords, 3));
+				// vec4 phiLightFlCol = texture(texArray[2], vec3(passed_texture_coords, 3));
+
+		        // theColor = vec4(phiLightFlCol.rgb, 1.0);
+		        theColor = vec4(col, 1.0);
+		        // theColor = vec4(position_light.xyz, 1.0);
+		        // theColor = vec4(passed_normal.xyz*float(phiInterval[0]), 1.0);
+		    }
+		</script>
+		<script id="shader_vertex_color" type="x-shader/x-vertex">#version 300 es
+		    precision mediump float;
+
+		    layout(location=0) in vec3 vertex_position;
+		    layout(location=2) in vec3 vertex_normal;
+
+		    // uniform mat4 matrix_modelview;
+		    uniform mat4 matrix_view;
+		    uniform mat4 matrix_model;
+		    uniform mat4 matrix_perspective;
+		    uniform mat4 matrix_normal;
+
+			out vec4 passed_normal;
+			out vec4 passed_position_view_space;
+
+		    void main(void) {
+		    	passed_normal = matrix_normal * vec4(vertex_normal, 1.0);
+
+		    	passed_position_view_space = matrix_view * matrix_model * vec4(vertex_position, 1.0);
+		        gl_Position = matrix_perspective * matrix_view * matrix_model * vec4(vertex_position, 1.0);
+		        // gl_Position = matrix_perspective * matrix_modelview * vec4(vertex_position, 1.0);
+		    }
+		</script>
+		<script id="shader_fragment_color" type="x-shader/x-fragment">#version 300 es
+		    precision mediump float;
+
+			in vec4 passed_position_view_space;
+			in vec4 passed_normal;
+
+		    uniform vec3 color;
+		    uniform mat4 matrix_view;
+
+		    uniform vec4 position_light;
+			float ka = 0.1;
+			vec3 Ia = vec3(1.0, 1.0, 1.0);
+		    
+		    out vec4 theColor;
+
+		    void main(void) {
+		    	vec3 normal = normalize(passed_normal.xyz);
+		    	vec4 position_light_view_space = matrix_view * position_light;
+		    	vec3 vertex_to_light_view_space = normalize(position_light_view_space.xyz - passed_position_view_space.xyz);
+
+		    	float diffus = max(dot(vertex_to_light_view_space, normal), 0.0);
+
+		    	float specular = 0.0;
+
+		    	if(diffus > 0.0)
+		    	{
+		    		vec3 vertex_to_camera_view_space = normalize(-passed_position_view_space.xyz);
+		    		vec3 halfdir = normalize(vertex_to_light_view_space + vertex_to_camera_view_space);
+		    		float angle = max(dot(halfdir, normal), 0.0);
+		    		specular = pow(angle, 16.0);
+
+		    	}
+		        
+		        // vec3 I = diffus * Ia;
+		        // vec3 I = specular * Ia;
+		        // vec3 I = ka * Ia ;
+		        // vec3 I = ka * Ia +diffus * Ia;
+		        vec3 I = ka * Ia + diffus * Ia + specular * Ia;
+		        
+		        theColor = vec4(color * I, 1.0);
+		        // theColor = vec4(vertex_to_camera_view_space, 1.0);
+		        // theColor = vec4(normal, 1.0);
+		        // theColor = vec4(passed_position_view_space.xyz, 1.0);
+		    }
+		</script>
+		<script id="shader_vertex_texture" type="x-shader/x-vertex">#version 300 es
+		    precision mediump float;
+
+			layout(location=0) in vec3 vertex_position;
+			layout(location=1) in vec2 vertex_texture_coords;
+		    layout(location=2) in vec3 vertex_normal;
+		    layout(location=3) in vec3 vertex_tangent;
+		    layout(location=4) in vec3 vertex_bitangent;
+
+		    // uniform mat4 matrix_modelview;
+		    uniform mat4 matrix_view;
+		    uniform mat4 matrix_model;
+		    uniform mat4 matrix_perspective;
+		    uniform mat4 matrix_normal;
+
+			out vec3 passed_normal;
+			out vec4 passed_position_view_space;
+			out vec2 passed_texture_coords;
+			out vec3 passed_tangent;
+			out vec3 passed_bitangent;
+
+		    void main(void) {
+		    	passed_normal = normalize((matrix_normal * vec4(vertex_normal, 0.0)).xyz);
+		    	passed_tangent = vertex_tangent;
+		    	passed_bitangent = vertex_bitangent;
+
+		    	passed_position_view_space = matrix_view * matrix_model * vec4(vertex_position, 1.0);
+	    		passed_texture_coords = vertex_texture_coords;
+		        gl_Position = matrix_perspective * matrix_view * matrix_model * vec4(vertex_position, 1.0);
+		        // gl_Position = matrix_perspective * matrix_modelview * vec4(vertex_position, 1.0);
+		    }
+		</script>
+		<script id="shader_fragment_texture" type="x-shader/x-fragment">#version 300 es
+		    precision mediump float;
+
+			in vec2 passed_texture_coords;
+			in vec4 passed_position_view_space;
+			in vec3 passed_normal;
+			in vec3 passed_tangent;
+			in vec3 passed_bitangent;
+
+			uniform sampler2D texture_color;
+			uniform sampler2D texture_normal;
+		    uniform mat4 matrix_view;
+		    uniform mat4 matrix_model;
+		    uniform mat4 matrix_normal;
+		    
+		    uniform vec4 position_light;
+
+			float ka = 0.1;
+			vec3 Ia = vec3(1.0, 1.0, 1.0);
+
+		    out vec4 theColor;
+
+		    void main(void) {
+		    	vec3 normal = normalize(passed_normal);
+		    	vec4 position_light_view_space = matrix_view * position_light;
+		    	vec3 vertex_to_light_view_space = normalize(position_light_view_space.xyz - passed_position_view_space.xyz);
+
+		    	vec3 tangent = normalize(vec3((matrix_normal * vec4(passed_tangent, 0)).xyz)); 
+			    vec3 bitangent = normalize(vec3((matrix_normal * vec4(passed_bitangent, 0)).xyz)); 
+			    mat3 tangentSpace = mat3(tangent, bitangent, normal);
+			    normal = normalize(tangentSpace * normalize(texture(texture_normal, passed_texture_coords).rgb * vec3(2, 2, 1) - vec3(1, 1, 0)));
+
+
+		    	float diffus = max(dot(vertex_to_light_view_space, normal), 0.0);
+
+		    	float specular = 0.0;
+
+		    	if(diffus > 0.0)
+		    	{
+		    		vec3 vertex_to_camera_view_space = normalize(-passed_position_view_space.xyz);
+		    		vec3 halfdir = normalize(vertex_to_light_view_space + vertex_to_camera_view_space);
+		    		float angle = max(dot(halfdir, normal), 0.0);
+		    		specular = pow(angle, 16.0);
+
+		    	}
+		        // vec3 I =  specular * Ia;
+		        vec3 I = ka * Ia + diffus * Ia + specular * Ia;
+
+	   			vec4 color = texture(texture_color, vec2(passed_texture_coords));
+		        theColor = vec4(color.xyz * I, 1.0);;
+		        // theColor = vec4(texture(texture_color, passed_texture_coords).rgb, 1.0);
+		        // theColor = vec4(texture(texture_normal, passed_texture_coords).rgb, 1.0);
+		        // theColor = vec4(normal, 1.0);
+		        // theColor = vec4(position_light_view_space);
+		    }
+		</script>
+		<script id="shader_vertex_light" type="x-shader/x-vertex">#version 300 es
+		    precision mediump float;
+
+		    layout(location=0) in vec3 vertex_position;
+
+		    // uniform mat4 matrix_modelview;
+		    uniform mat4 matrix_view;
+		    uniform mat4 matrix_model;
+		    uniform mat4 matrix_perspective;
+
+		    void main(void) {
+		        gl_Position = matrix_perspective * matrix_view * matrix_model * vec4(vertex_position, 1.0);
+		        // gl_Position = matrix_perspective * matrix_modelview * vec4(vertex_position, 1.0);
+		    }
+		</script>
+		<script id="shader_fragment_light" type="x-shader/x-fragment">#version 300 es
+		    precision mediump float;
+
+		    out vec4 theColor;
+
+		    void main(void) {
+		        theColor = vec4(1.0);
+		    }
+		</script>
+		<script id="shader_vertex_quad" type="x-shader/x-vertex">#version 300 es
+			precision mediump float;
+			layout(location=0) in vec3 vertex_position;
+
+			void main(void) 
+			{
+				gl_Position = vec4(vertex_position, 1.0);
+			}
+		</script>
+		<script id="shader_fragment_quad" type="x-shader/x-fragment">#version 300 es
+			precision mediump float;
+
+			uniform vec2 screen_dimensions;
+
+			uniform sampler2D texture_color;
+			out vec4 theColor;
+
+			void main(void) 
+			{
+				vec2 tex_coords = (gl_FragCoord.xy) / screen_dimensions;
+			    vec3 tmp = texture(texture_color, tex_coords).rgb;
+			    theColor = vec4(tmp, 1.0);
+			}
+		</script>
+
+		<script src="css/jquery-3.1.1.min.js"></script>
+		<script src="js/lib/gl-matrix.js"></script>
+		<script src="js/lib/webgl-utils.js"></script>
+		<script src="js/lib/krittengine/controller/loader.js"></script>
+		<script src="js/lib/loader_texture.js"></script>
+		<script src="js/lib/loader_mesh.js"></script>
+		<script src="js/lib/krittengine/view/image_data.js"></script>
+		<script src="js/lib/krittengine/view/renderer_scene.js"></script>
+		<script src="js/lib/krittengine/view/renderer_quad.js"></script>
+		<script src="js/lib/krittengine/view/mesh.js"></script>
+		<script src="js/lib/krittengine/view/material.js"></script>
+		<!-- <script src="js/lib/krittengine/view/material_btf_new.js"></script> -->
+		<script src="js/lib/krittengine/view/material_btf.js"></script>
+		<script src="js/lib/krittengine/view/material_texture.js"></script>
+		<script src="js/lib/krittengine/view/material_light.js"></script>
+		<script src="js/lib/krittengine/view/material_color.js"></script>
+		<script src="js/lib/krittengine/model/entity.js"></script>
+		<script src="js/lib/krittengine/model/spatial_entity.js"></script>
+		<script src="js/lib/krittengine/model/geometry_entity.js"></script>
+		<script src="js/lib/krittengine/model/light.js"></script>
+		<script src="js/lib/krittengine/model/camera.js"></script>
+		<script src="js/lib/krittengine/model/scene.js"></script>
+		<script src="js/lib/krittengine/controller/krittengine.js"></script>
+		<script src="js/main.js"></script>
+
+		
+		<!-- <script src="main.min.js"></script> -->
+	</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>BTF Renderer</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
+	<script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
+<div id="target"></div>
+		<script type="text/javascript">
+		var times = [];
+var measure = function() {
+  times.push(new Date().getTime());
+  if (times.length > 300) return draw();
+  requestAnimationFrame(measure);
+};
+var draw = function() {
+  var dataset = {
+    x: [],
+    y: [],
+    type: 'bar'
+  };
+  var layout = {
+    xaxis: {
+      title: 'measurement #'
+    },
+    yaxis: {
+      title: 'iteration duration (ms)'
+    },
+    height: 250
+  };
+  var options = {
+    displayModeBar: false
+  };
+  times.reduce(function(previous, current, i) {
+    dataset.x.push(i);
+    dataset.y.push(current - previous);
+    return current;
+  }, times.shift());
+  Plotly.newPlot('target', [dataset], layout, options);
+}
+measure();
+			// const glob_time_info = {delta_time: 0.0, last_frame: performance.now()};
+
+			// var render = function (timestamp) {
+			// 	glob_time_info.delta_time = timestamp - glob_time_info.last_frame;
+			// 	glob_time_info.last_frame = timestamp; 
+			// 	if(glob_time_info.delta_time > 1)
+			// 		console.log(glob_time_info.delta_time);
+	  // 			requestAnimationFrame(render);
+			// };
+			// render(performance.now());
+		</script>
+	</body>
+</html>
