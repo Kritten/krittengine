@@ -4,7 +4,13 @@
  * @type {Object}
  * @memberOf Krittengine
  */
-const m_viewport = new WeakMap();
+const m_viewport = new WeakMap();/**
+ * @private
+ * @instance
+ * @type {Object}
+ * @memberOf Krittengine
+ */
+const m_renderer_quad = new WeakMap();
 /**
  * This class is used to render scenes.
  * @class
@@ -23,59 +29,23 @@ class Renderer_Scene
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.enable(gl.DEPTH_TEST);
         /////////////////////////////////
-        
-        // this.pMatrix = mat4.create();    
 
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 
-        
-        this.quad_frame_buffer = undefined
-        this.quad_texture = undefined
-        this.renderbuffer = undefined
-        this.create_framebuffer()
-        this.m_quad_renderer = new Renderer_Quad(m_viewport.get(this), this.quad_texture);
+        m_renderer_quad.set(this, new Renderer_Quad(m_viewport.get(this)));
 
         // mat4.perspective(this.pMatrix, 45, gl.viewportWidth / gl.viewportHeight, 0.1, 1000.0);
     }
 
-    create_framebuffer()
-    {
-
-        // create framebuffer
-        this.quad_frame_buffer = gl.createFramebuffer();
-        gl.bindFramebuffer(gl.FRAMEBUFFER, this.quad_frame_buffer);
-        // set frame dimensions
-        this.quad_frame_buffer.width = m_viewport.get(this).width;
-        this.quad_frame_buffer.height = m_viewport.get(this).height;
-        // init the framebuffer-texture
-        this.quad_texture = gl.createTexture();
-        gl.bindTexture(gl.TEXTURE_2D, this.quad_texture);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); //Prevents s-coordinate wrapping (repeating).
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); 
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, this.quad_frame_buffer.width, this.quad_frame_buffer.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-        // init depthbuffer
-        this.renderbuffer = gl.createRenderbuffer();
-        gl.bindRenderbuffer(gl.RENDERBUFFER, this.renderbuffer);
-        gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this.quad_frame_buffer.width, this.quad_frame_buffer.height);
-        // 
-        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, this.quad_texture, 0);
-        gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, this.renderbuffer);
-
-        gl.bindTexture(gl.TEXTURE_2D, null);
-        gl.bindRenderbuffer(gl.RENDERBUFFER, null);
-        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-    }
     /**
      * Renders the given scene.
      * @param      {Scene}  scene   The scene which should be rendered.
      */
     render(scene)
     {
-        gl.bindFramebuffer(gl.FRAMEBUFFER, this.quad_frame_buffer);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, m_renderer_quad.get(this).framebuffer);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         if(scene.render_lights)
@@ -136,7 +106,7 @@ class Renderer_Scene
             gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_normal, false, matrix_normal);
 
             scene.lights.forEach(function(light) {
-                gl.uniform4f(this.m_shader_program.uniform_position_light, light.position[0], light.position[1], light.position[2], 0.0); 
+                gl.uniform3f(this.m_shader_program.uniform_position_light, light.position[0], light.position[1], light.position[2]); 
                 // console.log(light.position[1])
             }, material)
             
@@ -151,41 +121,6 @@ class Renderer_Scene
         }
         
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-        this.m_quad_renderer.render();
-    }
-
-    getShader(gl, id) {
-        var shaderScript = document.getElementById(id);
-        if (!shaderScript) {
-            return null;
-        }
-
-        var str = "";
-        var k = shaderScript.firstChild;
-        while (k) {
-            if (k.nodeType == 3) {
-                str += k.textContent;
-            }
-            k = k.nextSibling;
-        }
-
-        var shader;
-        if (shaderScript.type == "x-shader/x-fragment") {
-            shader = gl.createShader(gl.FRAGMENT_SHADER);
-        } else if (shaderScript.type == "x-shader/x-vertex") {
-            shader = gl.createShader(gl.VERTEX_SHADER);
-        } else {
-            return null;
-        }
-
-        gl.shaderSource(shader, str);
-        gl.compileShader(shader);
-
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            alert(gl.getShaderInfoLog(shader));
-            return null;
-        }
-
-        return shader;
+        m_renderer_quad.get(this).render();
     }
 }
