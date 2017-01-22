@@ -307,7 +307,7 @@
 		    uniform vec3 color;
 		    uniform mat4 matrix_view;
 
-		    uniform vec4 position_light;
+		    uniform vec3 position_light;
 			float ka = 0.1;
 			vec3 Ia = vec3(1.0, 1.0, 1.0);
 		    
@@ -315,7 +315,7 @@
 
 		    void main(void) {
 		    	vec3 normal = normalize(passed_normal.xyz);
-		    	vec4 position_light_view_space = matrix_view * position_light;
+		    	vec4 position_light_view_space = matrix_view * vec4(position_light, 1.0);
 		    	vec3 vertex_to_light_view_space = normalize(position_light_view_space.xyz - passed_position_view_space.xyz);
 
 		    	float diffus = max(dot(vertex_to_light_view_space, normal), 0.0);
@@ -328,19 +328,10 @@
 		    		vec3 halfdir = normalize(vertex_to_light_view_space + vertex_to_camera_view_space);
 		    		float angle = max(dot(halfdir, normal), 0.0);
 		    		specular = pow(angle, 16.0);
-
 		    	}
-		        
-		        // vec3 I = diffus * Ia;
-		        // vec3 I = specular * Ia;
-		        // vec3 I = ka * Ia ;
-		        // vec3 I = ka * Ia +diffus * Ia;
 		        vec3 I = ka * Ia + diffus * Ia + specular * Ia;
 		        
 		        theColor = vec4(color * I, 1.0);
-		        // theColor = vec4(vertex_to_camera_view_space, 1.0);
-		        // theColor = vec4(normal, 1.0);
-		        // theColor = vec4(passed_position_view_space.xyz, 1.0);
 		    }
 		</script>
 		<script id="shader_vertex_texture" type="x-shader/x-vertex">#version 300 es
@@ -390,7 +381,7 @@
 		    uniform mat4 matrix_model;
 		    uniform mat4 matrix_normal;
 		    
-		    uniform vec4 position_light;
+		    uniform vec3 position_light;
 
 			float ka = 0.1;
 			vec3 Ia = vec3(1.0, 1.0, 1.0);
@@ -399,7 +390,7 @@
 
 		    void main(void) {
 		    	vec3 normal = normalize(passed_normal);
-		    	vec4 position_light_view_space = matrix_view * position_light;
+		    	vec4 position_light_view_space = matrix_view * vec4(position_light, 1.0);
 		    	vec3 vertex_to_light_view_space = normalize(position_light_view_space.xyz - passed_position_view_space.xyz);
 
 		    	vec3 tangent = normalize(vec3((matrix_normal * vec4(passed_tangent, 0)).xyz)); 
@@ -420,15 +411,10 @@
 		    		specular = pow(angle, 16.0);
 
 		    	}
-		        // vec3 I =  specular * Ia;
 		        vec3 I = ka * Ia + diffus * Ia + specular * Ia;
 
 	   			vec4 color = texture(texture_color, vec2(passed_texture_coords));
-		        theColor = vec4(color.xyz * I, 1.0);;
-		        // theColor = vec4(texture(texture_color, passed_texture_coords).rgb, 1.0);
-		        // theColor = vec4(texture(texture_normal, passed_texture_coords).rgb, 1.0);
-		        // theColor = vec4(normal, 1.0);
-		        // theColor = vec4(position_light_view_space);
+		        theColor = vec4(color.xyz * I, 1.0);
 		    }
 		</script>
 		<script id="shader_vertex_light" type="x-shader/x-vertex">#version 300 es
@@ -476,6 +462,8 @@
 			{
 				vec2 tex_coords = (gl_FragCoord.xy) / screen_dimensions;
 			    vec3 tmp = texture(texture_color, tex_coords).rgb;
+			 //    float grey_value = 0.2126 * tmp.r + 0.7152 * tmp.g + 0.0722 * tmp.b;
+				// tmp = vec3(grey_value);
 			    theColor = vec4(tmp, 1.0);
 			}
 		</script>

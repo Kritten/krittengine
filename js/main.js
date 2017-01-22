@@ -25,7 +25,7 @@ const scene1 = krittengine.create_scene('custom1');
 const scene2 = krittengine.create_scene('custom2');
 
 const light = new Light('light', {
-						position: vec3.fromValues(-3.0, 2.0, -4.0), 
+						position: vec3.fromValues(0.0, 3.0, 0.0), 
 						scale: vec3.fromValues(0.1, 0.1, 0.1), 
 					})
 light.update = function() {
@@ -69,7 +69,9 @@ light.update = function() {
 scene.add_light(light)
 
 
-const camera = new Camera('player', {rotation: vec3.fromValues(0.0, 0.0, -1.0)})
+const camera = new Camera('player', {
+	position: vec3.fromValues(0.0, 1.0, 0.0)
+})
 camera.set_init_vars(function() {
 	this.foo = 'worked'
 	this.m_movement_speed = 3.0;
@@ -157,8 +159,8 @@ scene.add_camera(camera)
 // // create objects //
 const geometry_entity = new Geometry_Entity("btf", {
 								position: vec3.fromValues(-0.0, -0.0, -5.0), 
-							 	mesh: mesh_monkey, 
-							 	material: material_texture
+							 	mesh: mesh_couch, 
+							 	material: material_color
 							});
 // const geometry_entity = new Geometry_Entity("btf", vec3.fromValues(-0.0, -1.0, -5.0), vec3.create(), vec3.fromValues(1.0, 1.0, 1.0), mesh_monkey, material_color);
 // geometry_entity.rotation = vec3.fromValues(1.57, -0.0, 0.0)
