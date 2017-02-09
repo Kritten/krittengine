@@ -238,3 +238,8 @@ $(document).on('change', '#material', function() {
 $(document).on('click', '#load_btf', function() {
 	material_btf = krittengine.create_material('btf', 'material_btf')
 })
+
+$(document).on('input', '#input_tcm', function() {
+	console.log($(this).val())
+	material_btf.tcm = $(this).val()
+})

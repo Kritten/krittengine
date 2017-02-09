@@ -39,6 +39,7 @@
 					<label>
 						<button type="button" id="load_btf" class="btn btn-primary">load btf-material</button>
 					</label>
+					<input id="input_tcm" type="range" min="0" max="50" step="0.1" value="35.0">
 				</form>
 			</div>
 		</div>
@@ -105,9 +106,9 @@
 			float phiLightEach = 1.0;
 			float thetaViewEach = 1.0;
 			float phiViewEach = 1.0;
-			float tcm = 35.0;
+			uniform float tcm;
 			
-			uniform vec4 position_light;
+			uniform vec3 position_light;
 
 		    out vec4 theColor;
 			vec4 mixPhiLight(in int thetaLightID, in float phiLight, in float texIDAccum)
@@ -234,7 +235,7 @@
 			    mat3 inverse_tbn = inverse(tangentSpace);
 
 
-				vec3 dirLightTangent = inverse_tbn * ((matrix_view * position_light).xyz - passed_position_view_space.xyz);
+				vec3 dirLightTangent = inverse_tbn * ((matrix_view * vec4(position_light, 1.0)).xyz - passed_position_view_space.xyz);
 				vec3 dirViewTangent = inverse_tbn * (-passed_position_view_space.xyz);
 				vec3 normalTangent = normalize(inverse_tbn * normal);
 				vec3 tangentTangent = normalize(inverse_tbn * tangent);

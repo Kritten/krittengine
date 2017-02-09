@@ -8,8 +8,8 @@ class Material_BTF extends Material
     {
 
         super(callback, name, 'shader_vertex_btf', 'shader_fragment_btf');
-        this.m_texture_color = undefined;
-        this.m_shader_program.uniform_texture_color = gl.getUniformLocation(this.m_shader_program, 'texture_color');
+        // this.m_texture_color = undefined;
+        // this.m_shader_program.uniform_texture_color = gl.getUniformLocation(this.m_shader_program, 'texture_color');
 
         this.texArraySize = 10
         this.m_shader_program.uniform_texArraySize = gl.getUniformLocation(this.m_shader_program, "texArraySize");
@@ -27,12 +27,17 @@ class Material_BTF extends Material
         this.m_shader_program.uniform_phiIntervalCount = gl.getUniformLocation(this.m_shader_program, "phiIntervalCount");
         gl.uniform1fv(this.m_shader_program.uniform_phiIntervalCount, this.phiIntervalCount); 
 
+        this.tcm = 35.0
+        this.m_shader_program.uniform_tcm = gl.getUniformLocation(this.m_shader_program, "tcm");
+        gl.uniform1f(this.m_shader_program.uniform_tcm, this.tcm); 
+
 
         // this.m_position_light = vec4.fromValues(-4.0, 0.0, 4.0, 1.0);
         // this.m_shader_program.uniform_position_light = gl.getUniformLocation(this.m_shader_program, 'position_light');
         // gl.uniform4f(this.m_shader_program.uniform_position_light, this.m_position_light[0], this.m_position_light[1], this.m_position_light[2], this.m_position_light[3]);
 
-        this.enable_mipmaps = false
+        this.enable_mipmaps = true
+        // this.enable_mipmaps = false
 
         this.list_tex = []
         for (let i = 0; i < 4; i++) {
@@ -179,6 +184,7 @@ class Material_BTF extends Material
 
     upload_properties()
     {
+        gl.uniform1f(this.m_shader_program.uniform_tcm, this.tcm);
         // gl.activeTexture(gl.TEXTURE0);
         // gl.bindTexture(gl.TEXTURE_2D, this.list_tex[0]);
     }

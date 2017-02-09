@@ -16,6 +16,7 @@ class Material_Color extends Material
 
     upload_properties()
     {
+        gl.uniform3f(this.m_shader_program.uniform_color, this.m_color[0], this.m_color[1], this.m_color[2]); 
     }
 
     set color(color)
