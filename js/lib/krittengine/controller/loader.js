@@ -52,6 +52,8 @@ class Loader
         if(m_meshes.get(this).get(name_mesh) == undefined)
         {
             mesh = new Mesh(this.mesh_loaded.bind(this), name_mesh, info_mesh)
+            m_meshes.get(this).set(mesh.m_name, mesh) 
+
             // console.log('created new mesh ' + name_mesh)
         } else {
             throw new TypeError('mesh "'+name_mesh+'" already exists')
@@ -99,6 +101,7 @@ class Loader
             } else if(type == 'light') {
                 material = new Material_Light(this.material_loaded.bind(this), name_material)
             }
+            m_materials.get(this).set(material.m_name, material) 
             // console.log('created new material ' + name_material)
         } else {
             throw new TypeError('material "'+name_material+'" already exists');
@@ -113,7 +116,11 @@ class Loader
     }
     get_material(name_material)
     {
-        return m_materials.get(name_material)
+        return m_materials.get(this).get(name_material)
+    }
+    get_mesh(name_mesh)
+    {
+        return m_meshes.get(this).get(name_mesh)
     }
     // checks if all default values were loaded
     is_loading_defaults()
@@ -251,7 +258,7 @@ class Loader
     // callback for a material
     material_loaded(material)
     {
-        m_materials.get(this).set(material.m_name, material) 
+        // m_materials.get(this).set(material.m_name, material) 
 
         if(m_waiting_list_material.get(this).get(material.m_name))
         {
@@ -291,7 +298,7 @@ class Loader
     {
         // console.log(m_waiting_list_mesh.get(this).get(mesh.m_name))
 
-        m_meshes.get(this).set(mesh.m_name, mesh) 
+        // m_meshes.get(this).set(mesh.m_name, mesh) 
 
         if(m_waiting_list_mesh.get(this).get(mesh.m_name))
         {

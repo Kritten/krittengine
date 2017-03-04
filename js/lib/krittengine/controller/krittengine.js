@@ -139,8 +139,7 @@ class Krittengine
 	 */
 	get_mesh(name_mesh)
 	{
-		const mesh = new Mesh()
-		return mesh
+		return m_loader.get(this).get_mesh(name_mesh)
 	}
 	/**
 	 * Returns a scene object. Creates this scene if it was not created.

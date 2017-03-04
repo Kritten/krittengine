@@ -1,0 +1,860 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"dict",
+				"dict_tmp"
+			],
+			[
+				"viewer__viewer",
+				"viewer__viewer__filter_tags"
+			],
+			[
+				"glob",
+				"glob_filter_custom"
+			],
+			[
+				"glob_filter_",
+				"glob_filter_custom"
+			],
+			[
+				"obj",
+				"obj_filter"
+			],
+			[
+				"data",
+				"data_field"
+			],
+			[
+				"queryset",
+				"queryset_tags"
+			],
+			[
+				"list",
+				"list_tags"
+			],
+			[
+				"th",
+				"thead\tTag"
+			],
+			[
+				"dict_",
+				"dict_ordered_tags"
+			],
+			[
+				"db",
+				"db_obj_tag"
+			],
+			[
+				"set",
+				"set_new_entities"
+			],
+			[
+				"glob_",
+				"glob_selected_items"
+			],
+			[
+				"load_file",
+				"load_file_ldjson"
+			],
+			[
+				"viewer",
+				"viewer__filter"
+			],
+			[
+				"stats",
+				"stats_decision_tree"
+			],
+			[
+				"predi",
+				"prediction"
+			],
+			[
+				"decision",
+				"decision_tree_regressor"
+			],
+			[
+				"score",
+				"score_roc_auc"
+			],
+			[
+				"query",
+				"queryset_interactions"
+			],
+			[
+				"name",
+				"name_dataset"
+			],
+			[
+				"path",
+				"path_datasets"
+			],
+			[
+				"inter",
+				"interaction"
+			],
+			[
+				"interac",
+				"interactions"
+			],
+			[
+				"test",
+				"X_test"
+			],
+			[
+				"X_",
+				"X_train"
+			],
+			[
+				"m2m",
+				"m2m_Query"
+			],
+			[
+				"json",
+				"json_query"
+			],
+			[
+				"max",
+				"max-width"
+			],
+			[
+				"fk_q",
+				"fk_next_query_border"
+			],
+			[
+				"fk_next",
+				"fk_next_query_border"
+			],
+			[
+				"tmp",
+				"tmp_set"
+			],
+			[
+				"end",
+				"end_interaction"
+			],
+			[
+				"fk_",
+				"fk_start_interaction"
+			],
+			[
+				"add",
+				"add_query"
+			],
+			[
+				"glob_filter",
+				"glob_filter_tag"
+			],
+			[
+				"for",
+				"for\tfor (…) {…}"
+			],
+			[
+				"glob_fil",
+				"glob_filter_tag"
+			],
+			[
+				"al",
+				"text-align"
+			],
+			[
+				"table",
+				"table_only"
+			],
+			[
+				"glob_c",
+				"glob_count_pages"
+			],
+			[
+				"order",
+				"order_by"
+			],
+			[
+				"all",
+				"all_users"
+			],
+			[
+				"quer",
+				"queryset_user"
+			],
+			[
+				"refer",
+				"reference_interaction"
+			],
+			[
+				"rgb",
+				"rgba()"
+			],
+			[
+				"background",
+				"background-color"
+			],
+			[
+				"spl",
+				"splitted_time"
+			],
+			[
+				"count",
+				"count_queries"
+			],
+			[
+				"pr",
+				"process_timegap"
+			],
+			[
+				"store",
+				"store_log"
+			],
+			[
+				"fil",
+				"file_name_output"
+			],
+			[
+				"dic",
+				"dict_years"
+			],
+			[
+				"content",
+				"content_length"
+			],
+			[
+				"whi",
+				"whitelist_ids"
+			],
+			[
+				"li",
+				"list_sorted_keys"
+			],
+			[
+				"file_",
+				"file_output"
+			],
+			[
+				"new",
+				"new_list_phrases"
+			],
+			[
+				"filter",
+				"filter_paper_out"
+			],
+			[
+				"file",
+				"file_output"
+			],
+			[
+				"sum",
+				"sum_keyphrases"
+			],
+			[
+				"sc",
+				"score_keyphraseness"
+			],
+			[
+				"spli",
+				"splitted_line"
+			],
+			[
+				"set_",
+				"set_referenced_missing_documents"
+			],
+			[
+				"judg",
+				"judgements_user"
+			],
+			[
+				"tax",
+				"tax_class"
+			],
+			[
+				"found",
+				"found_class"
+			],
+			[
+				"get",
+				"get_name"
+			],
+			[
+				"search",
+				"search_parent_class"
+			],
+			[
+				"parent",
+				"parent_class"
+			],
+			[
+				"class",
+				"classes"
+			],
+			[
+				"print",
+				"print_html"
+			],
+			[
+				"coun",
+				"count"
+			],
+			[
+				"clas_",
+				"class_name"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "js/main.js",
+			"settings":
+			{
+				"buffer_size": 323403,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 18259,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/lib/krittengine/view/material_btf.js",
+			"settings":
+			{
+				"buffer_size": 6984,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "Package Control: ",
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"pacisntall",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 392.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Program Files (x86)/EasyPHP-Webserver-14.1b2/www/uni/master/hiwi/krittengine",
+		"/C/Program Files (x86)/EasyPHP-Webserver-14.1b2/www/uni/master/hiwi/krittengine/js",
+		"/C/Program Files (x86)/EasyPHP-Webserver-14.1b2/www/uni/master/hiwi/krittengine/js/lib",
+		"/C/Program Files (x86)/EasyPHP-Webserver-14.1b2/www/uni/master/hiwi/krittengine/js/lib/krittengine",
+		"/C/Program Files (x86)/EasyPHP-Webserver-14.1b2/www/uni/master/hiwi/krittengine/js/lib/krittengine/view"
+	],
+	"file_history":
+	[
+		"/C/Program Files (x86)/EasyPHP-Webserver-14.1b2/www/uni/master/hiwi/krittengine/js/lib/krittengine/view/material_btf_new.js",
+		"/C/Program Files (x86)/EasyPHP-Webserver-14.1b2/www/uni/master/hiwi/webgl_new/js/main.js",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer/views/shared_code.py",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer-framework/urls.py",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer/urls.py",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer-framework/middleware.py",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer/templates/viewer/index.html",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer/static/viewer/js/helper_functions.js",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer/views/tags.py",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer/templatetags/tags_custom.py",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer/templates/viewer/table.html",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer/static/viewer/css/formats.css",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer/templates/viewer/tags.html",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/viewer_bagrat/baseapp/models.py",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/viewer_bagrat/viewer_bagrat/settings.py",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/clickbait_browser/browser/models.py",
+		"/C/Users/Kritten/Documents/Klei/DoNotStarveTogetherANewReignBeta/Cluster_3/cluster.ini",
+		"/C/Users/Kritten/Documents/Klei/DoNotStarveTogetherANewReignBeta/Cluster_3/Master/server_chat_log.txt",
+		"/C/Users/Kritten/Documents/Klei/DoNotStarveTogetherANewReignBeta/Cluster_3/Master/server_log.txt",
+		"/C/Users/Kritten/Documents/Klei/DoNotStarveTogetherANewReignBeta/Cluster_3/Master/save/session/74520AB6844F501A/0000000003",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer/views/__init__.py",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer/static/viewer/js/index_functions.js",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/browser/views/index.py",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer/migrations/0002_auto_20170120_2202.py",
+		"/C/Program Files (x86)/EasyPHP-Webserver-14.1b2/readme.txt",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer/views/get_page.py",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/browser/templates/browser/index.html",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer/templates/viewer/header.html",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/browser/static/browser/css/formats.css",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/file.ldjson",
+		"/C/Users/Kritten/AppData/Roaming/Sublime Text 3/Packages/Text Pastry/Default (Windows).sublime-keymap",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/file.csv",
+		"/C/Users/Kritten/AppData/Roaming/Sublime Text 3/Packages/Text Pastry/TextPastry.sublime-settings",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/.gitignore",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer/views/index.py",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer/templates/viewer/footer.html",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer-framework/templates/viewer-framework/footer.html",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer-framework/templates/viewer-framework/header.html",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer-framework/templates/footer.html",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer-framework/templates/header.html",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/viewer-framework/settings.py",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-netspeak-log-analysis/src-py/django-project/netspeak_analysis/settings.py",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/models.py",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/log_browser/urls.py",
+		"/C/Users/Kritten/Documents/uni/master/hiwi/wstud-viewer-framework-django/viewer-framework/manage.py",
+		"/home/yiro4618/hiwi/wstud-viewer-framework-django/viewer-framework/manage.py",
+		"/home/yiro4618/hiwi/wstud-viewer-framework-django/viewer-framework/viewer-framework/wsgi.py",
+		"/home/yiro4618/hiwi/wstud-viewer-framework-django/viewer-framework/viewer-framework/urls.py",
+		"/home/yiro4618/hiwi/wstud-viewer-framework-django/viewer-framework/viewer-framework/settings.py",
+		"/home/yiro4618/hiwi/wstud-viewer-framework-django/viewer-framework/viewer-framework/__init__.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/log_browser/static/log_browser/js/identify_queries.js",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/static/data_manager/css/formats.css",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/annotated-by-komlossy/features/length.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/annotated-by-komlossy/features/levenshtein_distance.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/annotated-by-komlossy/features/length_difference.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/annotated-by-komlossy/features/length1.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/annotated-by-komlossy/features/containment_in_prev_2.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/annotated-by-komlossy/features/containment_in_prev.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/annotated-by-komlossy/features/containment_in_next.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/annotated-by-komlossy/features/containment_in_next_2.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/views/machine_learning/test.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/templates/data_manager/machine_learning/test_classifier.html",
+		"/home/yiro4618/Documents/uni/master/wstud-clickbait-ws16/data/mturk/Batch_2636686_batch_results.csv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/views/shared_code.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/templates/data_manager/machine_learning/create_feature_lists.html",
+		"/home/yiro4618/hiwi/webis-cbc-16-old-corpus/old_corpus_reader.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/backups/tags.ldjson",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/gt-04.txt",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/log_browser/templates/log_browser/queries has to be input",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/log_browser/views/identify_queries.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/log_browser/views/shared_code.py",
+		"/home/yiro4618/Documents/uni/master/wstud-clickbait-ws16/data/mturk/analyze.py",
+		"/home/yiro4618/Documents/uni/master/wstud-clickbait-ws16/data/mturk/rejected",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/filename1.pkl",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/filename.pkl",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_analyzer/views/tags.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/netspeak_analysis/settings.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/annotated-by-amir/features/1gram_similarity.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/language-de/features/containment_in_prev.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/language-de/features/overlap_characters.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/language-de/features/overlap_terms.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/language-de/features/length_difference.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/preparing-training-set/src/jaccard_coefficient_bigram.rb",
+		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/preparing-training-set/src/jaccard_coefficient.rb",
+		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/preparing-training-set/src/number_overlapping_terms.rb",
+		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/preparing-training-set/src/number_overlapping_characters.rb",
+		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/preparing-training-set/src/levenshtein_distance.rb",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/language-de/features/levenshtein_distance.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/language-de/features/time_gap.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/language-de/features/containment_in_next.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/language-de/features/1gram_similarity.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/language-de/target.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/annotated-by-amir/target.tsv",
+		"/home/yiro4618/hiwi/webis-cbc-16-old-corpus/messages.txt",
+		"/home/yiro4618/hiwi/webis-cbc-16-old-corpus/title-extractor.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/templates/data_manager/index.html",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/log_browser/templates/log_browser/identify_queries.html",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/annotated-by-komlossy/target.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/annotated-by-komlossy/features/1gram_similarity.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project_sqlite/log_browser/templates/log_browser/index.html",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/log_browser/static/log_browser/js/identify_queries_functions.js",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/log_browser/static/log_browser/css/formats.css",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/feature_lists/time_gap.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/urls.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/views/preprocessing.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/views/__init__.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/views/machine_learning/__init__.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/views/machine_learning/preprocessing.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/views/machine_learning.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/feature-analysis/src-python/trigram.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/feature_lists/3gram_similarity.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/feature_lists/2gram_similarity.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/feature_lists/1gram_similarity.tsv",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/views.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/log_browser/templates/log_browser/interactions_table.html",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/views/index.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/log_browser/static/log_browser/js/index_functions.js",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project_sqlite/data_manager/views.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/backups/queries2.ldjson",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/backups/queries3.ldjson",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/backups/queries.ldjson",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/admin.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/apps.py",
+		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/feature-analysis/src-ruby/containment_before.rb",
+		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/feature-analysis/src-ruby/containment_after.rb",
+		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/feature-analysis/src-ruby/contain.rb",
+		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/feature-analysis/src-ruby/nothing.rb",
+		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/feature-analysis/src-ruby/character-overlap.rb"
+	],
+	"find":
+	{
+		"height": 31.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"C:\\Users\\Kritten\\Documents\\uni\\master\\hiwi\\wstud-viewer-framework-django\\viewer-framework",
+			"C:\\Users\\Kritten\\Documents\\uni\\master\\hiwi\\wstud-viewer-framework-django\\viewer-framework\\viewer",
+			"<current file>",
+			"/home/yiro4618/workspace/wstud-thesis-beyer",
+			"/home/yiro4618/workspace/wstud-thesis-beyer/src/de/webis/rws",
+			"/home/yiro4618/bachelor/wstud-searchengine/src2",
+			"/home/yiro4618/bachelor/wstud-searchengine",
+			"/home/yiro4618/workspace/wstud-thesis-beyer/user-study-original"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"thetaMaxAngle",
+			"tcm",
+			"viewer__filter_custom",
+			"is_array",
+			"index!!!!",
+			"index",
+			"update_ui",
+			"model_custom",
+			"fdg",
+			"glob_filter_custom",
+			"asdf",
+			"viewer__filter_tags",
+			"glob_filter_tags",
+			"filter_name",
+			"json_url_params",
+			"FITLER",
+			"data_field_name",
+			"set_session_entry('viewer__columns', glob_columns)",
+			"update_ui",
+			"label",
+			"glob_filter_tag",
+			"list_filter_tags",
+			"update_ui",
+			"viewer__selected_tags",
+			"load_current_page",
+			"0",
+			"255",
+			"update_tags_list",
+			"get_filtered_data",
+			"get_set_tags_filtered_items",
+			"print",
+			"DICT_SETTINGS_VIEWER['data_type']",
+			"th",
+			"td",
+			"th",
+			"dict_ordered_tags",
+			"update_tags_list",
+			"update_ta",
+			"load_current_page",
+			":",
+			"list_tags",
+			"100",
+			"data",
+			"load_data",
+			"tag",
+			"value",
+			"m_tags",
+			"objectd",
+			"input_name_new_tag",
+			"only_ids",
+			"set_tmp",
+			"data",
+			"queryset",
+			"input_select_all_items",
+			"input_add_to_all_filtered_items",
+			"input_name_tag",
+			"Object",
+			"shown",
+			"push",
+			"append",
+			"list_tmp",
+			"item_selection",
+			"or",
+			"item_selection",
+			"viewer__item_selection",
+			"item_selection",
+			"trigg",
+			"id_item",
+			"td",
+			"tr",
+			"update_input_all_items_selected",
+			"?",
+			"get_display_name",
+			"{% if not field in request.session.viewer__viewer__columns %}{% endif %}",
+			"hidden-xs-up",
+			"glob_columns",
+			"glob_filter_tag",
+			"'])",
+			"var",
+			".substr(1)",
+			"id()",
+			"!link.hasClass('show'));",
+			"handle_card_click($(this))",
+			"is_collapsed_div_filters",
+			"count_of_something",
+			"csv-data",
+			"data_field_id",
+			"id",
+			"csvfile",
+			"text_content",
+			"data_field_id",
+			"filter.name",
+			"data_field_name",
+			"field_name",
+			"3",
+			"name_tag",
+			"span",
+			"first",
+			"backward",
+			"disabled",
+			"<span",
+			"<a",
+			"browser",
+			"framework",
+			"dashboard",
+			"browser",
+			"viewer",
+			"tag",
+			"update_tags_list",
+			"handle_tag_selection",
+			"checkbox_tag_selection",
+			"load_current_page",
+			"dataset_testing",
+			"os.path.join(path_feature_lists, file)",
+			"load_dataset",
+			"request.POST.get('name')",
+			"glob_path_datasets, folder",
+			"size",
+			"=",
+			"create_feature_list_ngram_similarity",
+			"= '",
+			",",
+			":",
+			"jaccard_similarity_coefficient_2gram",
+			"jaccard_similarity_coefficient_characters",
+			"levenshtein_distance",
+			"containment_in_prev_2",
+			"3gram_similarity"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"\\n",
+			",",
+			";",
+			"\\n",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "js/main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 323403,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 5048.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 18259,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3316,
+								3318
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1173.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "js/lib/krittengine/view/material_btf.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6984,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2224,
+								2224
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 515.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 31.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "krittengine.sublime-project",
+	"replace":
+	{
+		"height": 58.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 309.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

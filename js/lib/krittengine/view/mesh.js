@@ -12,13 +12,14 @@
  */
 class Mesh
 {
-	constructor(callback, name, path_mesh)
+	constructor(callback, name, path)
 	{
 		this.m_name = name
+		this.m_path = path
         this.m_is_loaded = false
         this.callback = callback
-
-        glob_loader_mesh.load(path_mesh).then(
+        // console.log('##########MESH#######'+this.m_name)
+        glob_loader_mesh.load(path).then(
             function(mesh)
             {
             	// console.log(mesh)

@@ -31,12 +31,31 @@ class Material_BTF extends Material
         this.m_shader_program.uniform_tcm = gl.getUniformLocation(this.m_shader_program, "tcm");
         gl.uniform1f(this.m_shader_program.uniform_tcm, this.tcm); 
 
+        this.thetaMaxAngle = 75.0
+        this.m_shader_program.uniform_thetaMaxAngle = gl.getUniformLocation(this.m_shader_program, "thetaMaxAngle");
+        gl.uniform1f(this.m_shader_program.uniform_thetaMaxAngle, this.thetaMaxAngle); 
 
-        // this.m_position_light = vec4.fromValues(-4.0, 0.0, 4.0, 1.0);
-        // this.m_shader_program.uniform_position_light = gl.getUniformLocation(this.m_shader_program, 'position_light');
-        // gl.uniform4f(this.m_shader_program.uniform_position_light, this.m_position_light[0], this.m_position_light[1], this.m_position_light[2], this.m_position_light[3]);
+        this.thetaInterval = 15.0
+        this.m_shader_program.uniform_thetaInterval = gl.getUniformLocation(this.m_shader_program, "thetaInterval");
+        gl.uniform1f(this.m_shader_program.uniform_thetaInterval, this.thetaInterval); 
 
-        this.enable_mipmaps = true
+        this.thetaLightEach = 1.0
+        this.m_shader_program.uniform_thetaLightEach = gl.getUniformLocation(this.m_shader_program, "thetaLightEach");
+        gl.uniform1f(this.m_shader_program.uniform_thetaLightEach, this.thetaLightEach); 
+
+        this.phiLightEach = 1.0
+        this.m_shader_program.uniform_phiLightEach = gl.getUniformLocation(this.m_shader_program, "phiLightEach");
+        gl.uniform1f(this.m_shader_program.uniform_phiLightEach, this.phiLightEach); 
+
+        this.thetaViewEach = 1.0
+        this.m_shader_program.uniform_thetaViewEach = gl.getUniformLocation(this.m_shader_program, "thetaViewEach");
+        gl.uniform1f(this.m_shader_program.uniform_thetaViewEach, this.thetaViewEach); 
+
+        this.phiViewEach = 1.0
+        this.m_shader_program.uniform_phiViewEach = gl.getUniformLocation(this.m_shader_program, "phiViewEach");
+        gl.uniform1f(this.m_shader_program.uniform_phiViewEach, this.phiViewEach); 
+
+        this.enable_mipmaps = false
         // this.enable_mipmaps = false
 
         this.list_tex = []
@@ -185,6 +204,7 @@ class Material_BTF extends Material
     upload_properties()
     {
         gl.uniform1f(this.m_shader_program.uniform_tcm, this.tcm);
+        gl.uniform1f(this.m_shader_program.uniform_thetaMaxAngle, this.thetaMaxAngle);
         // gl.activeTexture(gl.TEXTURE0);
         // gl.bindTexture(gl.TEXTURE_2D, this.list_tex[0]);
     }

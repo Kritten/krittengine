@@ -20,7 +20,7 @@ class Renderer_Quad
 		// this.blur = 0;
 
 		m_renderer_quad_quad.set(this, this.create_quad());
-		console.log(this)
+		// console.log(this)
 	}
 	
 	render()
@@ -103,7 +103,7 @@ class Renderer_Quad
         if (!shaderScript) {
             return null;
         }
-        console.log(shaderScript)
+        // console.log(shaderScript)
         var str = "";
         var k = shaderScript.firstChild;
         while (k) {

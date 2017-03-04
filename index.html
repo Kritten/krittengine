@@ -4,44 +4,199 @@
 		<meta charset="utf-8">
 		<title>BTF Renderer</title>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<style type="text/css">html {overflow-y: scroll;}</style>
 	</head>
 	<body>
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm-6">
 				<canvas id="canvas" width="800" height="500"></canvas>
 			</div>
 			<div class="col-sm-6">
-				<form>
-					<div class="form-group">
-						<div class="row">
-							<div class="col-sm-6">
-								<label for="mesh">select mesh</label>
-								<select id="mesh" class="form-control">
-									<option value="monkey">monkey</option>
-									<option value="couch">couch</option>
-									<option value="plane">plane</option>
-								</select>
+				<form id="form_create_object">
+					<fieldset>
+						<legend>create object <button type="button" data-toggle="collapse" data-target="#collapse_create_object" class="btn btn-primary btn-xs">toggle</button></legend>
+						<div class="collapse in" id="collapse_create_object">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-12">
+												<label for="input_create_name">name</label>
+												<input type="text" id="input_create_name" value="default_object" class="form-control">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-12">
+												<label for="input_create_mesh">select mesh</label>
+												<select id="input_create_mesh" class="form-control">
+													<option value="mesh_monkey">monkey</option>
+													<option value="mesh_couch" selected>couch</option>
+													<option value="mesh_plane">plane</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="row">
-							<div class="col-sm-6">
-								<label for="material">select material</label>
-								<select id="material" class="form-control">
-									<option value="color">color</option>
-									<option value="texture">texture</option>
-									<option value="btf">btf</option>
-								</select>
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-12">
+												<label for="input_create_material">select material</label>
+												<select id="input_create_material" class="form-control">
+													<option value="material_color">color</option>
+													<option value="material_texture">texture</option>
+													<option value="material_btf">btf</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group row">
+										<div class="col-sm-4">
+											<label for="input_create_x">x</label>
+											<input type="number" id="input_create_x" value="0.0" step="0.01" class="form-control">
+										</div>
+										<div class="col-sm-4">
+											<label for="input_create_y">y</label>
+											<input type="number" id="input_create_y" value="0.0" step="0.01" class="form-control">
+										</div>
+										<div class="col-sm-4">
+											<label for="input_create_z">z</label>
+											<input type="number" id="input_create_z" value="-5.0" step="0.01" class="form-control">
+										</div>
+									</div>
+								</div>
 							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<button type="submit" class="btn btn-primary">create object</button>
+								</div>
+							</div>
+							<hr>
 						</div>
-					</div>
-					<label>
-						<button type="button" id="load_btf" class="btn btn-primary">load btf-material</button>
-					</label>
-					<input id="input_tcm" type="range" min="0" max="50" step="0.1" value="35.0">
+					</fieldset>
 				</form>
+				<form id="form_modify_object">
+					<fieldset>
+						<legend>modify object <button type="button" data-toggle="collapse" data-target="#collapse_modify_object" class="btn btn-primary btn-xs">toggle</button></legend>
+						<div class="collapse" id="collapse_modify_object">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group row">
+										<div class="col-sm-12">
+											<label for="input_modify_object">select object</label>
+											<select id="input_modify_object" class="form-control">
+												<option value="">---</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group row">
+										<div class="col-sm-12">
+											<label for="input_modify_name">name</label>
+											<input type="text" id="input_modify_name" value="" class="form-control">
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group row">
+										<div class="col-sm-12">
+											<label for="input_modify_mesh">select mesh</label>
+											<select id="input_modify_mesh" class="form-control">
+												<option value="mesh_monkey">monkey</option>
+												<option value="mesh_couch">couch</option>
+												<option value="mesh_plane">plane</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group row">
+										<div class="col-sm-12">
+											<label for="input_modify_material">select material</label>
+											<select id="input_modify_material" class="form-control">
+												<option value="material_color">color</option>
+												<option value="material_texture">texture</option>
+												<option value="material_btf">btf</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group row">
+										<div class="col-sm-4">
+											<label for="input_modify_x">x</label>
+											<input type="number" id="input_modify_x" value="0.0" step="0.0000001" class="form-control">
+										</div>
+										<div class="col-sm-4">
+											<label for="input_modify_y">y</label>
+											<input type="number" id="input_modify_y" value="0.0" step="0.01" class="form-control">
+										</div>
+										<div class="col-sm-4">
+											<label for="input_modify_z">z</label>
+											<input type="number" id="input_modify_z" value="0.0" step="0.01" class="form-control">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<button type="submit" class="btn btn-primary">update object</button>
+								</div>
+							</div>
+							<hr>
+						</div>
+					</fieldset>
+				</form>
+				<form>
+					<fieldset>
+						<legend>load/export scene <button type="button" data-toggle="collapse" data-target="#collapse_import_export_scene" class="btn btn-primary btn-xs">toggle</button></legend>
+						<div class="collapse in" id="collapse_import_export_scene">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group row">
+										<div class="col-sm-12">
+											<label for="input_output_input">output/input</label>
+											<input type="text" id="input_output_input" value="" class="form-control">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<button type="button" id="input_export_scene" class="btn btn-primary">export scene</button>
+									<button type="button" id="input_import_scene" class="btn btn-primary">import scene</button>
+								</div>
+							</div>
+							<hr>
+						</div>
+					</fieldset>
+				</form>
+
+
+
+
+
+
+				<!-- <input id="input_tcm" type="range" min="0" max="50" step="0.1" value="15.0">
+				<label>
+					<button type="button" id="load_btf" class="btn btn-primary">load btf-material</button>
+				</label> -->
 			</div>
+		</div>
 		</div>
 
 
@@ -100,12 +255,13 @@
 			uniform float phiIntervalCount[7];	 
 
 	   		int texPerViewDir = 81;
-			float thetaMaxAngle = 75.0;
-			float thetaInterval = 15.0;
-			float thetaLightEach = 1.0;
-			float phiLightEach = 1.0;
-			float thetaViewEach = 1.0;
-			float phiViewEach = 1.0;
+			uniform float thetaMaxAngle;
+			// float thetaMaxAngle = 75.0;
+			uniform float thetaInterval;
+			uniform float thetaLightEach;
+			uniform float phiLightEach;
+			uniform float thetaViewEach;
+			uniform float phiViewEach;
 			uniform float tcm;
 			
 			uniform vec3 position_light;
@@ -470,6 +626,7 @@
 		</script>
 
 		<script src="css/jquery-3.1.1.min.js"></script>
+		<script src="css/bootstrap.min.js"></script>
 		<script src="js/lib/gl-matrix.js"></script>
 		<script src="js/lib/webgl-utils.js"></script>
 		<script src="js/lib/krittengine/controller/loader.js"></script>
