@@ -70,7 +70,7 @@ class Loader
             {
                 material = new Material_Color(this.material_loaded.bind(this), name_material, info_material)
             } else if(type == 'texture') {
-                material = new Material_Texture(this.material_loaded.bind(this), name_material)
+                material = new Material_Texture(this.material_loaded.bind(this), name_material, info_material)
                 let image_texture_color = m_defaults.get(this).get('default_texture_color')
                 let image_texture_normal = m_defaults.get(this).get('default_texture_normal')
 

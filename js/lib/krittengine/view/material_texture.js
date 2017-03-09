@@ -4,9 +4,12 @@
  */
 class Material_Texture extends Material
 {
-    constructor(callback, name)
+    constructor(callback, name, info_material)
     {
         super(callback, name, 'shader_vertex_texture', 'shader_fragment_texture');
+        console.log(info_material)
+        this.m_path_texture_color = info_material.path_texture_color
+        this.m_path_texture_normal = info_material.path_texture_normal
         
         this.m_texture_color = undefined;
         this.m_shader_program.uniform_texture_color = gl.getUniformLocation(this.m_shader_program, 'texture_color');
