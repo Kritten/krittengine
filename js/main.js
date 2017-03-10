@@ -298,6 +298,7 @@ $(document).on('submit', '#form_modify_object', function(e) {
 		glob_objects[name].mesh = krittengine.get_mesh($('#input_modify_mesh').val())
 		glob_objects[name].material = krittengine.get_material($('#input_modify_material').val())
 		glob_objects[name].position = vec3.fromValues($('#input_modify_x').val(), $('#input_modify_y').val(), $('#input_modify_z').val())
+		console.log(glob_objects)
 	}
 })
 
@@ -367,22 +368,23 @@ function import_scene(json)
 	console.log(obj_scene)
 
 	$.each(obj_scene['materials'], function(key, value) {
-		glob_materials[key] = krittengine.create_material('color', key, vec3.fromValues(value['color'][0], value['color'][1], value['color'][2]))
+		let material = krittengine.create_material('color', key, vec3.fromValues(value['color'][0], value['color'][1], value['color'][2]))
+		add_material(material)
 	})
 	$.each(obj_scene['meshes'], function(key, value) {
-		glob_meshes[key] = krittengine.create_mesh(key, value['path'])
+		let mesh = krittengine.create_mesh(key, value['path'])
+		add_mesh(mesh)
 	})
 
 	$.each(obj_scene['objects'], function(index, object) {
-		const geometry_entity = new Geometry_Entity("btf", {
-								position: vec3.fromValues(-0.0, -0.0, -5.0), 
+		const geometry_entity = new Geometry_Entity(object['name'], {
+								position: vec3.fromValues(object['position'][0], object['position'][1], object['position'][2]), 
 							 	mesh: glob_meshes[object['mesh']], 
 							 	material: glob_materials[object['material']]
 							});
-		geometry_entity.update = function(){
-		}
+		geometry_entity.update = function(){}
 		scene.add(geometry_entity);
-		glob_objects[name] = geometry_entity
+		add_object(geometry_entity)
 	})
 }
 
@@ -417,6 +419,13 @@ $(document).on('click', '#input_add_mesh', function(e) {
 	add_mesh(mesh)
 })
 
+function add_object(object)
+{
+	glob_objects[object.name] = object
+	console.log(object.name)
+	$('#input_modify_object').append('<option value="'+object.name+'">'+object.name+'</option>')
+}
+
 function add_material(material)
 {
 	glob_materials[material.m_name] = material
@@ -439,5 +448,5 @@ $(document).on('blur', 'input', function() {
 	glob_is_input_focused = false
 })
 
-glob_json_scene = '{"objects":[{"name":"","material":"material_color","mesh":"mesh_couch","position":{"0":0,"1":0,"2":-5}}],"materials":{"material_color":{"name":"material_color","color":{"0":0,"1":1,"2":1}}},"meshes":{"mesh_couch":{"name":"mesh_couch","path":"data/objects/couch.kobjson"}}}'
+glob_json_scene = '{"objects":[{"name":"adsa","material":"material_color","mesh":"mesh_couch","position":{"0":0,"1":0,"2":-5}}],"materials":{"material_color":{"name":"material_color","color":{"0":0,"1":1,"2":1}}},"meshes":{"mesh_couch":{"name":"mesh_couch","path":"data/objects/couch.kobjson"}}}'
 import_scene(glob_json_scene)
