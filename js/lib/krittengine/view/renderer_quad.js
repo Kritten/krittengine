@@ -1,6 +1,7 @@
 const m_renderer_quad_viewport = new WeakMap();
 const m_renderer_quad_framebuffer = new WeakMap();
 const m_renderer_quad_texture = new WeakMap();
+const m_renderer_quad_renderbuffer = new WeakMap();
 const m_renderer_quad_quad = new WeakMap();
 
 class Renderer_Quad
@@ -8,9 +9,10 @@ class Renderer_Quad
 	constructor(passed_viewport)
 	{
 		m_renderer_quad_viewport.set(this, passed_viewport);
-		let {framebuffer, texture} = this.create_framebuffer();
-		m_renderer_quad_framebuffer.set(this, framebuffer);
-		m_renderer_quad_texture.set(this, texture);
+		let {framebuffer, texture, renderbuffer} = this.create_framebuffer();
+        m_renderer_quad_framebuffer.set(this, framebuffer);
+        m_renderer_quad_texture.set(this, texture);
+        m_renderer_quad_renderbuffer.set(this, renderbuffer);
 
 		this.m_quad_shaderprogram = this.create_quad_shaderprogram();
 
@@ -22,6 +24,15 @@ class Renderer_Quad
 		m_renderer_quad_quad.set(this, this.create_quad());
 		// console.log(this)
 	}
+
+    screen_resized()
+    {
+        gl.bindTexture(gl.TEXTURE_2D, m_renderer_quad_texture.get(this));
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.drawingBufferWidth, gl.drawingBufferHeight, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+
+        gl.bindRenderbuffer(gl.RENDERBUFFER, m_renderer_quad_renderbuffer.get(this));
+        gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, gl.drawingBufferWidth, gl.drawingBufferHeight);
+    }
 	
 	render()
 	{
@@ -32,7 +43,7 @@ class Renderer_Quad
         gl.bindTexture(gl.TEXTURE_2D, m_renderer_quad_texture.get(this));
         gl.uniform1i(this.m_quad_shaderprogram.samplerUniform, 0);
 
-        gl.uniform2f(this.m_quad_shaderprogram.screen_dimensions, m_renderer_quad_viewport.get(this).width, m_renderer_quad_viewport.get(this).height);
+        gl.uniform2f(this.m_quad_shaderprogram.screen_dimensions, gl.drawingBufferWidth, gl.drawingBufferHeight);
 
 		gl.bindBuffer(gl.ARRAY_BUFFER, m_renderer_quad_quad.get(this).quad_vertex_buffer);
 	    gl.vertexAttribPointer(this.m_quad_shaderprogram.vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
@@ -157,7 +168,7 @@ class Renderer_Quad
         gl.bindRenderbuffer(gl.RENDERBUFFER, null);
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 
-        return {framebuffer, texture};
+        return {framebuffer, texture, renderbuffer};
     }
 
     get framebuffer() { return m_renderer_quad_framebuffer.get(this) }

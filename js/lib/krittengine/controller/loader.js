@@ -226,7 +226,7 @@ class Loader
         const default_material = new Material_Color(this.default_material_loaded.bind(this), 'default_material', vec3.fromValues(1.0, 0.0, 1.0))   
         m_defaults.get(this).set('default_material', default_material)
 
-        const default_mesh = new Mesh(this.default_mesh_loaded.bind(this), 'default_mesh', 'data/objects/plane.kobjson')  
+        const default_mesh = new Mesh(this.default_mesh_loaded.bind(this), 'default_mesh', 'data/objects/plane.obj')  
         m_defaults.get(this).set('default_mesh', default_mesh)
 
         const default_texture_normal = this.get_image('data/textures/default_texture_normal.png');

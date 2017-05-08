@@ -95,8 +95,8 @@ class Scene
 	 */
 	add_light(light)
 	{
-		light.mesh = m_scene_loader.get(this).create_mesh('light', 'data/objects/sphere.kobjson')
-		light.material = m_scene_loader.get(this).create_material('light', 'light')
+		// light.mesh = m_scene_loader.get(this).create_mesh('light', 'data/objects/sphere.obj')
+		// light.material = m_scene_loader.get(this).create_material('light', 'light')
 		m_scene_loader.get(this).add_object(light)
 		m_lights.get(this).set(light.name, light)
 	}

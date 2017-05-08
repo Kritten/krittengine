@@ -9,7 +9,7 @@ class Loader_Mesh
             {
                 if(request.readyState == 4 && request.status == 200) 
                 {
-                    resolve(JSON.parse(request.responseText));
+                    resolve(request.responseText);
                 }
             }
             request.send();

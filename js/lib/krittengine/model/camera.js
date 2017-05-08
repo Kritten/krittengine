@@ -33,7 +33,7 @@ class Camera extends Spatial_Entity
 	 	m_camera_matrix_view.set(this, mat4.create());
         // this.pMatrix = mat4.create();
 	 	// 
-        mat4.perspective(this.matrix_perspective, 45, gl.viewportWidth / gl.viewportHeight, 0.1, 1000.0);
+        mat4.perspective(this.matrix_perspective, 45, gl.drawingBufferWidth / gl.drawingBufferHeight, 0.1, 1000.0);
 	 	this.compute_viewing_direction()
 
 		this.update_view_matrix()

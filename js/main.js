@@ -14,7 +14,8 @@ const krittengine = new Krittengine(document.getElementById("canvas"));
 
 // krittengine.create_mesh('mesh_monkey', 'data/objects/monkey.kobjson')
 // krittengine.create_mesh('mesh_couch', 'data/objects/couch.kobjson')
-// krittengine.create_mesh('mesh_plane', 'data/objects/plane.kobjson')
+// krittengine.create_mesh('mesh_plane', 'data/objects/plane.obj')
+// krittengine.create_mesh('mesh_cube', 'data/objects/sphere.obj')
 
 // const material_color = krittengine.create_material('color', 'material_color', vec3.fromValues(0.0, 1.0, 1.0))
 // const material_color_red = krittengine.create_material('color', 'material_color1', vec3.fromValues(1.0, 0.0, 0.0))
@@ -168,7 +169,7 @@ scene.add_camera(camera)
 // // create objects //
 // const geometry_entity = new Geometry_Entity("btf", {
 // 								position: vec3.fromValues(-0.0, -0.0, -5.0), 
-// 							 	mesh: krittengine.get_mesh('mesh_couch'), 
+// 							 	mesh: krittengine.get_mesh('mesh_cube'), 
 // 							 	material: material_color
 // 							});
 // // const geometry_entity = new Geometry_Entity("btf", vec3.fromValues(-0.0, -1.0, -5.0), vec3.create(), vec3.fromValues(1.0, 1.0, 1.0), mesh_monkey, material_color);
@@ -422,7 +423,6 @@ $(document).on('click', '#input_add_mesh', function(e) {
 function add_object(object)
 {
 	glob_objects[object.name] = object
-	console.log(object.name)
 	$('#input_modify_object').append('<option value="'+object.name+'">'+object.name+'</option>')
 }
 
@@ -448,5 +448,17 @@ $(document).on('blur', 'input', function() {
 	glob_is_input_focused = false
 })
 
-glob_json_scene = '{"objects":[{"name":"adsa","material":"material_color","mesh":"mesh_couch","position":{"0":0,"1":0,"2":-5}}],"materials":{"material_color":{"name":"material_color","color":{"0":0,"1":1,"2":1}}},"meshes":{"mesh_couch":{"name":"mesh_couch","path":"data/objects/couch.kobjson"}}}'
+glob_json_scene = '{"objects":[{"name":"adsa","material":"material_color","mesh":"mesh_couch","position":{"0":0,"1":0,"2":-5}}],"materials":{"material_color":{"name":"material_color","color":{"0":0,"1":1,"2":1}}},"meshes":{"mesh_couch":{"name":"mesh_couch","path":"data/objects/head.obj"}}}'
 import_scene(glob_json_scene)
+
+
+function enter_fullscreen()
+{
+    // old_width = canvas.clientWidth;
+    // old_height = canvas.clientHeight;
+
+	krittengine.start_fullscreen();
+
+    // engine.screen_resized(screen.width, screen.height);
+    // lock_mouse();
+}

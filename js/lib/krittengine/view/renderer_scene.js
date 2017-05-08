@@ -23,20 +23,42 @@ class Renderer_Scene
     constructor(canvas)
     {
         m_viewport.set(this, {width: canvas.clientWidth, height: canvas.clientHeight, ratio_wh: canvas.clientWidth/canvas.clientHeight, ratio_hw: canvas.clientHeight/canvas.clientWidth})
-        gl.viewportWidth = m_viewport.get(this).width;
-        gl.viewportHeight = m_viewport.get(this).height;
 
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.enable(gl.DEPTH_TEST);
-        /////////////////////////////////
+        gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
 
-        gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
-        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-
+        this.is_mode_fullscreen = false;
         m_renderer_quad.set(this, new Renderer_Quad(m_viewport.get(this)));
+    }
 
-        // mat4.perspective(this.pMatrix, 45, gl.viewportWidth / gl.viewportHeight, 0.1, 1000.0);
+    start_fullscreen()
+    {
+        // if(this.is_mode_fullscreen)
+        // {
+        //     return false;
+        // } else {
+            
+            let width_fullscreen = screen.width;
+            let height_fullscreen = screen.height;
+
+            canvas.width = width_fullscreen;
+            canvas.height = height_fullscreen;
+            gl.viewport(0, 0, width_fullscreen, height_fullscreen);
+
+            m_renderer_quad.get(this).screen_resized();
+
+            if (canvas.requestFullscreen) {
+              canvas.requestFullscreen();
+            } else if (canvas.msRequestFullscreen) {
+              canvas.msRequestFullscreen();
+            } else if (canvas.mozRequestFullScreen) {
+              canvas.mozRequestFullScreen();
+            } else if (canvas.webkitRequestFullscreen) {
+              canvas.webkitRequestFullscreen();
+            }
+            // this.is_mode_fullscreen = true;
+        // }
     }
 
     /**

@@ -223,6 +223,12 @@ class Krittengine
 	{
 		return m_loader.get(this).get_material(name_material)
 	}
+
+	start_fullscreen()
+	{
+		return m_renderer_scene.get(this).start_fullscreen();
+	}
+
 	/**
 	 * Instantly notices and saves the holded key.
 	 * @param      {KeyboardEvent}  event   The keyboard event
