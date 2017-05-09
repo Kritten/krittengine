@@ -31,34 +31,9 @@ class Renderer_Scene
         m_renderer_quad.set(this, new Renderer_Quad(m_viewport.get(this)));
     }
 
-    start_fullscreen()
-    {
-        let is_fullscreen = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
-        if(is_fullscreen)
-        {
-            return false;
-        } else {
-            this.screen_resized(screen.width, screen.height);
-
-            if (canvas.requestFullscreen) {
-              canvas.requestFullscreen();
-            } else if (canvas.msRequestFullscreen) {
-              canvas.msRequestFullscreen();
-            } else if (canvas.mozRequestFullScreen) {
-              canvas.mozRequestFullScreen();
-            } else if (canvas.webkitRequestFullscreen) {
-              canvas.webkitRequestFullscreen();
-            }  
-        }
-    }
-
-    end_fullscreen()
-    {
-        this.screen_resized(800, 500);
-    }
-
     screen_resized(width, height)
     {
+        console.log(width, height)
         canvas.width = width;
         canvas.height = height;
         gl.viewport(0, 0, width, height);

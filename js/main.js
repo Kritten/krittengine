@@ -212,7 +212,8 @@ document.addEventListener("keydown", function(e) {
 	{
 		if(e.keyCode == 49)
 		{
-			krittengine.set_active_scene('custom')
+			krittengine.end_fullscreen();
+			//krittengine.set_active_scene('custom')
 		} else if(e.keyCode == 50) {
 			krittengine.set_active_scene('custom1')
 		} else if(e.keyCode == 51) {
