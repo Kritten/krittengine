@@ -1,24 +1,4 @@
 /**
- * @private
- * @instance
- * @type {Mesh}
- * @memberOf Geometry_Entity
- */
-const m_camera_viewing_direction = new WeakMap();/**
- * @private
- * @instance
- * @type {Mesh}
- * @memberOf Geometry_Entity
- */
-const m_camera_matrix_view = new WeakMap();
-/**
- * @private
- * @instance
- * @type {Mesh}
- * @memberOf Geometry_Entity
- */
-const m_camera_matrix_perspective = new WeakMap();
-/**
  * Represents a renderable entity
  * @class
  */
@@ -28,16 +8,14 @@ class Camera extends Spatial_Entity
 	{
 		super(name, data);
 		
-	 	m_camera_viewing_direction.set(this, vec3.create());
-	 	m_camera_matrix_perspective.set(this, mat4.create());
-	 	m_camera_matrix_view.set(this, mat4.create());
-        // this.pMatrix = mat4.create();
-	 	// 
+	 	this.m_viewing_direction = vec3.create();
+	 	this.m_matrix_perspective = mat4.create();
+	 	this.m_matrix_view = mat4.create();
+
         mat4.perspective(this.matrix_perspective, 45, gl.drawingBufferWidth / gl.drawingBufferHeight, 0.1, 1000.0);
 	 	this.compute_viewing_direction()
 
 		this.update_view_matrix()
-	 	// console.log(this.matrix_view)
 	}
 
 	update_all()
@@ -48,14 +26,19 @@ class Camera extends Spatial_Entity
 		this.update_view_matrix()
 	}
 
-	get viewing_direction() { return m_camera_viewing_direction.get(this); }
-	set viewing_direction(viewing_direction) { return m_camera_viewing_direction.set(this, viewing_direction); }
+	update_aspect_ratio(aspect_ratio)
+	{
+        mat4.perspective(this.matrix_perspective, 45, aspect_ratio, 0.1, 1000.0);
+	}
 
-	get matrix_view() { return m_camera_matrix_view.get(this); }
-	set matrix_view(matrix_view) { return m_camera_matrix_view.set(this, matrix_view); }
+	get viewing_direction() { return this.m_viewing_direction; }
+	set viewing_direction(viewing_direction) { return this.m_viewing_direction = viewing_direction; }
 
-	get matrix_perspective() { return m_camera_matrix_perspective.get(this); }
-	set matrix_perspective(matrix_perspective) { return m_camera_matrix_perspective.set(this, matrix_perspective); }
+	get matrix_view() { return this.m_matrix_view; }
+	set matrix_view(matrix_view) { return this.m_matrix_view = matrix_view; }
+
+	get matrix_perspective() { return this.m_matrix_perspective; }
+	set matrix_perspective(matrix_perspective) { return this.m_matrix_perspective = matrix_perspective; }
 
     compute_viewing_direction()
     {

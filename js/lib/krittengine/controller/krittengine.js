@@ -191,14 +191,27 @@ class Krittengine
         } else if (canvas.webkitRequestFullscreen) {
           canvas.webkitRequestFullscreen();
         } 
-		
+		this.update_cameras(screen.width/screen.height);
 		return this.m_renderer_scene.screen_resized(screen.width, screen.height);
 	}
 
-	end_fullscreen()
+	end_fullscreen(is_triggered_by_event = false)
 	{
-		
-		return this.m_renderer_scene.screen_resized(800, 500);
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+
+		if(is_triggered_by_event)
+        {
+        	this.update_cameras(640/360);
+			return this.m_renderer_scene.screen_resized(640, 360);
+        }
 	}
 
 	/**
@@ -219,13 +232,12 @@ class Krittengine
 		glob_key_input.pressed_keys[event.keyCode] = true;
 		glob_key_input.active_keys[event.keyCode] = false;
 	}
-	handleFullscreenChange(event, d00)
+	handleFullscreenChange(event)
 	{
 		let is_fullscreen = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
-		if(is_fullscreen)
+		if(!is_fullscreen)
 		{
-		} else {
-			this.end_fullscreen()
+			this.end_fullscreen(true);
 		}
 	}
 	initialize_events()
@@ -248,6 +260,14 @@ class Krittengine
 		{
 			console.warn('failed to set fullscreen-event');
 		}
+	}
+	update_cameras(aspect_ratio)
+	{
+		this.m_scenes_array.forEach(function(scene) {
+			scene.cameras.forEach(function(camera) {
+				camera.update_aspect_ratio(aspect_ratio);
+			})
+		})
 	}
 
 	get loader() { return m_loader }
