@@ -203,8 +203,9 @@ krittengine.start(render)
 // 							});
 // geometry_entity2.update = function(){}
 // scene2.add(geometry_entity2);
-
-
+// console.log(document.fullScreen);
+// console.log(document.mozFullScreen );
+// console.log(document.webkitIsFullScreen);
 document.addEventListener("keydown", function(e) {
 	// console.log(e.keyCode)
 	if(!glob_is_input_focused)
@@ -451,14 +452,7 @@ $(document).on('blur', 'input', function() {
 glob_json_scene = '{"objects":[{"name":"adsa","material":"material_color","mesh":"mesh_couch","position":{"0":0,"1":0,"2":-5}}],"materials":{"material_color":{"name":"material_color","color":{"0":0,"1":1,"2":1}}},"meshes":{"mesh_couch":{"name":"mesh_couch","path":"data/objects/head.obj"}}}'
 import_scene(glob_json_scene)
 
-
 function enter_fullscreen()
 {
-    // old_width = canvas.clientWidth;
-    // old_height = canvas.clientHeight;
-
 	krittengine.start_fullscreen();
-
-    // engine.screen_resized(screen.width, screen.height);
-    // lock_mouse();
 }

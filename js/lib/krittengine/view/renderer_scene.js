@@ -28,25 +28,17 @@ class Renderer_Scene
         gl.enable(gl.DEPTH_TEST);
         gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
 
-        this.is_mode_fullscreen = false;
         m_renderer_quad.set(this, new Renderer_Quad(m_viewport.get(this)));
     }
 
     start_fullscreen()
     {
-        // if(this.is_mode_fullscreen)
-        // {
-        //     return false;
-        // } else {
-            
-            let width_fullscreen = screen.width;
-            let height_fullscreen = screen.height;
-
-            canvas.width = width_fullscreen;
-            canvas.height = height_fullscreen;
-            gl.viewport(0, 0, width_fullscreen, height_fullscreen);
-
-            m_renderer_quad.get(this).screen_resized();
+        let is_fullscreen = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
+        if(is_fullscreen)
+        {
+            return false;
+        } else {
+            this.screen_resized(screen.width, screen.height);
 
             if (canvas.requestFullscreen) {
               canvas.requestFullscreen();
@@ -56,9 +48,22 @@ class Renderer_Scene
               canvas.mozRequestFullScreen();
             } else if (canvas.webkitRequestFullscreen) {
               canvas.webkitRequestFullscreen();
-            }
-            // this.is_mode_fullscreen = true;
-        // }
+            }  
+        }
+    }
+
+    end_fullscreen()
+    {
+        this.screen_resized(800, 500);
+    }
+
+    screen_resized(width, height)
+    {
+        canvas.width = width;
+        canvas.height = height;
+        gl.viewport(0, 0, width, height);
+
+        m_renderer_quad.get(this).screen_resized();  
     }
 
     /**

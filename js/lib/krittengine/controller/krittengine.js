@@ -54,8 +54,7 @@ class Krittengine
 	{
 		m_key_input.set(this, {active_keys: [], pressed_keys: []})
 
-		document.onkeydown = (event) => this.handleKeyDown(event)
-		document.onkeyup = (event) => this.handleKeyUp(event)
+		this.initialize_events();
 
 	 	m_renderer_scene.set(this, new Renderer_Scene(canvas));
 
@@ -226,7 +225,14 @@ class Krittengine
 
 	start_fullscreen()
 	{
+		
 		return m_renderer_scene.get(this).start_fullscreen();
+	}
+
+	end_fullscreen()
+	{
+		
+		return m_renderer_scene.get(this).end_fullscreen();
 	}
 
 	/**
@@ -246,6 +252,36 @@ class Krittengine
 	{
 		glob_key_input.pressed_keys[event.keyCode] = true;
 		glob_key_input.active_keys[event.keyCode] = false;
+	}
+	handleFullscreenChange(event, d00)
+	{
+		let is_fullscreen = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
+		if(is_fullscreen)
+		{
+		} else {
+			this.end_fullscreen()
+		}
+	}
+	initialize_events()
+	{
+		document.onkeydown = (event) => this.handleKeyDown(event)
+		document.onkeyup = (event) => this.handleKeyUp(event)
+
+		let is_set_fullscrenchange = false;
+		if(document.onfullscreenchange === null) {
+			document.onfullscreenchange = (event) => this.handleFullscreenChange(event)
+			is_set_fullscrenchange = true;
+		} else if(document.onmozfullscreenchange === null) {
+			document.onmozfullscreenchange = (event) => this.handleFullscreenChange(event)
+			is_set_fullscrenchange = true;
+		} else if(document.onwebkitfullscreenchange === null) {
+			document.onwebkitfullscreenchange = (event) => this.handleFullscreenChange(event)
+			is_set_fullscrenchange = true;
+		}
+		if(!is_set_fullscrenchange)
+		{
+			console.warn('failed to set fullscreen-event');
+		}
 	}
 
 	get loader() { return m_loader.get(this) }
