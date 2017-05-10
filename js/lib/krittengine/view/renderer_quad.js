@@ -1,4 +1,3 @@
-const m_renderer_quad_viewport = new WeakMap();
 const m_renderer_quad_framebuffer = new WeakMap();
 const m_renderer_quad_texture = new WeakMap();
 const m_renderer_quad_renderbuffer = new WeakMap();
@@ -6,9 +5,8 @@ const m_renderer_quad_quad = new WeakMap();
 
 class Renderer_Quad
 {
-	constructor(passed_viewport)
+	constructor()
 	{
-		m_renderer_quad_viewport.set(this, passed_viewport);
 		let {framebuffer, texture, renderbuffer} = this.create_framebuffer();
         m_renderer_quad_framebuffer.set(this, framebuffer);
         m_renderer_quad_texture.set(this, texture);
@@ -155,11 +153,11 @@ class Renderer_Quad
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); //Prevents s-coordinate wrapping (repeating).
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); 
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, m_renderer_quad_viewport.get(this).width, m_renderer_quad_viewport.get(this).height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.drawingBufferWidth, gl.drawingBufferHeight, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
         // init depthbuffer
         let renderbuffer = gl.createRenderbuffer();
         gl.bindRenderbuffer(gl.RENDERBUFFER, renderbuffer);
-        gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, m_renderer_quad_viewport.get(this).width, m_renderer_quad_viewport.get(this).height);
+        gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, gl.drawingBufferWidth, gl.drawingBufferHeight);
         // 
         gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
         gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, renderbuffer);

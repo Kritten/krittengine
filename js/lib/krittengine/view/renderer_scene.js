@@ -1,17 +1,4 @@
 /**
- * @private
- * @instance
- * @type {Object}
- * @memberOf Krittengine
- */
-const m_viewport = new WeakMap();/**
- * @private
- * @instance
- * @type {Object}
- * @memberOf Krittengine
- */
-const m_renderer_quad = new WeakMap();
-/**
  * This class is used to render scenes.
  * @class
  */
@@ -22,13 +9,11 @@ class Renderer_Scene
      */
     constructor(canvas)
     {
-        m_viewport.set(this, {width: canvas.clientWidth, height: canvas.clientHeight, ratio_wh: canvas.clientWidth/canvas.clientHeight, ratio_hw: canvas.clientHeight/canvas.clientWidth})
-
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.enable(gl.DEPTH_TEST);
         gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
 
-        m_renderer_quad.set(this, new Renderer_Quad(m_viewport.get(this)));
+        this.m_renderer_quad = new Renderer_Quad();
     }
 
     screen_resized(width, height)
@@ -37,7 +22,7 @@ class Renderer_Scene
         canvas.height = height;
         gl.viewport(0, 0, width, height);
 
-        m_renderer_quad.get(this).screen_resized();  
+        this.m_renderer_quad.screen_resized();  
     }
 
     /**
@@ -46,7 +31,7 @@ class Renderer_Scene
      */
     render(scene)
     {
-        gl.bindFramebuffer(gl.FRAMEBUFFER, m_renderer_quad.get(this).framebuffer);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, this.m_renderer_quad.framebuffer);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         if(scene.render_lights)
@@ -122,6 +107,6 @@ class Renderer_Scene
         }
         
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-        m_renderer_quad.get(this).render();
+        this.m_renderer_quad.render();
     }
 }

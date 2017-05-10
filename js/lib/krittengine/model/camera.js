@@ -12,7 +12,7 @@ class Camera extends Spatial_Entity
 	 	this.m_matrix_perspective = mat4.create();
 	 	this.m_matrix_view = mat4.create();
 
-        mat4.perspective(this.matrix_perspective, 45, gl.drawingBufferWidth / gl.drawingBufferHeight, 0.1, 1000.0);
+        mat4.perspective(this.matrix_perspective, 70, gl.drawingBufferWidth / gl.drawingBufferHeight, 0.1, 1000.0);
 	 	this.compute_viewing_direction()
 
 		this.update_view_matrix()
@@ -28,7 +28,7 @@ class Camera extends Spatial_Entity
 
 	update_aspect_ratio(aspect_ratio)
 	{
-        mat4.perspective(this.matrix_perspective, 45, aspect_ratio, 0.1, 1000.0);
+        mat4.perspective(this.matrix_perspective, 70, aspect_ratio, 0.1, 1000.0);
 	}
 
 	get viewing_direction() { return this.m_viewing_direction; }

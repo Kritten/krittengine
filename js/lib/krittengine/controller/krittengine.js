@@ -12,12 +12,9 @@ class Krittengine
 		// this.m_key_input = {active_keys: [], pressed_keys: []};
 	 	this.m_renderer_scene = new Renderer_Scene(canvas);
 	 	this.m_loader = new Loader();
-	 	let scene_default = new Scene(this.m_loader)
-	 	this.m_active_scene = scene_default;
+	 	this.m_active_scene =  new Scene(this.m_loader);
 
 		this.initialize_events();
-
-
 
 	 	this.m_scenes = new Map();
 	 	this.m_scenes_array = [];
