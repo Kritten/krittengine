@@ -174,7 +174,7 @@ class Krittengine
 	 */
 	get_material(name_material)
 	{
-		return m_loader.get_material(name_material)
+		return this.m_loader.get_material(name_material)
 	}
 
 	start_fullscreen()

@@ -14,15 +14,16 @@ const krittengine = new Krittengine(document.getElementById("canvas"));
 
 // krittengine.create_mesh('mesh_monkey', 'data/objects/monkey.kobjson')
 // krittengine.create_mesh('mesh_couch', 'data/objects/couch.kobjson')
-// krittengine.create_mesh('mesh_plane', 'data/objects/plane.obj')
-// krittengine.create_mesh('mesh_cube', 'data/objects/sphere.obj')
+krittengine.create_mesh('mesh_sphere', 'data/objects/sphere.obj')
+krittengine.create_mesh('mesh_plane', 'data/objects/plane.obj')
+krittengine.create_mesh('mesh_cube', 'data/objects/cube.obj')
 
-// const material_color = krittengine.create_material('color', 'material_color', vec3.fromValues(0.0, 1.0, 1.0))
+const material_color = krittengine.create_material('color', 'material_color', vec3.fromValues(1.0, 1.0, 1.0))
 // const material_color_red = krittengine.create_material('color', 'material_color1', vec3.fromValues(1.0, 0.0, 0.0))
-// const material_texture = krittengine.create_material('texture', 'material_texture', {
-// 						path_texture_color: 'data/textures/151.jpg', 
-// 						path_texture_normal: 'data/textures/151_norm.jpg',
-// 					})
+const material_texture = krittengine.create_material('texture', 'material_texture', {
+						path_texture_color: 'data/textures/default_texture_color.png', 
+						path_texture_normal: 'data/textures/default_texture_normal.png',
+					})
 // let material_btf = material_color_red
 
 const scene = krittengine.create_scene('custom');
@@ -167,20 +168,21 @@ scene.add_camera(camera)
 // const material_btf = krittengine.create_material('btf', 'material_btf')
 
 // // create objects //
-// const geometry_entity = new Geometry_Entity("btf", {
-// 								position: vec3.fromValues(-0.0, -0.0, -5.0), 
-// 							 	mesh: krittengine.get_mesh('mesh_cube'), 
-// 							 	material: material_color
-// 							});
-// // const geometry_entity = new Geometry_Entity("btf", vec3.fromValues(-0.0, -1.0, -5.0), vec3.create(), vec3.fromValues(1.0, 1.0, 1.0), mesh_monkey, material_color);
-// // geometry_entity.rotation = vec3.fromValues(1.57, -0.0, 0.0)
-// geometry_entity.update = function(){
+const geometry_entity = new Geometry_Entity("btf", {
+								position: vec3.fromValues(-0.0, -0.0, -5.0), 
+								rotation: vec3.fromValues(0.0, 0.0, -0.0), 
+							 	mesh: krittengine.get_mesh('mesh_cube'), 
+							 	material: material_texture
+							});
+// const geometry_entity = new Geometry_Entity("btf", vec3.fromValues(-0.0, -1.0, -5.0), vec3.create(), vec3.fromValues(1.0, 1.0, 1.0), mesh_monkey, material_color);
+// geometry_entity.rotation = vec3.fromValues(1.57, -0.0, 0.0)
+geometry_entity.update = function(){
 
 
-// 	// console.log(this.material)
-// 	// vec3.add(m_spatial_entity_position.get(this), m_spatial_entity_position.get(this), vec3.fromValues(0.7 * glob_time_info.time_ratio, 0.0, 0.0))
-// }
-// scene.add(geometry_entity);
+	// console.log(this.material)
+	// vec3.add(m_spatial_entity_position.get(this), m_spatial_entity_position.get(this), vec3.fromValues(0.7 * glob_time_info.time_ratio, 0.0, 0.0))
+}
+scene.add(geometry_entity);
 
 const render = function (timestamp) {
 	krittengine.update(timestamp);
@@ -451,7 +453,7 @@ $(document).on('blur', 'input', function() {
 })
 
 glob_json_scene = '{"objects":[{"name":"adsa","material":"material_color","mesh":"mesh_couch","position":{"0":0,"1":0,"2":-5}}],"materials":{"material_color":{"name":"material_color","color":{"0":0,"1":1,"2":1}}},"meshes":{"mesh_couch":{"name":"mesh_couch","path":"data/objects/head.obj"}}}'
-import_scene(glob_json_scene)
+// import_scene(glob_json_scene)
 
 function enter_fullscreen()
 {
