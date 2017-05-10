@@ -23,6 +23,8 @@ class Mesh
             function(string_mesh)
             {
             	let {list_indices, list_data_vertex} = this.parse_obj(string_mesh);
+                // console.log(list_indices)
+                // console.log(list_data_vertex)
 
             	this.m_vertex_array_object =  gl.createVertexArray();
 				gl.bindVertexArray(this.m_vertex_array_object);
@@ -85,8 +87,8 @@ class Mesh
 		let tmp_list_normals = [];
 		let tmp_list_uvs = [];
 
-		let list_data_vertex = [];
-		let list_indices = [];
+
+        let list_triangles = [];
 
     	let lines = string_mesh.split('\n');
     	for(let i = 0; i < lines.length; i++) 
@@ -117,33 +119,65 @@ class Mesh
     		}
     		else if(values[0] == 'f')
     		{
+                let triangle = [];
+
     			for(let j = 1; j <= 3; j++) 
     			{
     				let [vertex, uv, normal] = values[j].split('/');
 
-    				let index_vertex = parseInt(vertex) - 1;
-    				let index_normal = parseInt(normal) - 1;
-    				let index_uv = parseInt(uv) - 1;
+                    let index_vertex = parseInt(vertex) - 1;
+                    let index_uv = parseInt(uv) - 1;
+                    let index_normal = parseInt(normal) - 1;
 
-    				let index_vertex_adjusted = index_vertex * 8;
-
-    				list_data_vertex[index_vertex_adjusted] = tmp_list_vertices[index_vertex * 3];
-    				list_data_vertex[index_vertex_adjusted + 1] = tmp_list_vertices[index_vertex * 3 + 1];
-    				list_data_vertex[index_vertex_adjusted + 2] = tmp_list_vertices[index_vertex * 3 + 2];
-
-    				list_data_vertex[index_vertex_adjusted + 3] = tmp_list_uvs[index_uv * 2];
-    				list_data_vertex[index_vertex_adjusted + 4] = tmp_list_uvs[index_uv * 2 + 1];
-
-    				list_data_vertex[index_vertex_adjusted + 5] = tmp_list_normals[index_normal * 3];
-    				list_data_vertex[index_vertex_adjusted + 6] = tmp_list_normals[index_normal * 3 + 1];
-    				list_data_vertex[index_vertex_adjusted + 7] = tmp_list_normals[index_normal * 3 + 2];
-
-    				list_indices.push(index_vertex);
+                    triangle.push({
+                        'index_vertex': index_vertex,
+                        'index_uv': index_uv,
+                        'index_normal': index_normal
+                    });
     			}
+
+                list_triangles.push(triangle);
     		}
     	}
-    	return {list_indices: list_indices, list_data_vertex: list_data_vertex};
+        this.calc_tangents_bitangents(list_triangles);
+
+        return this.create_data_vertex(list_triangles, tmp_list_vertices, tmp_list_uvs, tmp_list_normals);
 	}
+    
+    calc_tangents_bitangents(list_triangles)
+    {
+
+    }
+
+    create_data_vertex(list_triangles, list_vertices, list_uvs, list_normals)
+    {
+        let list_data_vertex = [];
+        let list_indices = [];
+
+        list_triangles.forEach(function(triangle) {
+            for(let i = 0; i < 3; i++) 
+            {
+                let vertex = triangle[i];
+                let index_vertex_adjusted = vertex.index_vertex * 8;
+
+                list_data_vertex[index_vertex_adjusted] = list_vertices[vertex.index_vertex * 3];
+                list_data_vertex[index_vertex_adjusted + 1] = list_vertices[vertex.index_vertex * 3 + 1];
+                list_data_vertex[index_vertex_adjusted + 2] = list_vertices[vertex.index_vertex * 3 + 2];
+
+                list_data_vertex[index_vertex_adjusted + 3] = list_uvs[vertex.index_uv * 2];
+                list_data_vertex[index_vertex_adjusted + 4] = list_uvs[vertex.index_uv * 2 + 1];
+
+                list_data_vertex[index_vertex_adjusted + 5] = list_normals[vertex.index_normal * 3];
+                list_data_vertex[index_vertex_adjusted + 6] = list_normals[vertex.index_normal * 3 + 1];
+                list_data_vertex[index_vertex_adjusted + 7] = list_normals[vertex.index_normal * 3 + 2];
+
+                list_indices.push(vertex.index_vertex);
+            }
+        });
+
+        return {list_indices: list_indices, list_data_vertex: list_data_vertex};
+    }
+
 
     is_loaded()
     {

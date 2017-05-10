@@ -14,9 +14,9 @@ const krittengine = new Krittengine(document.getElementById("canvas"));
 
 // krittengine.create_mesh('mesh_monkey', 'data/objects/monkey.kobjson')
 // krittengine.create_mesh('mesh_couch', 'data/objects/couch.kobjson')
-krittengine.create_mesh('mesh_sphere', 'data/objects/sphere.obj')
+// krittengine.create_mesh('mesh_sphere', 'data/objects/sphere.obj')
 krittengine.create_mesh('mesh_plane', 'data/objects/plane.obj')
-krittengine.create_mesh('mesh_cube', 'data/objects/cube.obj')
+// krittengine.create_mesh('mesh_cube', 'data/objects/cube.obj')
 
 const material_color = krittengine.create_material('color', 'material_color', vec3.fromValues(1.0, 1.0, 1.0))
 // const material_color_red = krittengine.create_material('color', 'material_color1', vec3.fromValues(1.0, 0.0, 0.0))
