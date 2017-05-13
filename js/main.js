@@ -15,8 +15,8 @@ const krittengine = new Krittengine(document.getElementById("canvas"));
 // krittengine.create_mesh('mesh_monkey', 'data/objects/monkey.kobjson')
 // krittengine.create_mesh('mesh_couch', 'data/objects/couch.kobjson')
 // krittengine.create_mesh('mesh_sphere', 'data/objects/sphere.obj')
-krittengine.create_mesh('mesh_plane', 'data/objects/plane.obj')
-// krittengine.create_mesh('mesh_cube', 'data/objects/cube.obj')
+// krittengine.create_mesh('mesh_plane', 'data/objects/plane.obj')
+krittengine.create_mesh('mesh_cube', 'data/objects/plane.obj')
 
 const material_color = krittengine.create_material('color', 'material_color', vec3.fromValues(1.0, 1.0, 1.0))
 // const material_color_red = krittengine.create_material('color', 'material_color1', vec3.fromValues(1.0, 0.0, 0.0))
@@ -172,7 +172,8 @@ const geometry_entity = new Geometry_Entity("btf", {
 								position: vec3.fromValues(-0.0, -0.0, -5.0), 
 								rotation: vec3.fromValues(0.0, 0.0, -0.0), 
 							 	mesh: krittengine.get_mesh('mesh_cube'), 
-							 	material: material_texture
+							 	material: material_color
+							 	// material: material_texture
 							});
 // const geometry_entity = new Geometry_Entity("btf", vec3.fromValues(-0.0, -1.0, -5.0), vec3.create(), vec3.fromValues(1.0, 1.0, 1.0), mesh_monkey, material_color);
 // geometry_entity.rotation = vec3.fromValues(1.57, -0.0, 0.0)
