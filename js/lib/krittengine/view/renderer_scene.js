@@ -34,7 +34,7 @@ class Renderer_Scene
         gl.bindFramebuffer(gl.FRAMEBUFFER, this.m_renderer_quad.framebuffer);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-        if(scene.render_lights)
+        if(scene.m_render_lights)
         {
             scene.lights.forEach(function(light) {
                 const mesh = light.mesh;

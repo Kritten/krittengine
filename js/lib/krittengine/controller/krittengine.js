@@ -114,51 +114,49 @@ class Krittengine
 		return scene
 	}
 	/**
-	 * Returns a scene object. Creates this scene if it was not created.
-	 * The first created scene will be the first active scene
 	 * @param      {Scene}  name_scene   name of the scene
 	 */
 	get_scene(name_scene)
 	{
-		return m_scenes.get(scene.name)
+		return this.m_scenes.get(name_scene);
 	}
 
 	set_active_scene(name_scene)
 	{
-		m_active_scene = m_scenes.get(name_scene);
+		this.m_active_scene = this.m_scenes.get(name_scene);
 	}
 
 	next_scene()
 	{
 		let next_scene = undefined 
-		for (var i = 0; i < m_scenes_array.length; i++) {
-			if(m_scenes_array[i].name == m_active_scene.name)
+		for (var i = 0; i < this.m_scenes_array.length; i++) {
+			if(this.m_scenes_array[i].name == this.m_active_scene.name)
 			{
-				if(i == m_scenes_array.length - 1)
+				if(i == this.m_scenes_array.length - 1)
 				{
-					next_scene = m_scenes_array[0]
+					next_scene = this.m_scenes_array[0]
 				} else {
-					next_scene = m_scenes_array[i + 1]
+					next_scene = this.m_scenes_array[i + 1]
 				}
 			}
 		}
-		m_active_scene = next_scene;
+		this.m_active_scene = next_scene;
 	}
 	prev_scene()
 	{
 		let prev_scene = undefined 
-		for (var i = 0; i < m_scenes_array.length; i++) {
-			if(m_scenes_array[i].name == m_active_scene.name)
+		for (var i = 0; i < this.m_scenes_array.length; i++) {
+			if(this.m_scenes_array[i].name == this.m_active_scene.name)
 			{
 				if(i == 0)
 				{
-					prev_scene = m_scenes_array[m_scenes_array.length - 1]
+					prev_scene = this.m_scenes_array[this.m_scenes_array.length - 1]
 				} else {
-					prev_scene = m_scenes_array[i - 1]
+					prev_scene = this.m_scenes_array[i - 1]
 				}
 			}
 		}
-		m_active_scene = prev_scene;
+		this.m_active_scene = prev_scene;
 	}
 	/**
 	 * Returns a material object. Creates this material if it was not created.
