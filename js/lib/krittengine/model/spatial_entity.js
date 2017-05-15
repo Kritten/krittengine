@@ -23,7 +23,20 @@ class Spatial_Entity extends Entity
 		super(name);
 
 		let position = vec3.create()
-		let rotation = vec3.create()
+		
+		let rotation = undefined;
+		if(name == 'player')
+		{
+
+			rotation = quat.create();
+			// rotation = vec3.create()
+			// quat.rotateY(rotation, rotation, glMatrix.toRadian(45));
+			// quat.rotateZ(rotation, rotation, glMatrix.toRadian(0));
+		} else {
+			rotation = vec3.create()
+			
+		}
+		console.log(name)
 
 		if(data.position != undefined) { position = data.position }
 		if(data.rotation != undefined) { rotation = data.rotation }

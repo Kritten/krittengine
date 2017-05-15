@@ -162,71 +162,71 @@ class Mesh
     	for (let i = 0; i < list_vertices.length; i++) { list_tangents2.push([vec3.create(), vec3.create()]); }
 
 
-        list_triangles.forEach(function(triangle) {
-        	let vert1 = list_vertices[triangle[0].index_vertex];
-        	let vert2 = list_vertices[triangle[1].index_vertex];
-        	let vert3 = list_vertices[triangle[2].index_vertex];
-        	// console.log(vert1)
-        	// console.log(vert2)
-        	// console.log(vert3)
-	        let hor = vec3.sub(vec3.create(), vert2, vert1);
-	        let vert = vec3.sub(vec3.create(), vert3, vert1);
+     //    list_triangles.forEach(function(triangle) {
+     //    	let vert1 = list_vertices[triangle[0].index_vertex];
+     //    	let vert2 = list_vertices[triangle[1].index_vertex];
+     //    	let vert3 = list_vertices[triangle[2].index_vertex];
+     //    	// console.log(vert1)
+     //    	// console.log(vert2)
+     //    	// console.log(vert3)
+	    //     let hor = vec3.sub(vec3.create(), vert2, vert1);
+	    //     let vert = vec3.sub(vec3.create(), vert3, vert1);
 
-        	let tex1 = list_uvs[triangle[0].index_uv];
-        	let tex2 = list_uvs[triangle[1].index_uv];
-        	let tex3 = list_uvs[triangle[2].index_uv];
-        	// console.log(tex1)
-        	// console.log(tex2)
-        	// console.log(tex3)
-            let s = vec2.sub(vec2.create(), tex2, tex1);
-            let t = vec2.sub(vec2.create(), tex3, tex1);
+     //    	let tex1 = list_uvs[triangle[0].index_uv];
+     //    	let tex2 = list_uvs[triangle[1].index_uv];
+     //    	let tex3 = list_uvs[triangle[2].index_uv];
+     //    	// console.log(tex1)
+     //    	// console.log(tex2)
+     //    	// console.log(tex3)
+     //        let s = vec2.sub(vec2.create(), tex2, tex1);
+     //        let t = vec2.sub(vec2.create(), tex3, tex1);
 
-            let divisor = 1.0 / (s[0] * t[1] - s[1] * t[0]);
+     //        let divisor = 1.0 / (s[0] * t[1] - s[1] * t[0]);
 
-            let s_dir = vec3.fromValues(
-                t[1] * hor[0] - t[0] * vert[0], 
-                t[1] * hor[1] - t[0] * vert[1], 
-                t[1] * hor[2] - t[0] * vert[2]
-            );
-            let t_dir = vec3.fromValues(
-                s[0] * vert[0] - s[1] * hor[0], 
-                s[0] * vert[1] - s[1] * hor[1], 
-                s[0] * vert[2] - s[1] * hor[2]
-            );
+     //        let s_dir = vec3.fromValues(
+     //            t[1] * hor[0] - t[0] * vert[0], 
+     //            t[1] * hor[1] - t[0] * vert[1], 
+     //            t[1] * hor[2] - t[0] * vert[2]
+     //        );
+     //        let t_dir = vec3.fromValues(
+     //            s[0] * vert[0] - s[1] * hor[0], 
+     //            s[0] * vert[1] - s[1] * hor[1], 
+     //            s[0] * vert[2] - s[1] * hor[2]
+     //        );
 
-            vec3.scale(s_dir, s_dir, divisor);
-            vec3.scale(t_dir, t_dir, divisor);
-     //        console.log(triangle[0].index_vertex)
-     //        console.log(list_tangents1[triangle[2].index_vertex])
-            console.log(JSON.stringify(list_tangents1[triangle[0].index_vertex]))
-            list_tangents1[triangle[0].index_vertex] = [vec3.add(vec3.create(), list_tangents1[triangle[0].index_vertex][0], s_dir), list_normals[triangle[0].index_normal]];
-            list_tangents1[triangle[1].index_vertex] = [vec3.add(vec3.create(), list_tangents1[triangle[1].index_vertex][0], s_dir), list_normals[triangle[1].index_normal]];
-            list_tangents1[triangle[2].index_vertex] = [vec3.add(vec3.create(), list_tangents1[triangle[2].index_vertex][0], s_dir), list_normals[triangle[2].index_normal]];
-            list_tangents2[triangle[0].index_vertex] = [vec3.add(vec3.create(), list_tangents2[triangle[0].index_vertex][0], t_dir), list_normals[triangle[0].index_normal]];
-            list_tangents2[triangle[1].index_vertex] = [vec3.add(vec3.create(), list_tangents2[triangle[1].index_vertex][0], t_dir), list_normals[triangle[1].index_normal]];
-            list_tangents2[triangle[2].index_vertex] = [vec3.add(vec3.create(), list_tangents2[triangle[2].index_vertex][0], t_dir), list_normals[triangle[2].index_normal]];
-    	});
+     //        vec3.scale(s_dir, s_dir, divisor);
+     //        vec3.scale(t_dir, t_dir, divisor);
+     // //        console.log(triangle[0].index_vertex)
+     // //        console.log(list_tangents1[triangle[2].index_vertex])
+     //        console.log(JSON.stringify(list_tangents1[triangle[0].index_vertex]))
+     //        list_tangents1[triangle[0].index_vertex] = [vec3.add(vec3.create(), list_tangents1[triangle[0].index_vertex][0], s_dir), list_normals[triangle[0].index_normal]];
+     //        list_tangents1[triangle[1].index_vertex] = [vec3.add(vec3.create(), list_tangents1[triangle[1].index_vertex][0], s_dir), list_normals[triangle[1].index_normal]];
+     //        list_tangents1[triangle[2].index_vertex] = [vec3.add(vec3.create(), list_tangents1[triangle[2].index_vertex][0], s_dir), list_normals[triangle[2].index_normal]];
+     //        list_tangents2[triangle[0].index_vertex] = [vec3.add(vec3.create(), list_tangents2[triangle[0].index_vertex][0], t_dir), list_normals[triangle[0].index_normal]];
+     //        list_tangents2[triangle[1].index_vertex] = [vec3.add(vec3.create(), list_tangents2[triangle[1].index_vertex][0], t_dir), list_normals[triangle[1].index_normal]];
+     //        list_tangents2[triangle[2].index_vertex] = [vec3.add(vec3.create(), list_tangents2[triangle[2].index_vertex][0], t_dir), list_normals[triangle[2].index_normal]];
+    	// });
 
-        let list_tangents = [];
-        let list_bitangents = [];
-        list_tangents1.forEach(function(obj, index) {
-        	let tangent = obj[0];
-        	let normal = obj[1];
+        // let list_tangents = [];
+        // let list_bitangents = [];
+        // list_tangents1.forEach(function(obj, index) {
+        // 	let tangent = obj[0];
+        // 	let normal = obj[1];
 
-        	let dot = vec3.dot(normal, tangent);
-        	let scaled = vec3.scale(vec3.create(), normal, dot);
-        	let sub = vec3.sub(vec3.create(), tangent, scaled);
-        	tangent = vec3.normalize(vec3.create(), sub);
+        // 	let dot = vec3.dot(normal, tangent);
+        // 	let scaled = vec3.scale(vec3.create(), normal, dot);
+        // 	let sub = vec3.sub(vec3.create(), tangent, scaled);
+        // 	tangent = vec3.normalize(vec3.create(), sub);
 
-        	if(vec3.dot(vec3.cross(vec3.create(), normal, tangent), list_tangents2[index]) < 0.0)
-        	{
-        		vec3.negate(vec3.create(), tangent);
-        	}
+        // 	if(vec3.dot(vec3.cross(vec3.create(), normal, tangent), list_tangents2[index]) < 0.0)
+        // 	{
+        // 		vec3.negate(vec3.create(), tangent);
+        // 	}
 
-            let bitangent = vec3.cross(vec3.create(), normal, tangent);
-        	// console.log(tangent)
-        	// console.log(bitangent)
-        });
+        //     let bitangent = vec3.cross(vec3.create(), normal, tangent);
+        // 	// console.log(tangent)
+        // 	// console.log(bitangent)
+        // });
 
 
 

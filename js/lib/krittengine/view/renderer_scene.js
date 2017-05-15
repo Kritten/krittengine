@@ -78,10 +78,13 @@ class Renderer_Scene
 
             let matrix_model = mat4.create();
             mat4.translate(matrix_model, matrix_model, object.position);
-            mat4.rotateX(matrix_model, matrix_model, object.rotation[0]);
-            mat4.rotateY(matrix_model, matrix_model, object.rotation[1]);
-            mat4.rotateZ(matrix_model, matrix_model, object.rotation[2])
-            mat4.scale(matrix_model, matrix_model, object.scale);
+            // let matrix_rotation = mat4.create();
+            // mat4.fromQuat(matrix_rotation, object.rotation);
+            // mat4.multiply(matrix_model, matrix_model, matrix_rotation)
+            // mat4.rotateX(matrix_model, matrix_model, object.rotation[0]);
+            // mat4.rotateY(matrix_model, matrix_model, object.rotation[1]);
+            // mat4.rotateZ(matrix_model, matrix_model, object.rotation[2])
+            // mat4.scale(matrix_model, matrix_model, object.scale);
             gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_model, false, matrix_model);
             
 

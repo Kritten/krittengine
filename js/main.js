@@ -16,7 +16,7 @@ const krittengine = new Krittengine(document.getElementById("canvas"));
 // krittengine.create_mesh('mesh_couch', 'data/objects/couch.kobjson')
 // krittengine.create_mesh('mesh_sphere', 'data/objects/sphere.obj')
 // krittengine.create_mesh('mesh_plane', 'data/objects/plane.obj')
-krittengine.create_mesh('mesh_cube', 'data/objects/plane.obj')
+krittengine.create_mesh('mesh_cube', 'data/objects/head.obj')
 
 const material_color = krittengine.create_material('color', 'material_color', vec3.fromValues(1.0, 1.0, 1.0))
 // const material_color_red = krittengine.create_material('color', 'material_color1', vec3.fromValues(1.0, 0.0, 0.0))
@@ -79,7 +79,8 @@ scene.add_light(light)
 
 
 const camera = new Camera('player', {
-	position: vec3.fromValues(0.0, 1.0, 0.0)
+	position: vec3.fromValues(0.0, 0.0, 0.0)
+	// roatation: vec3.fromValues(0.0, 0.0, 0.0)
 })
 camera.set_init_vars(function() {
 	this.foo = 'worked'
@@ -122,10 +123,10 @@ camera.update = function(){
 
 
 	    //create the player rotation matrix
-	    var matrix = mat4.create();
-	    mat4.rotateX(matrix, matrix, this.rotation[0]);
-	    mat4.rotateY(matrix, matrix, this.rotation[1]);
-	    mat4.rotateZ(matrix, matrix, this.rotation[2]);
+	    // var matrix = mat4.create();
+	    // mat4.rotateX(matrix, matrix, this.rotation[0]);
+	    // mat4.rotateY(matrix, matrix, this.rotation[1]);
+	    // mat4.rotateZ(matrix, matrix, this.rotation[2]);
 
 	    //rotate the movement vector with the player rotation
 	    // vec3.transformMat4(movement_direction, movement_direction, matrix);
@@ -169,8 +170,8 @@ scene.add_camera(camera)
 
 // // create objects //
 const geometry_entity = new Geometry_Entity("btf", {
-								position: vec3.fromValues(-0.0, -0.0, -5.0), 
-								rotation: vec3.fromValues(0.0, 0.0, -0.0), 
+								position: vec3.fromValues(-0.0, -0.0, -2.0), 
+								// rotation: vec3.fromValues(0.0, 0.0, -0.0), 
 							 	mesh: krittengine.get_mesh('mesh_cube'), 
 							 	material: material_color
 							 	// material: material_texture
