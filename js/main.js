@@ -29,6 +29,18 @@ const material_texture = krittengine.create_material('texture', 'material_textur
 const scene = krittengine.create_scene('custom');
 const scene1 = krittengine.create_scene('custom1');
 const scene2 = krittengine.create_scene('custom2');
+let quat3 = quat.fromValues(0.127325,-0.15098,0.028353,0.97989);
+
+// quat3 = quat.rotateY(quat.create(), quat3, 1)
+console.log(quat.str(quat3))
+quat3 = quat.normalize(quat.create(), quat3)
+console.log(quat.str(quat3))
+// quat3 = quat.conjugate(quat.create(), quat3)
+// console.log(quat.str(quat3))
+// quat3 = quat.invert(quat.create(), quat3)
+// console.log(quat.str(quat3))
+let matrix = mat4.fromQuat(mat4.create(), quat3);
+console.log(matrix[2]+" "+matrix[6]+" "+matrix[10])
 
 const light = new Light('light', {
 						position: vec3.fromValues(0.0, 3.0, 0.0), 

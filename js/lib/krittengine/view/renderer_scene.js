@@ -78,9 +78,9 @@ class Renderer_Scene
 
             let matrix_model = mat4.create();
             mat4.translate(matrix_model, matrix_model, object.position);
-            // let matrix_rotation = mat4.create();
-            // mat4.fromQuat(matrix_rotation, object.rotation);
-            // mat4.multiply(matrix_model, matrix_model, matrix_rotation)
+            let matrix_rotation = mat4.create();
+            mat4.fromQuat(matrix_rotation, object.rotation);
+            mat4.multiply(matrix_model, matrix_model, matrix_rotation)
             // mat4.rotateX(matrix_model, matrix_model, object.rotation[0]);
             // mat4.rotateY(matrix_model, matrix_model, object.rotation[1]);
             // mat4.rotateZ(matrix_model, matrix_model, object.rotation[2])

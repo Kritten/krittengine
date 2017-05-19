@@ -25,13 +25,29 @@ class Spatial_Entity extends Entity
 		let position = vec3.create()
 		
 		let rotation = undefined;
-		if(name == 'player')
+		if(true)
 		{
 
 			rotation = quat.create();
-			// rotation = vec3.create()
-			// quat.rotateY(rotation, rotation, glMatrix.toRadian(45));
-			// quat.rotateZ(rotation, rotation, glMatrix.toRadian(0));
+			if(name=='btf')
+			{
+				quat.rotateY(rotation, rotation, glMatrix.toRadian(0));
+				// quat3 = quat.rotateY(quat.create(), quat3, 1)
+				// console.log(quat.str(quat3))
+				// quat.normalize(rotation, rotation)
+				quat.conjugate(rotation, rotation);
+				// console.log(quat.str(quat3))
+				// // quat3 = quat.conjugate(quat.create(), quat3)
+				// // console.log(quat.str(quat3))
+				// quat.invert(rotation, rotation)
+				// quat.normalize(rotation, rotation)
+				// // console.log(quat.str(quat3))
+				// let matrix = mat4.fromQuat(mat4.create(), quat3);
+				// console.log(matrix[2]+" "+matrix[6]+" "+matrix[10])
+				// rotation = vec3.create()
+				// quat.rotateY(rotation, rotation, glMatrix.toRadian(45));
+				// quat.rotateZ(rotation, rotation, glMatrix.toRadian(0));
+			}
 		} else {
 			rotation = vec3.create()
 			
