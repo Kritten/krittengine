@@ -52,7 +52,7 @@ class Spatial_Entity extends Entity
 			rotation = vec3.create()
 			
 		}
-		console.log(name)
+		// console.log(name)
 
 		if(data.position != undefined) { position = data.position }
 		if(data.rotation != undefined) { rotation = data.rotation }

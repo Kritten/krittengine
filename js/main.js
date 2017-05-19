@@ -16,31 +16,23 @@ const krittengine = new Krittengine(document.getElementById("canvas"));
 // krittengine.create_mesh('mesh_couch', 'data/objects/couch.kobjson')
 // krittengine.create_mesh('mesh_sphere', 'data/objects/sphere.obj')
 // krittengine.create_mesh('mesh_plane', 'data/objects/plane.obj')
-krittengine.create_mesh('mesh_cube', 'data/objects/head.obj')
+krittengine.create_mesh('mesh_cube', 'data/objects/plane.obj')
 
 const material_color = krittengine.create_material('color', 'material_color', vec3.fromValues(1.0, 1.0, 1.0))
 // const material_color_red = krittengine.create_material('color', 'material_color1', vec3.fromValues(1.0, 0.0, 0.0))
 const material_texture = krittengine.create_material('texture', 'material_texture', {
-						path_texture_color: 'data/textures/default_texture_color.png', 
-						path_texture_normal: 'data/textures/default_texture_normal.png',
+						path_texture_color: 'data/textures/brickwall.jpg', 
+						path_texture_normal: 'data/textures/brickwall_normal.jpg',
+					})
+const material_texture1 = krittengine.create_material('texture', 'material_texture1', {
+						path_texture_color: 'data/textures/brickwall.jpg', 
+						path_texture_normal: 'data/textures/normal_map_plain.png',
 					})
 // let material_btf = material_color_red
 
 const scene = krittengine.create_scene('custom');
 const scene1 = krittengine.create_scene('custom1');
 const scene2 = krittengine.create_scene('custom2');
-let quat3 = quat.fromValues(0.127325,-0.15098,0.028353,0.97989);
-
-// quat3 = quat.rotateY(quat.create(), quat3, 1)
-console.log(quat.str(quat3))
-quat3 = quat.normalize(quat.create(), quat3)
-console.log(quat.str(quat3))
-// quat3 = quat.conjugate(quat.create(), quat3)
-// console.log(quat.str(quat3))
-// quat3 = quat.invert(quat.create(), quat3)
-// console.log(quat.str(quat3))
-let matrix = mat4.fromQuat(mat4.create(), quat3);
-console.log(matrix[2]+" "+matrix[6]+" "+matrix[10])
 
 const light = new Light('light', {
 						position: vec3.fromValues(0.0, 3.0, 0.0), 
@@ -91,7 +83,7 @@ scene.add_light(light)
 
 
 const camera = new Camera('player', {
-	position: vec3.fromValues(0.0, 0.0, 0.0)
+	position: vec3.fromValues(0.0, 0.0, 10.0)
 	// roatation: vec3.fromValues(0.0, 0.0, 0.0)
 })
 camera.set_init_vars(function() {
@@ -182,11 +174,11 @@ scene.add_camera(camera)
 
 // // create objects //
 const geometry_entity = new Geometry_Entity("btf", {
-								position: vec3.fromValues(-0.0, -0.0, -2.0), 
+								position: vec3.fromValues(-1.0, -0.0, -2.0), 
 								// rotation: vec3.fromValues(0.0, 0.0, -0.0), 
 							 	mesh: krittengine.get_mesh('mesh_cube'), 
-							 	material: material_color
-							 	// material: material_texture
+							 	// material: material_color
+							 	material: material_texture
 							});
 // const geometry_entity = new Geometry_Entity("btf", vec3.fromValues(-0.0, -1.0, -5.0), vec3.create(), vec3.fromValues(1.0, 1.0, 1.0), mesh_monkey, material_color);
 // geometry_entity.rotation = vec3.fromValues(1.57, -0.0, 0.0)
@@ -197,6 +189,22 @@ geometry_entity.update = function(){
 	// vec3.add(m_spatial_entity_position.get(this), m_spatial_entity_position.get(this), vec3.fromValues(0.7 * glob_time_info.time_ratio, 0.0, 0.0))
 }
 scene.add(geometry_entity);
+const geometry_entity1 = new Geometry_Entity("btf", {
+								position: vec3.fromValues(1.0, -0.0, -2.0), 
+								// rotation: vec3.fromValues(0.0, 0.0, -0.0), 
+							 	mesh: krittengine.get_mesh('mesh_cube'), 
+							 	// material: material_color
+							 	material: material_texture1
+							});
+// const geometry_entity1 = new Geometry_Entity("btf", vec3.fromValues(-0.0, -1.0, -5.0), vec3.create(), vec3.fromValues(1.0, 1.0, 1.0), mesh_monkey, material_color);
+// geometry_entity1.rotation = vec3.fromValues(1.57, -0.0, 0.0)
+geometry_entity1.update = function(){
+
+
+	// console.log(this.material)
+	// vec3.add(m_spatial_entity_position.get(this), m_spatial_entity_position.get(this), vec3.fromValues(0.7 * glob_time_info.time_ratio, 0.0, 0.0))
+}
+scene.add(geometry_entity1);
 
 const render = function (timestamp) {
 	krittengine.update(timestamp);
