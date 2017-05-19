@@ -15,7 +15,10 @@ class Scene
 		this.m_cameras = new Map();
 		this.m_lights = new Map();
 		this.m_scene_loader = loader;
-		this.render_lights = true
+		this.m_tree = new Tree_AABB();
+
+		// FLAGS
+		this.m_render_lights = true
 	}
 	/**
 	 * Updates every component of the scene.
