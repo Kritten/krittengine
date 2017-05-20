@@ -7,7 +7,7 @@ class Material_Texture extends Material
     constructor(callback, name, info_material)
     {
         super(callback, name, 'shader_vertex_texture', 'shader_fragment_texture');
-        console.log(info_material)
+
         this.m_path_texture_color = info_material.path_texture_color
         this.m_path_texture_normal = info_material.path_texture_normal
 
