@@ -48,11 +48,11 @@ class Camera extends Spatial_Entity
     update_view_matrix()
     {
         mat4.identity(this.matrix_view);
-        mat4.translate(this.matrix_view, this.matrix_view, this.position);
+        mat4.translate(this.matrix_view, this.matrix_view, this.m_position);
         // console.log(this.rotation)
 
         let matrix_rotation = mat4.create();
-        mat4.fromQuat(matrix_rotation, this.rotation);
+        mat4.fromQuat(matrix_rotation, this.m_rotation);
         mat4.multiply(this.matrix_view, this.matrix_view, matrix_rotation)
         // mat4.rotateY(this.matrix_view, this.matrix_view, this.rotation[1]);
         // mat4.rotateX(this.matrix_view, this.matrix_view, this.rotation[0]);

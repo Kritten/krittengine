@@ -1,18 +1,4 @@
 /**
- * @private
- * @instance
- * @type {String}
- * @memberOf Spatial_Entity
- */
-const m_spatial_entity_position = new WeakMap();
-/**
- * @private
- * @instance
- * @type {String}
- * @memberOf Spatial_Entity
- */
-const m_spatial_entity_rotation = new WeakMap();
-/**
  * Represents a entity in space
  * @class
  */
@@ -23,8 +9,9 @@ class Spatial_Entity extends Entity
 		super(name);
 
 		let position = vec3.create()
+		let rotation = quat.create();
+		let scale = vec3.fromValues(1.0, 1.0, 1.0)
 		
-		let rotation = undefined;
 		if(true)
 		{
 
@@ -52,32 +39,50 @@ class Spatial_Entity extends Entity
 			rotation = vec3.create()
 			
 		}
-		// console.log(name)
 
 		if(data.position != undefined) { position = data.position }
 		if(data.rotation != undefined) { rotation = data.rotation }
+		if(data.scale != undefined) { scale = data.scale }
 
-		m_spatial_entity_position.set(this, position);
-		m_spatial_entity_rotation.set(this, rotation);
+		this.m_position = position;
+		this.m_rotation = rotation;
+		this.m_scale = scale;
+
+		this.m_matrix_transformation = mat4.create();
+		this.update_matrix_transformation();
 	}
 
-	get position()
+	update_matrix_transformation()
 	{
-		return m_spatial_entity_position.get(this);
+		mat4.fromRotationTranslationScale(this.m_matrix_transformation, this.m_rotation, this.m_position, this.m_scale)
 	}
+	
+	// get scale()
+	// {
+	// 	return m_geometry_entity_scale.get(this)
+	// }
+	// set scale(scale)
+	// {
+	// 	m_geometry_entity_scale.set(this, scale)
+	// }
 
-	set position(position)
-	{
-		return m_spatial_entity_position.set(this, position);
-	}
+	// get position()
+	// {
+	// 	return m_spatial_entity_position.get(this);
+	// }
 
-	get rotation()
-	{
-		return m_spatial_entity_rotation.get(this);
-	}
+	// set position(position)
+	// {
+	// 	return m_spatial_entity_position.set(this, position);
+	// }
 
-	set rotation(rotation)
-	{
-		return m_spatial_entity_rotation.set(this, rotation);
-	}
+	// get rotation()
+	// {
+	// 	return m_spatial_entity_rotation.get(this);
+	// }
+
+	// set rotation(rotation)
+	// {
+	// 	return m_spatial_entity_rotation.set(this, rotation);
+	// }
 }

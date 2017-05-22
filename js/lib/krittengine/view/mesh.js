@@ -17,17 +17,17 @@ class Mesh
 		this.m_name = name
 		this.m_path = path
         this.m_is_loaded = false
+        this.m_bounding_box = undefined;
         this.callback = callback
         // console.log('##########MESH#######'+this.m_name)
         glob_loader_mesh.load(path).then(
             function(string_mesh)
             {
             	let start_parsing = performance.now();
-            	let {list_indices, list_data_vertex} = this.parse_obj(string_mesh);
+            	let {bounding_box, data_vertex} = this.parse_obj(string_mesh);
+            	this.m_bounding_box = bounding_box;
+            	let {list_indices, list_data_vertex} = data_vertex;
             	console.log("Parsing took " + (performance.now() - start_parsing) + " milliseconds.")
-                // console.log(list_indices)
-                // console.log(list_data_vertex)
-                console.log('number of vertices: '+(list_data_vertex.length/8))
 
             	this.m_vertex_array_object =  gl.createVertexArray();
 				gl.bindVertexArray(this.m_vertex_array_object);
@@ -94,6 +94,9 @@ class Mesh
 		let list_normals = [];
 		let list_uvs = [];
 
+		let corner_min = vec3.create();
+		let corner_max = vec3.create();
+
         let list_triangles = [];
 
     	let lines = string_mesh.split('\n');
@@ -104,7 +107,10 @@ class Mesh
 
     		if(values[0] == 'v')
     		{
-    			list_vertices.push(vec3.fromValues(values[1], values[2], values[3]));
+    			let vertex = vec3.fromValues(values[1], values[2], values[3]);
+    			vec3.min(corner_min, corner_min, vertex);
+    			vec3.max(corner_max, corner_max, vertex);
+    			list_vertices.push(vertex);
     		}
     		else if(values[0] == 'vn')
     		{
@@ -143,7 +149,10 @@ class Mesh
     		// console.log(list_uvs)
     		// console.log(list_triangles)
 
-        return this.create_data_vertex(list_triangles, list_vertices, list_uvs, list_normals);
+        return {
+        	bounding_box: new Bounding_Box(corner_min, corner_max),
+        	data_vertex: this.create_data_vertex(list_triangles, list_vertices, list_uvs, list_normals)
+        };
 	}
     
     calc_tangents_bitangents(list_triangles)

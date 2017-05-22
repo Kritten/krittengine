@@ -14,9 +14,9 @@ const krittengine = new Krittengine(document.getElementById("canvas"));
 
 // krittengine.create_mesh('mesh_monkey', 'data/objects/monkey.kobjson')
 // krittengine.create_mesh('mesh_couch', 'data/objects/couch.kobjson')
-// krittengine.create_mesh('mesh_sphere', 'data/objects/sphere.obj')
+krittengine.create_mesh('mesh_sphere', 'data/objects/sphere.obj')
 // krittengine.create_mesh('mesh_plane', 'data/objects/plane.obj')
-krittengine.create_mesh('mesh_cube', 'data/objects/plane.obj')
+krittengine.create_mesh('mesh_cube', 'data/objects/cube.obj')
 
 const material_color = krittengine.create_material('color', 'material_color', vec3.fromValues(1.0, 1.0, 1.0))
 // const material_color_red = krittengine.create_material('color', 'material_color1', vec3.fromValues(1.0, 0.0, 0.0))
@@ -118,11 +118,11 @@ camera.update = function(){
 		}
 		if(glob_key_input.active_keys[81])
 		{
-			vec3.add(this.position, this.position, vec3.fromValues(0.0, 3.0 * glob_time_info.time_ratio, 0.0))
+			vec3.add(this.m_position, this.m_position, vec3.fromValues(0.0, 3.0 * glob_time_info.time_ratio, 0.0))
 		}
 		if(glob_key_input.active_keys[69])
 		{
-			vec3.add(this.position, this.position, vec3.fromValues(0.0, -3.0 * glob_time_info.time_ratio, 0.0))
+			vec3.add(this.m_position, this.m_position, vec3.fromValues(0.0, -3.0 * glob_time_info.time_ratio, 0.0))
 		}
 
 
@@ -147,24 +147,24 @@ camera.update = function(){
 	    //scale the movement vector with the movement speed and the time.ratio
 	    vec3.scale(movement_direction, movement_direction, this.m_movement_speed * movement_parameter * glob_time_info.time_ratio);
 	    //add the resulting movement vector to the player_position
-	    vec3.add(this.position, this.position, movement_direction);
+	    vec3.add(this.m_position, this.m_position, movement_direction);
 
 
 		if(glob_key_input.active_keys[38])
 		{
-			vec3.add(this.rotation, this.rotation, vec3.fromValues(1.0 * glob_time_info.time_ratio, 0.0, 0.0))
+			vec3.add(this.m_rotation, this.m_rotation, vec3.fromValues(1.0 * glob_time_info.time_ratio, 0.0, 0.0))
 		}
 		if(glob_key_input.active_keys[40])
 		{
-			vec3.add(this.rotation, this.rotation, vec3.fromValues(-1.0 * glob_time_info.time_ratio, 0.0, 0.0))
+			vec3.add(this.m_rotation, this.m_rotation, vec3.fromValues(-1.0 * glob_time_info.time_ratio, 0.0, 0.0))
 		}
 		if(glob_key_input.active_keys[37])
 		{
-			vec3.add(this.rotation, this.rotation, vec3.fromValues(0.0, 3.0 * glob_time_info.time_ratio, 0.0))
+			vec3.add(this.m_rotation, this.m_rotation, vec3.fromValues(0.0, 3.0 * glob_time_info.time_ratio, 0.0))
 		}
 		if(glob_key_input.active_keys[39])
 		{
-			vec3.add(this.rotation, this.rotation, vec3.fromValues(0.0, -3.0 * glob_time_info.time_ratio, 0.0))
+			vec3.add(this.m_rotation, this.m_rotation, vec3.fromValues(0.0, -3.0 * glob_time_info.time_ratio, 0.0))
 		}
 	}
 }
@@ -192,9 +192,9 @@ scene.add(geometry_entity);
 const geometry_entity1 = new Geometry_Entity("btf", {
 								position: vec3.fromValues(1.0, -0.0, -2.0), 
 								// rotation: vec3.fromValues(0.0, 0.0, -0.0), 
-							 	mesh: krittengine.get_mesh('mesh_cube'), 
+							 	mesh: krittengine.get_mesh('mesh_sphere'), 
 							 	// material: material_color
-							 	material: material_texture1
+							 	material: material_texture,
 							});
 // const geometry_entity1 = new Geometry_Entity("btf", vec3.fromValues(-0.0, -1.0, -5.0), vec3.create(), vec3.fromValues(1.0, 1.0, 1.0), mesh_monkey, material_color);
 // geometry_entity1.rotation = vec3.fromValues(1.57, -0.0, 0.0)
@@ -211,6 +211,7 @@ const render = function (timestamp) {
   	requestAnimationFrame(render);
 };
 krittengine.start(render)
+console.log(scene.m_tree);
 
 // const geometry_entity1 = new Geometry_Entity("btf", {
 // 								position: vec3.fromValues(-2.0, -1.0, -5.0), 

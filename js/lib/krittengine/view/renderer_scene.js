@@ -46,11 +46,11 @@ class Renderer_Scene
                 gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_perspective, false, scene.active_camera.matrix_perspective);
 
                 let matrix_model = mat4.create();
-                mat4.translate(matrix_model, matrix_model, light.position);
-                mat4.rotateX(matrix_model, matrix_model, light.rotation[0]);
-                mat4.rotateY(matrix_model, matrix_model, light.rotation[1]);
-                mat4.rotateZ(matrix_model, matrix_model, light.rotation[2]);
-                mat4.scale(matrix_model, matrix_model, light.scale);
+                // mat4.translate(matrix_model, matrix_model, light.position);
+                // mat4.rotateX(matrix_model, matrix_model, light.rotation[0]);
+                // mat4.rotateY(matrix_model, matrix_model, light.rotation[1]);
+                // mat4.rotateZ(matrix_model, matrix_model, light.rotation[2]);
+                // mat4.scale(matrix_model, matrix_model, light.scale);
                 gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_model, false, matrix_model);
 
                 
@@ -76,26 +76,17 @@ class Renderer_Scene
 
             gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_perspective, false, scene.active_camera.matrix_perspective);
 
-            let matrix_model = mat4.create();
-            mat4.translate(matrix_model, matrix_model, object.position);
-            let matrix_rotation = mat4.create();
-            mat4.fromQuat(matrix_rotation, object.rotation);
-            mat4.multiply(matrix_model, matrix_model, matrix_rotation)
-            // mat4.rotateX(matrix_model, matrix_model, object.rotation[0]);
-            // mat4.rotateY(matrix_model, matrix_model, object.rotation[1]);
-            // mat4.rotateZ(matrix_model, matrix_model, object.rotation[2])
-            // mat4.scale(matrix_model, matrix_model, object.scale);
-            gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_model, false, matrix_model);
+            gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_model, false, object.m_matrix_transformation);
             
 
             let matrix_normal = mat4.create();
-            mat4.multiply(matrix_normal, scene.active_camera.matrix_view, matrix_model);
+            mat4.multiply(matrix_normal, scene.active_camera.matrix_view, object.m_matrix_transformation);
             mat4.invert(matrix_normal, matrix_normal);
             mat4.transpose(matrix_normal, matrix_normal);
             gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_normal, false, matrix_normal);
 
             scene.lights.forEach(function(light) {
-                gl.uniform3f(this.m_shader_program.uniform_position_light, light.position[0], light.position[1], light.position[2]); 
+                gl.uniform3f(this.m_shader_program.uniform_position_light, light.m_position[0], light.m_position[1], light.m_position[2]); 
                 // console.log(light.position[1])
             }, material)
             

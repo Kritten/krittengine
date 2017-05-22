@@ -71,7 +71,6 @@ class Scene
 		this.m_objects.push(entity);
 		this.m_scene_loader.add_object(entity)
 		this.m_tree.add_entity(entity)
-
 	}
 
 	get name() { return this.m_name }
