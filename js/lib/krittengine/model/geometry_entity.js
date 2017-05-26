@@ -26,6 +26,11 @@ class Geometry_Entity extends Spatial_Entity
 		m_geometry_entity_material.set(this, material);
 	}	
 
+	update_bounding_box()
+	{
+		console.log('update_bounding box')
+	}
+
 	get material()
 	{
 		return m_geometry_entity_material.get(this)

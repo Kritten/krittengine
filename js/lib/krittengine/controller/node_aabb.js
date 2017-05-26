@@ -29,7 +29,6 @@ class Node_AABB
 			this.m_node_right.parent = this;
 
 			this.m_data = undefined;
-
 			// this.update_aabb();
 		} else {
 			

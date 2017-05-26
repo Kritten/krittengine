@@ -76,8 +76,8 @@ class Mesh
 				// gl.vertexAttribPointer(4, 3, gl.FLOAT, false, 0, 0);
 				// gl.bindBuffer(gl.ARRAY_BUFFER, null);
 				
-				this.EBO = gl.createBuffer();
-			    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.EBO);
+				let ebo = gl.createBuffer();
+			    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ebo);
 			    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,  new Uint16Array(list_indices), gl.STATIC_DRAW);
 			    
 				gl.bindVertexArray(null);
