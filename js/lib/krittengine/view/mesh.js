@@ -18,16 +18,16 @@ class Mesh
 		this.m_path = path
         this.m_is_loaded = false
         this.callback = callback
+        this.m_bounding_box = undefined;
         // console.log('##########MESH#######'+this.m_name)
         glob_loader_mesh.load(path).then(
             function(string_mesh)
             {
             	let start_parsing = performance.now();
-            	let {list_indices, list_data_vertex} = this.parse_obj(string_mesh);
-            	console.log("Parsing took " + (performance.now() - start_parsing) + " milliseconds.")
-                // console.log(list_indices)
-                // console.log(list_data_vertex)
-                console.log('number of vertices: '+(list_data_vertex.length/8))
+            	let {bounding_box, data_vertex} = this.parse_obj(string_mesh);
+            	this.m_bounding_box = bounding_box;
+            	let {list_indices, list_data_vertex} = data_vertex;
+            	// console.log("Parsing took " + (performance.now() - start_parsing) + " milliseconds.")
 
             	this.m_vertex_array_object =  gl.createVertexArray();
 				gl.bindVertexArray(this.m_vertex_array_object);
@@ -94,6 +94,9 @@ class Mesh
 		let list_normals = [];
 		let list_uvs = [];
 
+		let corner_min = vec3.fromValues(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY);
+		let corner_max = vec3.fromValues(Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY, Number.NEGATIVE_INFINITY);
+
         let list_triangles = [];
 
     	let lines = string_mesh.split('\n');
@@ -104,7 +107,10 @@ class Mesh
 
     		if(values[0] == 'v')
     		{
-    			list_vertices.push(vec3.fromValues(values[1], values[2], values[3]));
+    			let vertex = vec3.fromValues(values[1], values[2], values[3]);
+    			vec3.min(corner_min, corner_min, vertex);
+    			vec3.max(corner_max, corner_max, vertex);
+    			list_vertices.push(vertex);
     		}
     		else if(values[0] == 'vn')
     		{
@@ -137,13 +143,37 @@ class Mesh
                 list_triangles.push(triangle);
     		}
     	}
-        // let {list_tangents, list_bitangents} = this.calc_tangents_bitangents(list_triangles);
-    		// console.log(list_vertices)
-    		// console.log(list_normals)
-    		// console.log(list_uvs)
-    		// console.log(list_triangles)
+		// console.log('parsing: '+this.m_name)
 
-        return this.create_data_vertex(list_triangles, list_vertices, list_uvs, list_normals);
+		// console.log(string_mesh)
+		console.log('#############################')
+		console.log(this.m_name)
+		let bounding_box = new Bounding_Box(corner_min, corner_max);
+		console.log(bounding_box)
+
+		if(Math.abs(bounding_box.m_bounds[0] - 1.0) > 0.001 || Math.abs(bounding_box.m_bounds[1] - 1.0) > 0.001 || Math.abs(bounding_box.m_bounds[2] - 1.0) > 0.001)
+		{
+			this.normalize_mesh(list_vertices, bounding_box);
+		}
+		console.log('#############################')
+
+        return {
+        	bounding_box: bounding_box,
+        	data_vertex: this.create_data_vertex(list_triangles, list_vertices, list_uvs, list_normals)
+        };
+	}
+
+	normalize_mesh(list_vertices, bounding_box)
+	{
+		console.log('NORMALIZING MESH '+this.m_name)
+		let bound_max = Math.max(bounding_box.m_bounds[0], bounding_box.m_bounds[1], bounding_box.m_bounds[2]);
+		let bound_max_inv = 1.0 / bound_max;
+
+		for(let i = 0; i < list_vertices.length; i++) 
+    	{
+    		vec3.sub(list_vertices[i], list_vertices[i], bounding_box.m_center);
+    		vec3.scale(list_vertices[i], list_vertices[i], bound_max_inv);
+    	}
 	}
     
     calc_tangents_bitangents(list_triangles)

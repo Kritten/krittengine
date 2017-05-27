@@ -17,28 +17,20 @@ class Geometry_Entity extends Spatial_Entity
 	{
 		super(name, data);
 		
-		let scale = vec3.fromValues(1.0, 1.0, 1.0)
 		let mesh = undefined
 		let material = undefined
 
-		if(data.scale != undefined) { scale = data.scale }
 		if(data.mesh != undefined) { mesh = data.mesh }
 		if(data.material != undefined) { material = data.material }
 
-		m_geometry_entity_scale.set(this, scale);
 		m_geometry_entity_mesh.set(this, mesh);
 		m_geometry_entity_material.set(this, material);
 	}
-	
-	get scale()
+
+	update_bounding_box()
 	{
-		return m_geometry_entity_scale.get(this)
+		console.log('update_bounding box')
 	}
-	set scale(scale)
-	{
-		m_geometry_entity_scale.set(this, scale)
-	}
-	
 
 	get material()
 	{
