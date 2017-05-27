@@ -16,7 +16,7 @@ const krittengine = new Krittengine(document.getElementById("canvas"));
 // krittengine.create_mesh('mesh_couch', 'data/objects/couch.kobjson')
 krittengine.create_mesh('mesh_sphere', 'data/objects/sphere.obj')
 // krittengine.create_mesh('mesh_plane', 'data/objects/plane.obj')
-krittengine.create_mesh('mesh_cube', 'data/objects/cube.obj')
+krittengine.create_mesh('mesh_cube', 'data/objects/cube_offset.obj')
 
 const material_color = krittengine.create_material('color', 'material_color', vec3.fromValues(1.0, 1.0, 1.0))
 // const material_color_red = krittengine.create_material('color', 'material_color1', vec3.fromValues(1.0, 0.0, 0.0))
@@ -44,38 +44,38 @@ light.update = function() {
 		if(glob_key_input.active_keys[73])
 		{
 			const output = vec4.create()
-			vec4.add(output, this.position, vec4.fromValues(0.0, 0.0, -0.3, 0.0))
-			this.position = output
+			vec4.add(output, this.m_position, vec4.fromValues(0.0, 0.0, -0.3, 0.0))
+			this.m_position = output
 		}
 		if(glob_key_input.active_keys[74])
 		{
 			const output = vec4.create()
-			vec4.add(output, this.position, vec4.fromValues(-0.3, 0.0, -0.0, 0.0))
-			this.position = output
+			vec4.add(output, this.m_position, vec4.fromValues(-0.3, 0.0, -0.0, 0.0))
+			this.m_position = output
 		}
 		if(glob_key_input.active_keys[75])
 		{
 			const output = vec4.create()
-			vec4.add(output, this.position, vec4.fromValues(0.0, 0.0, 0.3, 0.0))
-			this.position = output
+			vec4.add(output, this.m_position, vec4.fromValues(0.0, 0.0, 0.3, 0.0))
+			this.m_position = output
 		}
 		if(glob_key_input.active_keys[76])
 		{
 			const output = vec4.create()
-			vec4.add(output, this.position, vec4.fromValues(0.3, 0.0, -0.0, 0.0))
-			this.position = output
+			vec4.add(output, this.m_position, vec4.fromValues(0.3, 0.0, -0.0, 0.0))
+			this.m_position = output
 		}
 		if(glob_key_input.active_keys[85])
 		{
 			const output = vec4.create()
-			vec4.add(output, this.position, vec4.fromValues(0.0, 0.3, 0.0, 0.0))
-			this.position = output
+			vec4.add(output, this.m_position, vec4.fromValues(0.0, 0.3, 0.0, 0.0))
+			this.m_position = output
 		}
 		if(glob_key_input.active_keys[79])
 		{
 			const output = vec4.create()
-			vec4.add(output, this.position, vec4.fromValues(0.0, -0.3, -0.0, 0.0))
-			this.position = output
+			vec4.add(output, this.m_position, vec4.fromValues(0.0, -0.3, -0.0, 0.0))
+			this.m_position = output
 		}
 	}
 }
@@ -83,11 +83,14 @@ scene.add_light(light)
 
 
 const camera = new Camera('player', {
-	position: vec3.fromValues(0.0, 0.0, 10.0)
+	position: vec3.fromValues(0.0, 0.0, 1.0)
 	// roatation: vec3.fromValues(0.0, 0.0, 0.0)
 })
 camera.set_init_vars(function() {
-	this.foo = 'worked'
+	this.m_pitch = 0.0;
+	this.m_yaw = 0.0;
+	this.m_sensitivity_rotation = 90.0;
+
 	this.m_movement_speed = 3.0;
 })
 camera.update = function(){
@@ -99,22 +102,22 @@ camera.update = function(){
 		if(glob_key_input.active_keys[87]) // w
 		{
 	        vec3.add(movement_direction, movement_direction, vec3.fromValues(0.0, 0.0, -1));
-			// vec3.add(this.position, this.position, vec3.fromValues(0.0, 0.0, -3 * glob_time_info.time_ratio))
+			// vec3.add(this.m_position, this.m_position, vec3.fromValues(0.0, 0.0, -3 * glob_time_info.time_ratio))
 		}
 		if(glob_key_input.active_keys[83]) // s
 		{
 	        vec3.add(movement_direction, movement_direction, vec3.fromValues(0.0, 0.0, 1));
-			// vec3.add(this.position, this.position, vec3.fromValues(0.0, 0.0, 3 * glob_time_info.time_ratio))
+			// vec3.add(this.m_position, this.m_position, vec3.fromValues(0.0, 0.0, 3 * glob_time_info.time_ratio))
 		}
 		if(glob_key_input.active_keys[65]) // a
 		{
 	        vec3.add(movement_direction, movement_direction, vec3.fromValues(-1, 0.0, 0.0));
-			// vec3.add(this.position, this.position, vec3.fromValues(-3.0 * glob_time_info.time_ratio, 0.0, 0.0))
+			// vec3.add(this.m_position, this.m_position, vec3.fromValues(-3.0 * glob_time_info.time_ratio, 0.0, 0.0))
 		}
 		if(glob_key_input.active_keys[68]) // d
 		{
 	        vec3.add(movement_direction, movement_direction, vec3.fromValues(1, 0.0, 0.0));
-			// vec3.add(this.position, this.position, vec3.fromValues(3.0 * glob_time_info.time_ratio, 0.0, 0.0))
+			// vec3.add(this.m_position, this.m_position, vec3.fromValues(3.0 * glob_time_info.time_ratio, 0.0, 0.0))
 		}
 		if(glob_key_input.active_keys[81])
 		{
@@ -149,23 +152,38 @@ camera.update = function(){
 	    //add the resulting movement vector to the player_position
 	    vec3.add(this.m_position, this.m_position, movement_direction);
 
-
 		if(glob_key_input.active_keys[38])
 		{
-			vec3.add(this.m_rotation, this.m_rotation, vec3.fromValues(1.0 * glob_time_info.time_ratio, 0.0, 0.0))
+			this.m_pitch += this.m_sensitivity_rotation * glob_time_info.time_ratio;
 		}
 		if(glob_key_input.active_keys[40])
 		{
-			vec3.add(this.m_rotation, this.m_rotation, vec3.fromValues(-1.0 * glob_time_info.time_ratio, 0.0, 0.0))
+			this.m_pitch += -this.m_sensitivity_rotation * glob_time_info.time_ratio;
 		}
 		if(glob_key_input.active_keys[37])
 		{
-			vec3.add(this.m_rotation, this.m_rotation, vec3.fromValues(0.0, 3.0 * glob_time_info.time_ratio, 0.0))
+			this.m_yaw += this.m_sensitivity_rotation * glob_time_info.time_ratio;
 		}
 		if(glob_key_input.active_keys[39])
 		{
-			vec3.add(this.m_rotation, this.m_rotation, vec3.fromValues(0.0, -3.0 * glob_time_info.time_ratio, 0.0))
+			this.m_yaw += -this.m_sensitivity_rotation * glob_time_info.time_ratio;
 		}
+
+		if(this.m_yaw > 360.0)
+		{
+			this.m_yaw -= 360.0;
+		} else if(this.m_yaw < 0.0)
+		{
+			this.m_yaw += 360.0;
+		}
+		this.m_pitch = Math.max(this.m_pitch, -89.0);
+		this.m_pitch = Math.min(this.m_pitch, 89.0);
+
+		let quat_x = quat.setAxisAngle(quat.create(), vec3.fromValues(1.0, 0.0, 0.0), glMatrix.toRadian(this.m_pitch));
+		let quat_y = quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), glMatrix.toRadian(this.m_yaw));
+
+		quat.multiply(quat_x, quat_y, quat_x);
+		quat.normalize(this.m_rotation, quat_x)
 	}
 }
 scene.add_camera(camera)
@@ -174,8 +192,9 @@ scene.add_camera(camera)
 
 // // create objects //
 const geometry_entity = new Geometry_Entity("btf", {
-								position: vec3.fromValues(-1.0, -0.0, -2.0), 
-								// rotation: vec3.fromValues(0.0, 0.0, -0.0), 
+								position: vec3.fromValues(-0.5, -0.0, -2.0), 
+								scale: vec3.fromValues(1.0, 1.2, 1.0), 
+								// rotation: quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), 0.0), 
 							 	mesh: krittengine.get_mesh('mesh_cube'), 
 							 	// material: material_color
 							 	material: material_texture
@@ -184,13 +203,16 @@ const geometry_entity = new Geometry_Entity("btf", {
 // geometry_entity.rotation = vec3.fromValues(1.57, -0.0, 0.0)
 geometry_entity.update = function(){
 
+	quat.multiply(this.m_rotation, this.m_rotation, quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), 1.0 * glob_time_info.time_ratio));
 
+		this.update_matrix_transformation();
 	// console.log(this.material)
 	// vec3.add(m_spatial_entity_position.get(this), m_spatial_entity_position.get(this), vec3.fromValues(0.7 * glob_time_info.time_ratio, 0.0, 0.0))
 }
 scene.add(geometry_entity);
+
 const geometry_entity1 = new Geometry_Entity("btf", {
-								position: vec3.fromValues(1.0, -0.0, -2.0), 
+								position: vec3.fromValues(0.5, -0.0, -2.0), 
 								// rotation: vec3.fromValues(0.0, 0.0, -0.0), 
 							 	mesh: krittengine.get_mesh('mesh_sphere'), 
 							 	// material: material_color
@@ -211,7 +233,7 @@ const render = function (timestamp) {
   	requestAnimationFrame(render);
 };
 krittengine.start(render)
-console.log(scene.m_tree);
+// console.log(scene.m_tree);
 
 // const geometry_entity1 = new Geometry_Entity("btf", {
 // 								position: vec3.fromValues(-2.0, -1.0, -5.0), 

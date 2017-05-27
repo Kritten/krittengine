@@ -250,9 +250,8 @@ class Loader
                 if(object.mesh == undefined || !object.mesh.is_loaded())
                 {
                     object.mesh = mesh
-                    console.log(mesh);
+                    // console.log(mesh);
                     object.update_bounding_box();
-
                     // console.log(object.name + ' got default mesh ')
                 }
             }

@@ -37,8 +37,8 @@ class Node_AABB
 
 	calc_bounding_box()
 	{
-		console.log(this.m_data.m_matrix_transformation);
-		console.log(this.m_data.mesh);
+		// console.log(this.m_data.m_matrix_transformation);
+		// console.log(this.m_data.mesh);
 		// new Bounding_Box();
 	}
 
