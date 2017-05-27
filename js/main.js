@@ -89,16 +89,48 @@ const camera = new Camera('player', {
 camera.set_init_vars(function() {
 	this.m_pitch = 0.0;
 	this.m_yaw = 0.0;
-	this.m_sensitivity_rotation = 90.0;
 
+	this.m_sensitivity_rotation = 90.0;
 	this.m_movement_speed = 3.0;
 })
 camera.update = function(){
-	let movement_direction = vec3.create();
-	let movement_parameter = 1.0;
-
 	if(!glob_is_input_focused)
 	{
+		if(glob_key_input.active_keys[38])
+		{
+			this.m_pitch += this.m_sensitivity_rotation * glob_time_info.time_ratio;
+		}
+		if(glob_key_input.active_keys[40])
+		{
+			this.m_pitch += -this.m_sensitivity_rotation * glob_time_info.time_ratio;
+		}
+		if(glob_key_input.active_keys[37])
+		{
+			this.m_yaw += this.m_sensitivity_rotation * glob_time_info.time_ratio;
+		}
+		if(glob_key_input.active_keys[39])
+		{
+			this.m_yaw += -this.m_sensitivity_rotation * glob_time_info.time_ratio;
+		}
+
+		if(this.m_yaw > 360.0)
+		{
+			this.m_yaw -= 360.0;
+		} else if(this.m_yaw < 0.0)
+		{
+			this.m_yaw += 360.0;
+		}
+		this.m_pitch = Math.max(this.m_pitch, -89.0);
+		this.m_pitch = Math.min(this.m_pitch, 89.0);
+
+		let quat_x = quat.setAxisAngle(quat.create(), vec3.fromValues(1.0, 0.0, 0.0), glMatrix.toRadian(this.m_pitch));
+		let quat_y = quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), glMatrix.toRadian(this.m_yaw));
+
+		quat.multiply(quat_x, quat_y, quat_x);
+		quat.normalize(this.m_rotation, quat_x)
+
+		let movement_direction = vec3.create();
+
 		if(glob_key_input.active_keys[87]) // w
 		{
 	        vec3.add(movement_direction, movement_direction, vec3.fromValues(0.0, 0.0, -1));
@@ -138,52 +170,17 @@ camera.update = function(){
 	    //rotate the movement vector with the player rotation
 	    // vec3.transformMat4(movement_direction, movement_direction, matrix);
 	    //set the y-value of the movement vector to 0
-	    movement_direction[1] = 0;
 	    //normalize vector for equal, view independent movement speed
-	    // vec3.normalize(movement_direction, movement_direction);
-	    if(glob_key_input.pressed_keys[32])
-	    {
-	    	// console.log(movement_direction)
-	    	console.log(vec3.fromValues(-this.matrix_view[2], -this.matrix_view[6], -this.matrix_view[10]))
-
-	    }
+	    vec3.normalize(movement_direction, movement_direction);
+	    vec3.transformQuat(movement_direction, movement_direction, this.m_rotation);
 	    //scale the movement vector with the movement speed and the time.ratio
-	    vec3.scale(movement_direction, movement_direction, this.m_movement_speed * movement_parameter * glob_time_info.time_ratio);
+	    movement_direction[1] = 0;
+	    vec3.normalize(movement_direction, movement_direction);
+	    vec3.scale(movement_direction, movement_direction, this.m_movement_speed * glob_time_info.time_ratio);
+	    // vec3.transformQuat(movement_direction, movement_direction, this.m_rotation);
 	    //add the resulting movement vector to the player_position
 	    vec3.add(this.m_position, this.m_position, movement_direction);
-
-		if(glob_key_input.active_keys[38])
-		{
-			this.m_pitch += this.m_sensitivity_rotation * glob_time_info.time_ratio;
-		}
-		if(glob_key_input.active_keys[40])
-		{
-			this.m_pitch += -this.m_sensitivity_rotation * glob_time_info.time_ratio;
-		}
-		if(glob_key_input.active_keys[37])
-		{
-			this.m_yaw += this.m_sensitivity_rotation * glob_time_info.time_ratio;
-		}
-		if(glob_key_input.active_keys[39])
-		{
-			this.m_yaw += -this.m_sensitivity_rotation * glob_time_info.time_ratio;
-		}
-
-		if(this.m_yaw > 360.0)
-		{
-			this.m_yaw -= 360.0;
-		} else if(this.m_yaw < 0.0)
-		{
-			this.m_yaw += 360.0;
-		}
-		this.m_pitch = Math.max(this.m_pitch, -89.0);
-		this.m_pitch = Math.min(this.m_pitch, 89.0);
-
-		let quat_x = quat.setAxisAngle(quat.create(), vec3.fromValues(1.0, 0.0, 0.0), glMatrix.toRadian(this.m_pitch));
-		let quat_y = quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), glMatrix.toRadian(this.m_yaw));
-
-		quat.multiply(quat_x, quat_y, quat_x);
-		quat.normalize(this.m_rotation, quat_x)
+	    // console.log(this.m_position)
 	}
 }
 scene.add_camera(camera)
