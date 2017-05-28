@@ -49,7 +49,11 @@ class Krittengine
 		this.m_renderer_scene.render(this.m_active_scene);
 
 		glob_key_input.pressed_keys = [];
-		const tmp = performance.now()-timestamp;
+		glob_mouse_input.moved =  false;
+		glob_mouse_input.offset[0] = 0.0;
+		glob_mouse_input.offset[1] = 0.0;
+
+		// const tmp = performance.now()-timestamp;
 		// console.log(tmp);
 		// console.log((performance.now()-timestamp).toFixed(2)+'ms');
 	}	
@@ -175,6 +179,33 @@ class Krittengine
 		return this.m_loader.get_material(name_material)
 	}
 
+	lock_mouse()
+	{
+		canvas.requestPointerLock();
+	}
+
+	handle_mouse_move(event)
+	{
+		glob_mouse_input.offset[0] = event.movementX;
+		glob_mouse_input.offset[1] = event.movementY;
+		glob_mouse_input.moved = true;
+	}
+
+	handle_pointerlock_change(event)
+	{
+		// console.log(event)
+		// console.log(document.pointerLockElement)
+		if(document.pointerLockElement === canvas || document.mozPointerLockElement === canvas || document.webkitPointerLockElement === canvas) 
+		{
+			console.log("mouse locked");
+			canvas.addEventListener("mousemove", this.handle_mouse_move, false);
+		} else {
+			console.log("mouse unlocked");
+			// glob_mouse_input.moved = false;
+			canvas.removeEventListener("mousemove", this.handle_mouse_move, false);
+		}
+	}
+
 	start_fullscreen()
 	{
         if (canvas.requestFullscreen) {
@@ -227,12 +258,17 @@ class Krittengine
 		glob_key_input.pressed_keys[event.keyCode] = true;
 		glob_key_input.active_keys[event.keyCode] = false;
 	}
-	handleFullscreenChange(event)
+	handle_fullscreen_change(event)
 	{
 		let is_fullscreen = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
 		if(!is_fullscreen)
 		{
 			this.end_fullscreen(true);
+			console.log('fullscreen ended')
+		} else {
+
+			this.lock_mouse()
+			console.log('fullscreen started')
 		}
 	}
 	initialize_events()
@@ -242,20 +278,23 @@ class Krittengine
 
 		let is_set_fullscrenchange = false;
 		if(document.onfullscreenchange === null) {
-			document.onfullscreenchange = (event) => this.handleFullscreenChange(event)
+			document.onfullscreenchange = (event) => this.handle_fullscreen_change(event)
 			is_set_fullscrenchange = true;
 		} else if(document.onmozfullscreenchange === null) {
-			document.onmozfullscreenchange = (event) => this.handleFullscreenChange(event)
+			document.onmozfullscreenchange = (event) => this.handle_fullscreen_change(event)
 			is_set_fullscrenchange = true;
 		} else if(document.onwebkitfullscreenchange === null) {
-			document.onwebkitfullscreenchange = (event) => this.handleFullscreenChange(event)
+			document.onwebkitfullscreenchange = (event) => this.handle_fullscreen_change(event)
 			is_set_fullscrenchange = true;
 		}
 		if(!is_set_fullscrenchange)
 		{
 			console.warn('failed to set fullscreen-event');
 		}
+
+		document.onpointerlockchange = (event) => this.handle_pointerlock_change(event)
 	}
+
 	update_cameras(aspect_ratio)
 	{
 		this.m_scenes_array.forEach(function(scene) {

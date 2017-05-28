@@ -9,6 +9,7 @@ const glob_time_info = {elapsed_time: 0.0, delta_time: 0.0, time_ratio: 0.0, las
 const glob_loader_texture = new Loader_Texture()
 const glob_loader_mesh = new Loader_Mesh()
 const glob_key_input = {active_keys: [], pressed_keys: []}
+const glob_mouse_input = {offset: vec2.create(), moved: false};
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 const krittengine = new Krittengine(document.getElementById("canvas"));
 
@@ -90,47 +91,55 @@ camera.set_init_vars(function() {
 	this.m_pitch = 0.0;
 	this.m_yaw = 0.0;
 
-	this.m_sensitivity_rotation = 90.0;
+	this.m_sensitivity_mouse_pitch = 90.0;
+	this.m_sensitivity_mouse_yaw = 80.0;
+
 	this.m_movement_speed = 3.0;
 })
 camera.update = function(){
 	if(!glob_is_input_focused)
 	{
-		if(glob_key_input.active_keys[38])
+		if(glob_mouse_input.moved == true)
 		{
-			this.m_pitch += this.m_sensitivity_rotation * glob_time_info.time_ratio;
-		}
-		if(glob_key_input.active_keys[40])
-		{
-			this.m_pitch += -this.m_sensitivity_rotation * glob_time_info.time_ratio;
-		}
-		if(glob_key_input.active_keys[37])
-		{
-			this.m_yaw += this.m_sensitivity_rotation * glob_time_info.time_ratio;
-		}
-		if(glob_key_input.active_keys[39])
-		{
-			this.m_yaw += -this.m_sensitivity_rotation * glob_time_info.time_ratio;
-		}
+			// if(glob_key_input.active_keys[38])
+			// {
+			// 	this.m_pitch += this.m_sensitivity_rotation * glob_time_info.time_ratio;
+			// }
+			// if(glob_key_input.active_keys[40])
+			// {
+			// 	this.m_pitch += -this.m_sensitivity_rotation * glob_time_info.time_ratio;
+			// }
+			// if(glob_key_input.active_keys[37])
+			// {
+			// 	this.m_yaw += this.m_sensitivity_rotation * glob_time_info.time_ratio;
+			// }
+			// if(glob_key_input.active_keys[39])
+			// {
+			// 	this.m_yaw += -this.m_sensitivity_rotation * glob_time_info.time_ratio;
+			// }
+			// console.log(glob_mouse_input.offset[1])
+			this.m_pitch -= glob_mouse_input.offset[1] * this.m_sensitivity_mouse_pitch * glob_time_info.time_ratio;
+			this.m_yaw -= glob_mouse_input.offset[0] * this.m_sensitivity_mouse_yaw * glob_time_info.time_ratio;
 
-		if(this.m_yaw > 360.0)
-		{
-			this.m_yaw -= 360.0;
-		} else if(this.m_yaw < 0.0)
-		{
-			this.m_yaw += 360.0;
+			if(this.m_yaw > 360.0)
+			{
+				this.m_yaw -= 360.0;
+			} 
+			else if(this.m_yaw < 0.0)
+			{
+				this.m_yaw += 360.0;
+			}
+			this.m_pitch = Math.max(this.m_pitch, -89.0);
+			this.m_pitch = Math.min(this.m_pitch, 89.0);
+
+			let quat_x = quat.setAxisAngle(quat.create(), vec3.fromValues(1.0, 0.0, 0.0), glMatrix.toRadian(this.m_pitch));
+			let quat_y = quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), glMatrix.toRadian(this.m_yaw));
+
+			quat.multiply(quat_x, quat_y, quat_x);
+			quat.normalize(this.m_rotation, quat_x)
 		}
-		this.m_pitch = Math.max(this.m_pitch, -89.0);
-		this.m_pitch = Math.min(this.m_pitch, 89.0);
-
-		let quat_x = quat.setAxisAngle(quat.create(), vec3.fromValues(1.0, 0.0, 0.0), glMatrix.toRadian(this.m_pitch));
-		let quat_y = quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), glMatrix.toRadian(this.m_yaw));
-
-		quat.multiply(quat_x, quat_y, quat_x);
-		quat.normalize(this.m_rotation, quat_x)
 
 		let movement_direction = vec3.create();
-
 		if(glob_key_input.active_keys[87]) // w
 		{
 	        vec3.add(movement_direction, movement_direction, vec3.fromValues(0.0, 0.0, -1));
@@ -202,7 +211,7 @@ geometry_entity.update = function(){
 
 	quat.multiply(this.m_rotation, this.m_rotation, quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), 1.0 * glob_time_info.time_ratio));
 
-		this.update_matrix_transformation();
+	this.update_matrix_transformation();
 	// console.log(this.material)
 	// vec3.add(m_spatial_entity_position.get(this), m_spatial_entity_position.get(this), vec3.fromValues(0.7 * glob_time_info.time_ratio, 0.0, 0.0))
 }
@@ -500,4 +509,9 @@ glob_json_scene = '{"objects":[{"name":"adsa","material":"material_color","mesh"
 function enter_fullscreen()
 {
 	krittengine.start_fullscreen();
+}
+
+function lock_mouse()
+{
+	krittengine.lock_mouse();
 }
