@@ -20,7 +20,6 @@ class Mesh
         this.m_bounding_box = undefined;
         this.callback = callback
         this.m_bounding_box = undefined;
-        // console.log('##########MESH#######'+this.m_name)
         glob_loader_mesh.load(path).then(
             function(string_mesh)
             {
@@ -28,7 +27,7 @@ class Mesh
             	let {bounding_box, data_vertex} = this.parse_obj(string_mesh);
             	this.m_bounding_box = bounding_box;
             	let {list_indices, list_data_vertex} = data_vertex;
-            	// console.log("Parsing took " + (performance.now() - start_parsing) + " milliseconds.")
+            	console.log("Parsing took " + (performance.now() - start_parsing) + " milliseconds.")
 
             	this.m_vertex_array_object =  gl.createVertexArray();
 				gl.bindVertexArray(this.m_vertex_array_object);
@@ -48,34 +47,6 @@ class Mesh
 			    gl.enableVertexAttribArray(3); 
 				gl.vertexAttribPointer(4, 3, gl.FLOAT, false, 56, 44);
 			    gl.enableVertexAttribArray(4);  
-
-		  //   	this.m_buffer_vertex_texture_coords = gl.createBuffer()
-		  //       gl.bindBuffer(gl.ARRAY_BUFFER, this.m_buffer_vertex_texture_coords);
-		  //       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(list_vertices), gl.STATIC_DRAW);
-			 //    gl.enableVertexAttribArray(1);  
-				// gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 0, 0);
-				// gl.bindBuffer(gl.ARRAY_BUFFER, null);
-
-		  //   	this.m_buffer_vertex_normal = gl.createBuffer()
-		  //       gl.bindBuffer(gl.ARRAY_BUFFER, this.m_buffer_vertex_normal);
-		  //       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(list_normals), gl.STATIC_DRAW);
-			 //    gl.enableVertexAttribArray(2);  
-				// gl.vertexAttribPointer(2, 3, gl.FLOAT, false, 0, 0);
-				// gl.bindBuffer(gl.ARRAY_BUFFER, null);
-
-		  //   	this.m_buffer_vertex_tangent = gl.createBuffer()
-		  //       gl.bindBuffer(gl.ARRAY_BUFFER, this.m_buffer_vertex_tangent);
-		  //       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(list_normals), gl.STATIC_DRAW);
-			 //    gl.enableVertexAttribArray(3);  
-				// gl.vertexAttribPointer(3, 3, gl.FLOAT, false, 0, 0);
-				// gl.bindBuffer(gl.ARRAY_BUFFER, null);
-
-		  //   	this.m_buffer_vertex_bitangent = gl.createBuffer()
-		  //       gl.bindBuffer(gl.ARRAY_BUFFER, this.m_buffer_vertex_bitangent);
-		  //       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(list_normals), gl.STATIC_DRAW);
-			 //    gl.enableVertexAttribArray(4);  
-				// gl.vertexAttribPointer(4, 3, gl.FLOAT, false, 0, 0);
-				// gl.bindBuffer(gl.ARRAY_BUFFER, null);
 				
 				let ebo = gl.createBuffer();
 			    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ebo);
@@ -147,16 +118,26 @@ class Mesh
 		// console.log('parsing: '+this.m_name)
 
 		// console.log(string_mesh)
-		console.log('#############################')
+		// console.log('#############################')
 		console.log(this.m_name)
 		let bounding_box = new Bounding_Box(corner_min, corner_max);
-		console.log(bounding_box)
+		// console.log(bounding_box.m_center)
+		// console.log(bounding_box.m_bounds)
+		// console.log(bounding_box.m_bounds[0] - 1.0)
+		// console.log(bounding_box.m_bounds[1] - 1.0)
+		// console.log(bounding_box.m_bounds[2] - 1.0)
+		// console.log(vec3.equals(bounding_box.m_center, vec3.fromValues(0.0, 0.0, 0.0)))
 
-		if(Math.abs(bounding_box.m_bounds[0] - 1.0) > 0.001 || Math.abs(bounding_box.m_bounds[1] - 1.0) > 0.001 || Math.abs(bounding_box.m_bounds[2] - 1.0) > 0.001)
+		if(
+			(bounding_box.m_bounds[0] - 1.0 > 0.001 || 
+			bounding_box.m_bounds[1] - 1.0 > 0.001 || 
+			bounding_box.m_bounds[2] - 1.0 > 0.001) ||
+			!vec3.equals(bounding_box.m_center, vec3.fromValues(0.0, 0.0, 0.0))
+		)
 		{
 			this.normalize_mesh(list_vertices, bounding_box);
 		}
-		console.log('#############################')
+		// console.log('#############################')
 
         return {
         	bounding_box: bounding_box,
@@ -166,7 +147,7 @@ class Mesh
 
 	normalize_mesh(list_vertices, bounding_box)
 	{
-		console.log('NORMALIZING MESH '+this.m_name)
+		console.warn('NORMALIZING MESH '+this.m_name)
 		let bound_max = Math.max(bounding_box.m_bounds[0], bounding_box.m_bounds[1], bounding_box.m_bounds[2]);
 		let bound_max_inv = 1.0 / bound_max;
 

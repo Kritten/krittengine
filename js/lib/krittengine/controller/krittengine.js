@@ -66,10 +66,10 @@ class Krittengine
 	{
 		if(this.m_loader.is_loading_defaults())
 		{
-			console.log('still loading defaults')
+			// console.log('still loading defaults')
 			setTimeout(function(){this.start(func)}.bind(this), 0)
 		} else {
-			console.log('started engine')
+			// console.log('started engine')
 			func(performance.now())
 		}
 		// while(loading)

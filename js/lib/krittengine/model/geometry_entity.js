@@ -28,7 +28,7 @@ class Geometry_Entity extends Spatial_Entity
 
 	update_bounding_box()
 	{
-		console.log('update_bounding box')
+		// console.log('update_bounding box')
 	}
 
 	get material()
