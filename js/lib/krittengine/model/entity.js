@@ -1,11 +1,4 @@
 /**
- * @private
- * @instance
- * @type {String}
- * @memberOf Entity
- */
-const m_entity_name = new WeakMap();
-/**
  * Represents a entity
  * @class
  */
@@ -17,7 +10,7 @@ class Entity
 		{
 			console.error('You have to specify a name for the entity')
 		} else {
-			m_entity_name.set(this, name);
+			this.m_name = name;
 		}
 	}
 
@@ -42,5 +35,5 @@ class Entity
 		console.log("update Entity")
 	}
 
-	get name() { return m_entity_name.get(this) }
+	// get name() { return m_entity_name.get(this) }
 }

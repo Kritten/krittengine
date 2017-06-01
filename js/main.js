@@ -197,8 +197,8 @@ scene.add_camera(camera)
 // const material_btf = krittengine.create_material('btf', 'material_btf')
 
 // // create objects //
-const geometry_entity = new Geometry_Entity("btf", {
-								position: vec3.fromValues(-1.0, -0.5, -2.5), 
+const geometry_entity = new Geometry_Entity("cube", {
+								position: vec3.fromValues(1.0, -0.5, -2.5), 
 								// scale: vec3.fromValues(0.1, 1.2, .10), 
 								// rotation: quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), 0.0), 
 							 	mesh: krittengine.get_mesh('mesh_cube'), 
@@ -217,7 +217,7 @@ geometry_entity.update = function(){
 }
 scene.add(geometry_entity);
 
-const geometry_entity1 = new Geometry_Entity("btf", {
+const geometry_entity1 = new Geometry_Entity("sphere", {
 								position: vec3.fromValues(0.5, -0.0, -2.0), 
 								// rotation: vec3.fromValues(0.0, 0.0, -0.0), 
 							 	mesh: krittengine.get_mesh('mesh_sphere'), 

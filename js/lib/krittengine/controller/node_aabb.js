@@ -25,10 +25,12 @@ class Node_AABB
 			this.m_node_right.update_data(this.m_data);
 			this.m_node_right.update_parent(this);
 
-			// sort_children();
+			this.sort_children();
 
 			this.m_data = undefined;
 			this.update_bounding_box();
+
+			console.log(this.m_node_left.m_data.m_name)
 		} else {
 			
 		}
@@ -41,7 +43,27 @@ class Node_AABB
 
 	sort_children()
 	{
-		// this.m_node_left.data.
+		// vec3.subtract(difference, this.m_node_right.m_bounding_box.m_center, this.m_node_left.m_bounding_box.m_center);	
+		let counter = 0;
+		if(this.m_node_right.m_bounding_box.m_center[0] < this.m_node_left.m_bounding_box.m_center[0])
+		{
+			counter += 1;
+		}
+		if(this.m_node_right.m_bounding_box.m_center[1] < this.m_node_left.m_bounding_box.m_center[1])
+		{
+			counter += 1;
+		}
+		if(this.m_node_right.m_bounding_box.m_center[2] < this.m_node_left.m_bounding_box.m_center[2])
+		{
+			counter += 1;
+		}
+
+		if(counter > 1)
+		{
+			let node_tmp = this.m_node_left;
+			this.m_node_left = this.m_node_right;
+			this.m_node_right = node_tmp;
+		}
 	}
 	update_bounding_box()
 	{
