@@ -17,8 +17,11 @@ class Scene
 		this.m_scene_loader = loader;
 		this.m_tree = new Tree_AABB();
 
+		this.m_tree.material = new Material_Lines(function(){}, 'default_material_lines') 
+
 		// FLAGS
 		this.m_render_lights = true
+		this.m_render_bounding_boxes = true
 	}
 	/**
 	 * Updates every component of the scene.
@@ -71,6 +74,8 @@ class Scene
 		this.m_objects.push(entity);
 		this.m_scene_loader.add_object(entity)
 		this.m_tree.add_entity(entity)
+		console.log('######################new tree########################')
+		this.m_tree.print_tree();
 	}
 
 	get name() { return this.m_name }

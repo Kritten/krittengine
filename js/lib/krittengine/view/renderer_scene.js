@@ -99,8 +99,36 @@ class Renderer_Scene
 
             gl.useProgram(null);
         }
+
+        if(scene.m_render_bounding_boxes)
+        {
+                const material = scene.m_tree.material;
+                gl.useProgram(material.m_shader_program);
+                gl.bindVertexArray(scene.m_tree.m_vertex_array_object)
+
+                gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_view, false, scene.active_camera.matrix_view);
+                gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_perspective, false, scene.active_camera.matrix_perspective);
+
+                scene.m_tree.walk(this.draw_bounding_box, material);
+  
+                gl.bindVertexArray(null)
+                gl.useProgram(null);
+        }
         
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
         this.m_renderer_quad.render();
+    }
+
+    draw_bounding_box(node_aabb, func, data)
+    {
+        if(!node_aabb.is_leaf_node())
+        {
+            node_aabb.m_node_left.walk(func, data);
+            node_aabb.m_node_right.walk(func, data);
+        }
+        
+        gl.uniformMatrix4fv(data.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box.m_matrix_transormation);
+        gl.uniform1i(data.m_shader_program.uniform_depth, node_aabb.m_depth); 
+        gl.drawElements(gl.LINES, 24, gl.UNSIGNED_SHORT, 0);
     }
 }

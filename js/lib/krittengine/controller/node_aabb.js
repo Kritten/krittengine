@@ -3,49 +3,96 @@
  */
 class Node_AABB 
 {
-	constructor(data = undefined) 
+	constructor() 
 	{
-		this.m_data = data;
+		this.m_data = undefined;
 		this.m_node_parent = undefined;
 		this.m_bounding_box = undefined;
 		this.m_node_left = undefined;
 		this.m_node_right = undefined;
 		this.m_depth = 0;
-
-		if(data != undefined)
-		{
-			this.calc_bounding_box()
-		}
 	}
 
 	add_node(node_new) 
 	{
 		// if current node is a leaf node
-		if(this.m_node_left == undefined)
+		if(this.is_leaf_node())
 		{
 			this.m_node_left = node_new;
-			this.m_node_left.parent = this;
-			this.m_node_right = new Node_AABB(this.data);
-			this.m_node_right.parent = this;
+			this.m_node_left.update_parent(this);
+
+			this.m_node_right = new Node_AABB();
+			this.m_node_right.update_data(this.m_data);
+			this.m_node_right.update_parent(this);
+
+			// sort_children();
 
 			this.m_data = undefined;
-			// this.update_aabb();
+			this.update_bounding_box();
 		} else {
 			
 		}
 	}
 
-	calc_bounding_box()
+	walk(func, data)
 	{
-		// console.log(this.m_data.m_matrix_transformation);
-		// console.log(this.m_data.mesh);
-		// new Bounding_Box();
+		func(this, func, data);
 	}
 
-	set parent(parent)
+	sort_children()
+	{
+		// this.m_node_left.data.
+	}
+	update_bounding_box()
+	{
+		if(this.is_leaf_node())
+		{
+			let corner_min = vec3.fromValues(-0.5, -0.5, -0.5);
+			let corner_max = vec3.fromValues(0.5, 0.5, 0.5);
+			vec3.transformMat4(corner_min, corner_min, this.m_data.m_matrix_transformation);
+			vec3.transformMat4(corner_max, corner_max, this.m_data.m_matrix_transformation);
+			this.m_bounding_box = new Bounding_Box(corner_min, corner_max);
+		} else {
+			let corner_min = vec3.create();
+			let corner_max = vec3.create();
+    		vec3.min(corner_min, this.m_node_left.m_bounding_box.m_corner_min, this.m_node_right.m_bounding_box.m_corner_min);
+    		vec3.max(corner_max, this.m_node_left.m_bounding_box.m_corner_max, this.m_node_right.m_bounding_box.m_corner_max);
+    		this.m_bounding_box.update_size(corner_min, corner_max);
+		}
+	}
+
+	update_parent(node_parent)
 	{
 		this.m_depth += 1;
-		this.m_node_parent = parent;
+		this.m_node_parent = node_parent;
+	}
+
+	is_leaf_node()
+	{
+		return this.m_node_left == undefined;
+	}
+
+	print_node()
+	{
+		let offset = '';
+		for (var i = 0; i < this.m_depth; i++) {
+			offset += '  ';
+		}
+		if(this.is_leaf_node())
+		{
+			console.log(offset+'leaf_node on level '+this.m_depth + '; min: ' + this.m_bounding_box.m_corner_min + ', max: ' + this.m_bounding_box.m_corner_max);
+		} else {
+			console.log(offset+'node on level '+this.m_depth + '; min: ' + this.m_bounding_box.m_corner_min + ', max: ' + this.m_bounding_box.m_corner_max)
+			this.m_node_left.print_node();
+			this.m_node_right.print_node();
+		}
+
+	}
+
+	update_data(data)
+	{
+		this.m_data = data;
+		this.update_bounding_box()
 	}
 }
 

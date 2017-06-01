@@ -198,8 +198,8 @@ scene.add_camera(camera)
 
 // // create objects //
 const geometry_entity = new Geometry_Entity("btf", {
-								position: vec3.fromValues(-0.5, -0.0, -2.0), 
-								scale: vec3.fromValues(1.0, 1.2, 1.0), 
+								position: vec3.fromValues(-1.0, -0.5, -2.5), 
+								// scale: vec3.fromValues(0.1, 1.2, .10), 
 								// rotation: quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), 0.0), 
 							 	mesh: krittengine.get_mesh('mesh_cube'), 
 							 	// material: material_color
@@ -209,9 +209,9 @@ const geometry_entity = new Geometry_Entity("btf", {
 // geometry_entity.rotation = vec3.fromValues(1.57, -0.0, 0.0)
 geometry_entity.update = function(){
 
-	quat.multiply(this.m_rotation, this.m_rotation, quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), 1.0 * glob_time_info.time_ratio));
+	// quat.multiply(this.m_rotation, this.m_rotation, quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), 1.0 * glob_time_info.time_ratio));
+	// this.update_matrix_transformation();
 
-	this.update_matrix_transformation();
 	// console.log(this.material)
 	// vec3.add(m_spatial_entity_position.get(this), m_spatial_entity_position.get(this), vec3.fromValues(0.7 * glob_time_info.time_ratio, 0.0, 0.0))
 }

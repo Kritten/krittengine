@@ -12,7 +12,7 @@ class Krittengine
 		// this.m_key_input = {active_keys: [], pressed_keys: []};
 	 	this.m_renderer_scene = new Renderer_Scene(canvas);
 	 	this.m_loader = new Loader();
-	 	this.m_active_scene =  new Scene(this.m_loader);
+	 	this.m_active_scene =  new Scene('default_scene', this.m_loader);
 
 		this.initialize_events();
 
@@ -39,8 +39,8 @@ class Krittengine
 
 		if(glob_key_input.active_keys[77]) // m
 		{
-			for (var i = 0; i < 30000000; i++) {
-				i*i
+			for (var i = 0; i < 300000000; i++) {
+				i*i*i*i*i*i*i*i*i*i*i*i*i;
 			}
 		}
 		// console.log(m_active_scene)

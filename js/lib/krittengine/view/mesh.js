@@ -20,6 +20,8 @@ class Mesh
         this.m_bounding_box = undefined;
         this.callback = callback
         this.m_bounding_box = undefined;
+        this.m_vertex_array_object = undefined;
+        
         glob_loader_mesh.load(path).then(
             function(string_mesh)
             {
@@ -34,8 +36,8 @@ class Mesh
 
 				this.count_indices = list_indices.length
 
-				this.m_buffer_vertex_position = gl.createBuffer()
-				gl.bindBuffer(gl.ARRAY_BUFFER, this.m_buffer_vertex_position);
+				let buffer_vertex_position = gl.createBuffer()
+				gl.bindBuffer(gl.ARRAY_BUFFER, buffer_vertex_position);
 			    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(list_data_vertex), gl.STATIC_DRAW);
 				gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 56, 0);
 			    gl.enableVertexAttribArray(0);  
