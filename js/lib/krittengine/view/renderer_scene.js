@@ -45,16 +45,8 @@ class Renderer_Scene
 
                 gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_perspective, false, scene.active_camera.matrix_perspective);
 
-                let matrix_model = mat4.create();
-                // mat4.translate(matrix_model, matrix_model, light.position);
-                // mat4.rotateX(matrix_model, matrix_model, light.rotation[0]);
-                // mat4.rotateY(matrix_model, matrix_model, light.rotation[1]);
-                // mat4.rotateZ(matrix_model, matrix_model, light.rotation[2]);
-                // mat4.scale(matrix_model, matrix_model, light.scale);
-                gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_model, false, matrix_model);
+                gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_model, false, light.m_matrix_transformation);
 
-                
-                
                 gl.bindVertexArray(mesh.m_vertex_array_object)
                 gl.drawElements(gl.TRIANGLES, mesh.count_indices, gl.UNSIGNED_SHORT, 0);  
                 gl.bindVertexArray(null)
@@ -63,8 +55,7 @@ class Renderer_Scene
             })
         }
 
-        for (var i = 0; i < scene.objects.length; i++)
-        // for(const object of scene.objects)
+        for (let i = 0; i < scene.objects.length; i++)
         {
             let object = scene.objects[i];
             const mesh = object.mesh;
@@ -78,7 +69,6 @@ class Renderer_Scene
 
             gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_model, false, object.m_matrix_transformation);
             
-
             let matrix_normal = mat4.create();
             mat4.multiply(matrix_normal, scene.active_camera.matrix_view, object.m_matrix_transformation);
             mat4.invert(matrix_normal, matrix_normal);

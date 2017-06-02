@@ -14,6 +14,29 @@ class Bounding_Box
 		this.update_size(corner_min, corner_max)
 	}
 
+	intersects_with(bounding_box)
+	{
+
+	}
+
+	calc_volume(bounding_box = undefined)
+	{
+		if(bounding_box == undefined)
+		{
+			return this.m_bounds[0] * this.m_bounds[1] * this.m_bounds[2];
+		} else {
+			let corner_min = vec3.create();
+			let corner_max = vec3.create();
+
+    		vec3.min(corner_min, this.m_corner_min, bounding_box.m_corner_min);
+    		vec3.max(corner_max, this.m_corner_max, bounding_box.m_corner_max);
+
+			vec3.subtract(corner_min, corner_max, corner_min);
+
+    		return corner_min[0] * corner_min[1] * corner_min[2]; 
+		}
+	}
+
 	update_matrix_transformation()
 	{
 		// console.log(this.m_center)

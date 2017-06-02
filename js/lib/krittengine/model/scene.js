@@ -34,8 +34,7 @@ class Scene
 		this.lights.forEach(function(light) {
 			light.update_all()
 		})		
-		for (var i = 0; i < this.objects.length; i++) 
-		// for(const object of this.objects)
+		for (let i = 0; i < this.objects.length; i++) 
 		{
 			this.objects[i].update_all()
 		}
@@ -61,10 +60,10 @@ class Scene
 	 */
 	add_light(light)
 	{
-		// light.mesh = this.m_scene_loader.create_mesh('light', 'data/objects/sphere.obj')
-		// light.material = this.m_scene_loader.create_material('light', 'light')
-		this.m_scene_loader.add_object(light)
-		this.m_lights.set(light.name, light)
+		light.mesh = this.m_scene_loader.create_mesh('light', 'data/objects/sphere.obj');
+		light.material = this.m_scene_loader.create_material('light', 'light');
+		this.m_scene_loader.add_object(light);
+		this.m_lights.set(light.name, light);
 	}
 	/**
 	 * @param      {Entity}  entity    the entity to be added.
@@ -74,8 +73,9 @@ class Scene
 		this.m_objects.push(entity);
 		this.m_scene_loader.add_object(entity)
 		this.m_tree.add_entity(entity)
-		console.log('######################new tree########################')
-		this.m_tree.print_tree();
+		// console.log('######################new tree########################')
+		// this.m_tree.print_tree();
+		console.log(this.m_objects.length)
 	}
 
 	get name() { return this.m_name }

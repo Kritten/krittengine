@@ -32,8 +32,8 @@ const material_texture1 = krittengine.create_material('texture', 'material_textu
 // let material_btf = material_color_red
 
 const scene = krittengine.create_scene('custom');
-const scene1 = krittengine.create_scene('custom1');
-const scene2 = krittengine.create_scene('custom2');
+// const scene1 = krittengine.create_scene('custom1');
+// const scene2 = krittengine.create_scene('custom2');
 
 const light = new Light('light', {
 						position: vec3.fromValues(0.0, 3.0, 0.0), 
@@ -44,40 +44,29 @@ light.update = function() {
 	{
 		if(glob_key_input.active_keys[73])
 		{
-			const output = vec4.create()
-			vec4.add(output, this.m_position, vec4.fromValues(0.0, 0.0, -0.3, 0.0))
-			this.m_position = output
+			vec4.add(this.m_position, this.m_position, vec4.fromValues(0.0, 0.0, -0.3, 0.0))
 		}
 		if(glob_key_input.active_keys[74])
 		{
-			const output = vec4.create()
-			vec4.add(output, this.m_position, vec4.fromValues(-0.3, 0.0, -0.0, 0.0))
-			this.m_position = output
+			vec4.add(this.m_position, this.m_position, vec4.fromValues(-0.3, 0.0, -0.0, 0.0))
 		}
 		if(glob_key_input.active_keys[75])
 		{
-			const output = vec4.create()
-			vec4.add(output, this.m_position, vec4.fromValues(0.0, 0.0, 0.3, 0.0))
-			this.m_position = output
+			vec4.add(this.m_position, this.m_position, vec4.fromValues(0.0, 0.0, 0.3, 0.0))
 		}
 		if(glob_key_input.active_keys[76])
 		{
-			const output = vec4.create()
-			vec4.add(output, this.m_position, vec4.fromValues(0.3, 0.0, -0.0, 0.0))
-			this.m_position = output
+			vec4.add(this.m_position, this.m_position, vec4.fromValues(0.3, 0.0, -0.0, 0.0))
 		}
 		if(glob_key_input.active_keys[85])
 		{
-			const output = vec4.create()
-			vec4.add(output, this.m_position, vec4.fromValues(0.0, 0.3, 0.0, 0.0))
-			this.m_position = output
+			vec4.add(this.m_position, this.m_position, vec4.fromValues(0.0, 0.3, 0.0, 0.0))
 		}
 		if(glob_key_input.active_keys[79])
 		{
-			const output = vec4.create()
-			vec4.add(output, this.m_position, vec4.fromValues(0.0, -0.3, -0.0, 0.0))
-			this.m_position = output
+			vec4.add(this.m_position, this.m_position, vec4.fromValues(0.0, -0.3, -0.0, 0.0))
 		}
+		this.update_matrix_transformation();
 	}
 }
 scene.add_light(light)
@@ -197,42 +186,47 @@ scene.add_camera(camera)
 // const material_btf = krittengine.create_material('btf', 'material_btf')
 
 // // create objects //
-const geometry_entity = new Geometry_Entity("cube", {
-								position: vec3.fromValues(1.0, -0.5, -2.5), 
-								// scale: vec3.fromValues(0.1, 1.2, .10), 
-								// rotation: quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), 0.0), 
-							 	mesh: krittengine.get_mesh('mesh_cube'), 
-							 	// material: material_color
-							 	material: material_texture
-							});
-// const geometry_entity = new Geometry_Entity("btf", vec3.fromValues(-0.0, -1.0, -5.0), vec3.create(), vec3.fromValues(1.0, 1.0, 1.0), mesh_monkey, material_color);
-// geometry_entity.rotation = vec3.fromValues(1.57, -0.0, 0.0)
-geometry_entity.update = function(){
+// const geometry_entity = new Geometry_Entity("cube", {
+// 								position: vec3.fromValues(1.0, -0.5, -2.5), 
+// 								// scale: vec3.fromValues(0.1, 1.2, .10), 
+// 								// rotation: quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), 0.0), 
+// 							 	mesh: krittengine.get_mesh('mesh_cube'), 
+// 							 	// material: material_color
+// 							 	material: material_texture
+// 							});
+// // const geometry_entity = new Geometry_Entity("btf", vec3.fromValues(-0.0, -1.0, -5.0), vec3.create(), vec3.fromValues(1.0, 1.0, 1.0), mesh_monkey, material_color);
+// // geometry_entity.rotation = vec3.fromValues(1.57, -0.0, 0.0)
+// geometry_entity.update = function(){
 
-	// quat.multiply(this.m_rotation, this.m_rotation, quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), 1.0 * glob_time_info.time_ratio));
-	// this.update_matrix_transformation();
+// 	// quat.multiply(this.m_rotation, this.m_rotation, quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), 1.0 * glob_time_info.time_ratio));
+// 	// this.update_matrix_transformation();
 
-	// console.log(this.material)
-	// vec3.add(m_spatial_entity_position.get(this), m_spatial_entity_position.get(this), vec3.fromValues(0.7 * glob_time_info.time_ratio, 0.0, 0.0))
+// 	// console.log(this.material)
+// 	// vec3.add(m_spatial_entity_position.get(this), m_spatial_entity_position.get(this), vec3.fromValues(0.7 * glob_time_info.time_ratio, 0.0, 0.0))
+// }
+// scene.add(geometry_entity);
+
+// const geometry_entity1 = new Geometry_Entity("sphere", {
+// 								position: vec3.fromValues(0.5, 0.0, -2.0), 
+// 								// rotation: vec3.fromValues(0.0, 0.0, -0.0), 
+// 							 	mesh: krittengine.get_mesh('mesh_sphere'), 
+// 							 	// material: material_color
+// 							 	material: material_texture,
+// 							});
+// geometry_entity1.update = function(){ }
+// scene.add(geometry_entity1);
+
+for (let i = 0; i < 4; i++) 
+{
+	const geometry_entity2 = new Geometry_Entity("sphere_small"+i, {
+		// position: vec3.random(vec3.create(), 5.0), 
+		position: vec3.fromValues(-1.0 + i * 0.5, -0.0 + i * 0.1, -1.0), 
+		scale: vec3.fromValues(0.1, 0.2, 0.1), 
+		mesh: krittengine.get_mesh('mesh_sphere')
+	});
+	geometry_entity2.update = function(){ }
+	scene.add(geometry_entity2);
 }
-scene.add(geometry_entity);
-
-const geometry_entity1 = new Geometry_Entity("sphere", {
-								position: vec3.fromValues(0.5, -0.0, -2.0), 
-								// rotation: vec3.fromValues(0.0, 0.0, -0.0), 
-							 	mesh: krittengine.get_mesh('mesh_sphere'), 
-							 	// material: material_color
-							 	material: material_texture,
-							});
-// const geometry_entity1 = new Geometry_Entity("btf", vec3.fromValues(-0.0, -1.0, -5.0), vec3.create(), vec3.fromValues(1.0, 1.0, 1.0), mesh_monkey, material_color);
-// geometry_entity1.rotation = vec3.fromValues(1.57, -0.0, 0.0)
-geometry_entity1.update = function(){
-
-
-	// console.log(this.material)
-	// vec3.add(m_spatial_entity_position.get(this), m_spatial_entity_position.get(this), vec3.fromValues(0.7 * glob_time_info.time_ratio, 0.0, 0.0))
-}
-scene.add(geometry_entity1);
 
 const render = function (timestamp) {
 	krittengine.update(timestamp);

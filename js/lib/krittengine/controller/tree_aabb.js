@@ -6,16 +6,18 @@ class Tree_AABB
 	constructor() 
 	{
 	 	this.m_node_root = undefined;
- 		this.m_count_objects = 0;
-    	this.m_vertex_array_object =  gl.createVertexArray();
+        this.m_count_objects = 0;
+        // this.m_offset = vec3.create();
+        this.m_offset = vec3.fromValues(0.1, 0.1, 0.1);
+        this.m_vertex_array_object =  gl.createVertexArray();
 
- 		this.create_lines();
-	}
+        this.create_lines();
+    }
 
-	add_entity(entity)
-	{
-		// console.log(entity)
-		let node = new Node_AABB();
+    add_entity(entity)
+    {
+        // console.log(entity)
+        let node = new Node_AABB(this.m_offset);
 		node.update_data(entity);
 
 		if(this.m_node_root == undefined)

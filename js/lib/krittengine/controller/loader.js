@@ -251,7 +251,6 @@ class Loader
                 {
                     object.mesh = mesh
                     // console.log(mesh);
-                    object.update_bounding_box();
                     // console.log(object.name + ' got default mesh ')
                 }
             }
@@ -274,7 +273,6 @@ class Loader
             {
                 let object = this.m_waiting_list_mesh.get(mesh.m_name)[i];
                 object.mesh = mesh;
-                object.update_bounding_box();
                 // console.log(object.name + ' got custom mesh ')
             }
                 // console.log(performance.now()-start)

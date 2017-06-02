@@ -17,9 +17,7 @@ class Mesh
 		this.m_name = name
 		this.m_path = path
         this.m_is_loaded = false
-        this.m_bounding_box = undefined;
         this.callback = callback
-        this.m_bounding_box = undefined;
         this.m_vertex_array_object = undefined;
         
         glob_loader_mesh.load(path).then(
@@ -27,7 +25,6 @@ class Mesh
             {
             	let start_parsing = performance.now();
             	let {bounding_box, data_vertex} = this.parse_obj(string_mesh);
-            	this.m_bounding_box = bounding_box;
             	let {list_indices, list_data_vertex} = data_vertex;
             	console.log("Parsing took " + (performance.now() - start_parsing) + " milliseconds.")
 
