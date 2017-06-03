@@ -73,9 +73,9 @@ class Scene
 		this.m_objects.push(entity);
 		this.m_scene_loader.add_object(entity)
 		this.m_tree.add_entity(entity)
-		// console.log('######################new tree########################')
-		// this.m_tree.print_tree();
-		console.log(this.m_objects.length)
+		console.log('######################new tree########################')
+		this.m_tree.print_tree();
+		// console.log(this.m_objects.length)
 	}
 
 	get name() { return this.m_name }

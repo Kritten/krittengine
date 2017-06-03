@@ -218,7 +218,7 @@ scene.add_camera(camera)
 
 for (let i = 0; i < 4; i++) 
 {
-	const geometry_entity2 = new Geometry_Entity("sphere_small"+i, {
+	const geometry_entity2 = new Geometry_Entity("sphere_small_"+i, {
 		// position: vec3.random(vec3.create(), 5.0), 
 		position: vec3.fromValues(-1.0 + i * 0.5, -0.0 + i * 0.1, -1.0), 
 		scale: vec3.fromValues(0.1, 0.2, 0.1), 
