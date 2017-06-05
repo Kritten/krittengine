@@ -115,9 +115,12 @@ class Renderer_Scene
         {
             node_aabb.m_node_left.walk(func, data);
             node_aabb.m_node_right.walk(func, data);
+
+            gl.uniformMatrix4fv(data.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_fat.m_matrix_transormation);
+        } else {
+            gl.uniformMatrix4fv(data.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_slim.m_matrix_transormation);
         }
         
-        gl.uniformMatrix4fv(data.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box.m_matrix_transormation);
         gl.uniform1i(data.m_shader_program.uniform_depth, node_aabb.m_depth); 
         gl.drawElements(gl.LINES, 24, gl.UNSIGNED_SHORT, 0);
     }

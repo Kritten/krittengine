@@ -7,8 +7,9 @@ class Tree_AABB
 	{
 	 	this.m_node_root = undefined;
         this.m_count_objects = 0;
-        // this.m_offset = vec3.create();
-        this.m_offset = vec3.fromValues(0.1, 0.1, 0.1);
+        this.m_offset = vec3.create();
+        this.m_depth = 0;
+        // this.m_offset = vec3.fromValues(0.1, 0.1, 0.1);
         this.m_vertex_array_object =  gl.createVertexArray();
 
         this.create_lines();
@@ -26,6 +27,7 @@ class Tree_AABB
 		} else {
 			this.m_node_root.add_node(node);
 		}
+		this.m_depth = Math.max(node.m_depth, this.m_depth);
 
 		// console.log(node)
 		this.m_count_objects += 1;

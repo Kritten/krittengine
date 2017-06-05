@@ -5,8 +5,8 @@ class Bounding_Box
 {
 	constructor(corner_min, corner_max) 
 	{
-		this.m_corner_min = undefined;
-		this.m_corner_max = undefined;
+		this.m_corner_min = vec3.create();
+		this.m_corner_max = vec3.create();
 		this.m_center = vec3.create();
 		this.m_bounds = vec3.create();
 		this.m_matrix_transormation = mat4.create();
@@ -16,7 +16,21 @@ class Bounding_Box
 
 	intersects_with(bounding_box)
 	{
+		  return (this.m_corner_min[0] <= bounding_box.m_corner_max[0] && this.m_corner_max[0] >= bounding_box.m_corner_min[0]) &&
+		         (this.m_corner_min[1] <= bounding_box.m_corner_max[1] && this.m_corner_max[1] >= bounding_box.m_corner_min[1]) &&
+		         (this.m_corner_min[2] <= bounding_box.m_corner_max[2] && this.m_corner_max[2] >= bounding_box.m_corner_min[2]);
+	}
 
+	is_inside_of(bounding_box)
+	{
+		  return bounding_box.is_point_inside(this.m_corner_min) && bounding_box.is_point_inside(this.m_corner_max);
+	}
+
+	is_point_inside(point)
+	{
+  		return (point[0] >= this.m_corner_min[0] && point[0] <= this.m_corner_max[0]) &&
+		       (point[1] >= this.m_corner_min[1] && point[1] <= this.m_corner_max[1]) &&
+		       (point[2] >= this.m_corner_min[2] && point[2] <= this.m_corner_max[2]);
 	}
 
 	calc_volume(bounding_box = undefined)
@@ -48,8 +62,8 @@ class Bounding_Box
 
 	update_size(corner_min, corner_max)
 	{
-		this.m_corner_min = corner_min;
-		this.m_corner_max = corner_max;
+		vec3.copy(this.m_corner_min, corner_min);
+		vec3.copy(this.m_corner_max, corner_max);
 
 		vec3.subtract(this.m_bounds, this.m_corner_max, this.m_corner_min);
 		

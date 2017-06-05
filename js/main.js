@@ -73,7 +73,7 @@ scene.add_light(light)
 
 
 const camera = new Camera('player', {
-	position: vec3.fromValues(0.0, 0.0, 1.0)
+	position: vec3.fromValues(0.0, 0.0, 10.0)
 	// roatation: vec3.fromValues(0.0, 0.0, 0.0)
 })
 camera.set_init_vars(function() {
@@ -216,10 +216,11 @@ scene.add_camera(camera)
 // geometry_entity1.update = function(){ }
 // scene.add(geometry_entity1);
 
-for (let i = 0; i < 4; i++) 
+let start_parsing = performance.now();
+for (let i = 0; i < 500; i++) 
 {
 	const geometry_entity2 = new Geometry_Entity("sphere_small_"+i, {
-		// position: vec3.random(vec3.create(), 5.0), 
+		// position: vec3.random(vec3.create(), Math.random() * 5.0), 
 		position: vec3.fromValues(-1.0 + i * 0.5, -0.0 + i * 0.1, -1.0), 
 		scale: vec3.fromValues(0.1, 0.2, 0.1), 
 		mesh: krittengine.get_mesh('mesh_sphere')
@@ -227,6 +228,20 @@ for (let i = 0; i < 4; i++)
 	geometry_entity2.update = function(){ }
 	scene.add(geometry_entity2);
 }
+console.log(scene.m_tree.m_depth);
+
+// const geometry_entity1 = new Geometry_Entity("sphere", {
+// 								position: vec3.fromValues(-0.41, 0.0, -1.0), 
+// 								scale: vec3.fromValues(0.1, 0.1, 0.1), 
+// 								// rotation: vec3.fromValues(0.0, 0.0, -0.0), 
+// 							 	mesh: krittengine.get_mesh('mesh_sphere'), 
+// 							 	// material: material_color
+// 							 	material: material_texture,
+// 							});
+// geometry_entity1.update = function(){ }
+// scene.add(geometry_entity1);
+
+console.log("loading took " + (performance.now() - start_parsing) + " milliseconds.")
 
 const render = function (timestamp) {
 	krittengine.update(timestamp);
