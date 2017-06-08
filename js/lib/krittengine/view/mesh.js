@@ -26,7 +26,7 @@ class Mesh
             	let start_parsing = performance.now();
             	let {bounding_box, data_vertex} = this.parse_obj(string_mesh);
             	let {list_indices, list_data_vertex} = data_vertex;
-            	console.log("Parsing took " + (performance.now() - start_parsing) + " milliseconds.")
+            	console.log('Parsing took ' + (performance.now() - start_parsing).toFixed(2)+'ms')
 
             	this.m_vertex_array_object =  gl.createVertexArray();
 				gl.bindVertexArray(this.m_vertex_array_object);

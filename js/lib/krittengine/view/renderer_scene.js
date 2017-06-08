@@ -99,9 +99,11 @@ class Renderer_Scene
                 gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_view, false, scene.active_camera.matrix_view);
                 gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_perspective, false, scene.active_camera.matrix_perspective);
 
-                scene.m_tree.walk(this.draw_bounding_box, material);
-                // scene.m_tree.walk(this.check_visited_states);
-  
+                // const start = performance.now();
+                scene.m_tree.walk(this.draw_bounding_box, {material: material, depth: scene.m_depth_bounding_box_draw});
+                // scene.m_tree.walk_recursive(this.draw_bounding_box_recursive, {material: material, depth: scene.m_depth_bounding_box_draw});
+                // console.log((performance.now()-start).toFixed(2)+'ms');
+
                 gl.bindVertexArray(null)
                 gl.useProgram(null);
         }
@@ -109,34 +111,44 @@ class Renderer_Scene
         gl.bindFramebuffer(gl.FRAMEBUFFER, null);
         this.m_renderer_quad.render();
     }
-
-    check_visited_states(node_aabb)
+    // 
+    // RECURSIVE
+    //
+    draw_bounding_box_recursive(node_aabb, func, data)
     {
-        console.log(node_aabb.m_is_visited)
-    }
+        if(!node_aabb.is_leaf_node())
+        {
+            gl.uniformMatrix4fv(data.material.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_fat.m_matrix_transormation);
 
+        } else {
+            gl.uniformMatrix4fv(data.material.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_slim.m_matrix_transormation);
+        }
+        
+        gl.uniform1i(data.material.m_shader_program.uniform_depth, node_aabb.m_depth); 
+        gl.drawElements(gl.LINES, 24, gl.UNSIGNED_SHORT, 0);
+
+        if(!node_aabb.is_leaf_node())
+        {
+            node_aabb.m_node_left.walk(func, data);
+            node_aabb.m_node_right.walk(func, data);
+        }
+    }
     draw_bounding_box(node_aabb, data)
     {
-        // console.log("asdasdas")
-        // console.log(node_aabb)
-        // console.log(node_aabb.m_bounding_box_fat.m_matrix_transormation)
         let result = true;
         if(!node_aabb.is_leaf_node())
         {
-            // node_aabb.m_node_left.walk(func, data);
-            // node_aabb.m_node_right.walk(func, data);
-            if(node_aabb.m_depth == 2)
+            if(node_aabb.m_depth == data.depth)
             {
-                // result = false;
-                // return result
+                result = false;
             }
 
-            gl.uniformMatrix4fv(data.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_fat.m_matrix_transormation);
+            gl.uniformMatrix4fv(data.material.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_fat.m_matrix_transormation);
         } else {
-            gl.uniformMatrix4fv(data.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_slim.m_matrix_transormation);
+            gl.uniformMatrix4fv(data.material.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_slim.m_matrix_transormation);
         }
         
-        gl.uniform1i(data.m_shader_program.uniform_depth, node_aabb.m_depth); 
+        gl.uniform1i(data.material.m_shader_program.uniform_depth, node_aabb.m_depth); 
         gl.drawElements(gl.LINES, 24, gl.UNSIGNED_SHORT, 0);
 
         return result;

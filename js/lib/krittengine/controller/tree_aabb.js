@@ -46,14 +46,18 @@ class Tree_AABB
 		}
 		// console.log(node_aabb)
 	}
-
+    // 
+    // RECURSIVE
+    // 
+    walk_recursive(func, data)
+    {
+        if(this.m_node_root != undefined)
+        {
+            this.m_node_root.walk(func, data);
+        }
+    }
 	walk(func, data)
 	{
-		// if(this.m_node_root != undefined)
-		// {
-		// 	this.m_node_root.walk_recursive(func, data);
-		// }
-					// console.log('###################################')
 		if(this.m_node_root != undefined)
 		{
 			let node_current = this.m_node_root;
@@ -61,18 +65,6 @@ class Tree_AABB
 			{
 				if(node_current.m_is_visited == false)
 				{
-					// let offset = '';
-					// for (var i = 0; i < node_current.m_depth; i++) {
-					// 	offset += '    ';
-					// }
-					// if(node_current.is_leaf_node())
-					// {
-					// 	console.log(offset+'leaf_node on level '+node_current.m_depth + '; name: ' + node_current.m_data.m_name);
-					// 	// console.log(offset+'leaf_node on level '+node_current.m_depth + '; min: ' + node_current.m_bounding_box.m_corner_min + ', max: ' + node_current.m_bounding_box.m_corner_max);
-					// } else {
-					// 	console.log(offset+'node on level '+node_current.m_depth);
-					// 	// console.log(offset+'node on level '+node_current.m_depth + '; min: ' + node_current.m_bounding_box.m_corner_min + ', max: ' + node_current.m_bounding_box.m_corner_max)
-					// }
 					
 					node_current.m_is_visited = true;
 
@@ -105,16 +97,14 @@ class Tree_AABB
 			}
 
         	this.m_node_root.m_is_visited = false;
-
-        	
 		}
 	}
 
 	print_tree()
 	{
-		if(this.m_node_root != undefined)
-		{
-			this.m_node_root.print_node();
+        if(this.m_node_root != undefined)
+        {
+            this.walk(this.m_node_root.print_node);
 		}
 	}
 

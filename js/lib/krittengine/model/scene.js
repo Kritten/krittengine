@@ -22,6 +22,7 @@ class Scene
 		// FLAGS
 		this.m_render_lights = true
 		this.m_render_bounding_boxes = true
+		this.m_depth_bounding_box_draw = Number.POSITIVE_INFINITY
 	}
 	/**
 	 * Updates every component of the scene.

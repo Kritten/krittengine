@@ -86,16 +86,6 @@ class Node_AABB
 		}
 	}
 
-	walk(func, data)
-	{
-
-	}
-
-	walk_recursive(func, data)
-	{
-		func(this, func, data);
-	}
-
 	sort_children()
 	{
 		// vec3.subtract(difference, this.m_node_right.m_bounding_box.m_center, this.m_node_left.m_bounding_box.m_center);	
@@ -120,6 +110,7 @@ class Node_AABB
 			this.m_node_right = node_tmp;
 		}
 	}
+
 	update_bounding_box()
 	{
 		if(this.is_leaf_node())
@@ -170,23 +161,21 @@ class Node_AABB
 		return this.m_node_left == undefined;
 	}
 
-	print_node()
+	print_node(node_aabb)
 	{
 		let offset = '';
-		for (var i = 0; i < this.m_depth; i++) {
+		for (var i = 0; i < node_aabb.m_depth; i++) {
 			offset += '  ';
 		}
-		if(this.is_leaf_node())
+		if(node_aabb.is_leaf_node())
 		{
-			console.log(offset+'leaf_node on level '+this.m_depth + '; name: ' + this.m_data.m_name);
+			console.log(offset+'leaf_node on level '+node_aabb.m_depth + '; name: ' + node_aabb.m_data.m_name);
 			// console.log(offset+'leaf_node on level '+this.m_depth + '; min: ' + this.m_bounding_box.m_corner_min + ', max: ' + this.m_bounding_box.m_corner_max);
 		} else {
-			console.log(offset+'node on level '+this.m_depth);
+			console.log(offset+'node on level '+node_aabb.m_depth);
 			// console.log(offset+'node on level '+this.m_depth + '; min: ' + this.m_bounding_box.m_corner_min + ', max: ' + this.m_bounding_box.m_corner_max)
-			this.m_node_left.print_node();
-			this.m_node_right.print_node();
 		}
-
+        return true;
 	}
 
 	update_data(data)
@@ -194,4 +183,11 @@ class Node_AABB
 		this.m_data = data;
 		this.update_bounding_box()
 	}
+    // 
+    // RECURSIVE
+    //
+    walk(func, data)
+    {
+        func(this, func, data);
+    }
 }
