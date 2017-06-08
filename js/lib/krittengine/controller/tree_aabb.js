@@ -103,10 +103,10 @@ class Tree_AABB
 
 		        node_current = node_current.m_node_parent;
 			}
-	        if(this.m_node_root != undefined)
-	        {
-	        	this.m_node_root.m_is_visited = false;
-	        }
+
+        	this.m_node_root.m_is_visited = false;
+
+        	
 		}
 	}
 
