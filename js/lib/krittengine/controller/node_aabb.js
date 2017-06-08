@@ -13,6 +13,7 @@ class Node_AABB
 		this.m_node_right = undefined;
 		this.m_depth = 0;
 		this.m_offset = offset;
+		this.m_is_visited = false;
 	}
 
 	add_node(node_new) 
@@ -28,7 +29,6 @@ class Node_AABB
 			this.m_node_right.update_data(this.m_data);
 
 			// this.sort_children();
-
 			this.m_data = undefined;
 			this.update_bounding_box();
 		} else {
@@ -87,6 +87,11 @@ class Node_AABB
 	}
 
 	walk(func, data)
+	{
+
+	}
+
+	walk_recursive(func, data)
 	{
 		func(this, func, data);
 	}

@@ -14,6 +14,13 @@ class Bounding_Box
 		this.update_size(corner_min, corner_max)
 	}
 
+	calc_volume_ratio(bounding_box)
+	{
+		let volume1 = this.calc_volume();
+		let volume2 = bounding_box.calc_volume();
+		return Math.max(volume1, volume2) / Math.min(volume1, volume2)
+	}
+
 	intersects_with(bounding_box)
 	{
 		  return (this.m_corner_min[0] <= bounding_box.m_corner_max[0] && this.m_corner_max[0] >= bounding_box.m_corner_min[0]) &&

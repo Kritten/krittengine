@@ -73,7 +73,7 @@ scene.add_light(light)
 
 
 const camera = new Camera('player', {
-	position: vec3.fromValues(0.0, 0.0, 10.0)
+	position: vec3.fromValues(0.0, 0.0, 1.0)
 	// roatation: vec3.fromValues(0.0, 0.0, 0.0)
 })
 camera.set_init_vars(function() {
@@ -217,7 +217,7 @@ scene.add_camera(camera)
 // scene.add(geometry_entity1);
 
 let start_parsing = performance.now();
-for (let i = 0; i < 500; i++) 
+for (let i = 0; i < 5; i++) 
 {
 	const geometry_entity2 = new Geometry_Entity("sphere_small_"+i, {
 		// position: vec3.random(vec3.create(), Math.random() * 5.0), 

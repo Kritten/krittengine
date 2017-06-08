@@ -100,6 +100,7 @@ class Renderer_Scene
                 gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_perspective, false, scene.active_camera.matrix_perspective);
 
                 scene.m_tree.walk(this.draw_bounding_box, material);
+                // scene.m_tree.walk(this.check_visited_states);
   
                 gl.bindVertexArray(null)
                 gl.useProgram(null);
@@ -109,12 +110,26 @@ class Renderer_Scene
         this.m_renderer_quad.render();
     }
 
-    draw_bounding_box(node_aabb, func, data)
+    check_visited_states(node_aabb)
     {
+        console.log(node_aabb.m_is_visited)
+    }
+
+    draw_bounding_box(node_aabb, data)
+    {
+        // console.log("asdasdas")
+        // console.log(node_aabb)
+        // console.log(node_aabb.m_bounding_box_fat.m_matrix_transormation)
+        let result = true;
         if(!node_aabb.is_leaf_node())
         {
-            node_aabb.m_node_left.walk(func, data);
-            node_aabb.m_node_right.walk(func, data);
+            // node_aabb.m_node_left.walk(func, data);
+            // node_aabb.m_node_right.walk(func, data);
+            if(node_aabb.m_depth == 2)
+            {
+                // result = false;
+                // return result
+            }
 
             gl.uniformMatrix4fv(data.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_fat.m_matrix_transormation);
         } else {
@@ -123,5 +138,7 @@ class Renderer_Scene
         
         gl.uniform1i(data.m_shader_program.uniform_depth, node_aabb.m_depth); 
         gl.drawElements(gl.LINES, 24, gl.UNSIGNED_SHORT, 0);
+
+        return result;
     }
 }
