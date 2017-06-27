@@ -143,7 +143,8 @@ class Renderer_Scene
                 result = false;
             }
 
-            gl.uniformMatrix4fv(data.material.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_fat.m_matrix_transormation);
+            gl.uniformMatrix4fv(data.material.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_slim.m_matrix_transormation);
+            // gl.uniformMatrix4fv(data.material.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_fat.m_matrix_transormation);
         } else {
             gl.uniformMatrix4fv(data.material.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_slim.m_matrix_transormation);
         }

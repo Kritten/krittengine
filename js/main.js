@@ -217,26 +217,64 @@ scene.add_camera(camera)
 // scene.add(geometry_entity1);
 
 let start_parsing = performance.now();
-for (let i = 0; i < 6000; i++) 
+let list_entities = []
+for (let i = 0; i < 3; i++) 
 {
 	const geometry_entity2 = new Geometry_Entity("sphere_small_"+i, {
 		// position: vec3.random(vec3.create(), Math.random() * 5.0), 
-		position: vec3.fromValues(-1.0 + i * 0.5, -0.0 + i * 0.1, -1.0), 
+		position: vec3.fromValues(-3.0 + i * i * 0.3, -0.0 + i * 0.1, -5.0), 
 		scale: vec3.fromValues(0.1, 0.2, 0.1), 
 		mesh: krittengine.get_mesh('mesh_sphere')
 	});
 	geometry_entity2.update = function(){ }
-	scene.add(geometry_entity2);
+	list_entities.push(geometry_entity2);
+	// scene.add(geometry_entity2);
+}
+
+function shuffle(a) {
+    for (let i = a.length; i; i--) {
+        let j = Math.floor(Math.random() * i);
+        [a[i - 1], a[j]] = [a[j], a[i - 1]];
+    }
+}
+
+// shuffle(list_entities);
+
+for (var i = 0; i < list_entities.length; i++) {
+	scene.add(list_entities[i]);
 }
 console.log(scene.m_tree.m_depth);
 
-// const geometry_entity1 = new Geometry_Entity("sphere", {
-// 								position: vec3.fromValues(-0.41, 0.0, -1.0), 
+scene.m_tree.print_tree();
+// scene.m_tree.walk(function(node_aabb, data) {
+// 	if(node_aabb.is_leaf_node())
+// 	{
+// 		console.log('leaf node: '+node_aabb.m_depth)
+// 	} else {
+// 		console.log('inner node: '+node_aabb.m_depth)
+
+// 	}
+// 	// console.log(node_aabb)
+// }, {});
+
+// let geometry_entity1 = new Geometry_Entity("sphere", {
+// 								position: vec3.fromValues(-0.5, -0.5, -1.0), 
 // 								scale: vec3.fromValues(0.1, 0.1, 0.1), 
 // 								// rotation: vec3.fromValues(0.0, 0.0, -0.0), 
 // 							 	mesh: krittengine.get_mesh('mesh_sphere'), 
 // 							 	// material: material_color
-// 							 	material: material_texture,
+// 							 	// material: material_texture,
+// 							});
+// geometry_entity1.update = function(){ }
+// scene.add(geometry_entity1);
+
+// geometry_entity1 = new Geometry_Entity("sphere", {
+// 								position: vec3.fromValues(1.0, -0.0, -1.0), 
+// 								scale: vec3.fromValues(0.1, 0.1, 0.1), 
+// 								// rotation: vec3.fromValues(0.0, 0.0, -0.0), 
+// 							 	mesh: krittengine.get_mesh('mesh_sphere'), 
+// 							 	// material: material_color
+// 							 	// material: material_texture,
 // 							});
 // geometry_entity1.update = function(){ }
 // scene.add(geometry_entity1);

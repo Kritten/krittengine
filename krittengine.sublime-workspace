@@ -4,8 +4,76 @@
 		"selected_items":
 		[
 			[
+				"is_",
+				"m_is_visited"
+			],
+			[
+				"m_node",
+				"m_node_left"
+			],
+			[
+				"node",
+				"node_current"
+			],
+			[
+				"false",
+				"false"
+			],
+			[
+				"m_bound",
+				"m_bounding_box_slim"
+			],
+			[
+				"cente",
+				"center_left"
+			],
+			[
+				"center",
+				"center_right"
+			],
+			[
+				"bo",
+				"m_bounding_box"
+			],
+			[
 				"list",
-				"list_vertices"
+				"list_indices"
+			],
+			[
+				"corn",
+				"corner_min"
+			],
+			[
+				"update",
+				"update_data"
+			],
+			[
+				"print",
+				"print_node"
+			],
+			[
+				"m_left",
+				"m_node_left"
+			],
+			[
+				"m_",
+				"m_depth"
+			],
+			[
+				"is",
+				"is_leaf_node"
+			],
+			[
+				"tr",
+				"m_tree"
+			],
+			[
+				"material",
+				"material_color1"
+			],
+			[
+				"MATERIAL",
+				"material_color"
 			],
 			[
 				"dict",
@@ -288,10 +356,6 @@
 				"classes"
 			],
 			[
-				"print",
-				"print_html"
-			],
-			[
 				"coun",
 				"count"
 			],
@@ -307,34 +371,42 @@
 			"file": "js/main.js",
 			"settings":
 			{
-				"buffer_size": 330135,
+				"buffer_size": 334140,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "js/lib/krittengine/controller/loader.js",
+			"file": "js/lib/krittengine/model/spatial_entity.js",
 			"settings":
 			{
-				"buffer_size": 12547,
+				"buffer_size": 748,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/lib/krittengine/controller/tree_aabb.js",
+			"settings":
+			{
+				"buffer_size": 4790,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "js/lib/krittengine/model/scene.js",
+			"file": "js/lib/krittengine/controller/node_aabb.js",
 			"settings":
 			{
-				"buffer_size": 2586,
+				"buffer_size": 5670,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "js/lib/krittengine/view/mesh.js",
+			"file": "js/lib/krittengine/controller/bounding_box.js",
 			"settings":
 			{
-				"buffer_size": 5337,
+				"buffer_size": 2464,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -343,7 +415,53 @@
 			"file": "js/lib/krittengine/view/renderer_scene.js",
 			"settings":
 			{
-				"buffer_size": 4927,
+				"buffer_size": 6034,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/lib/krittengine/model/entity.js",
+			"settings":
+			{
+				"buffer_size": 438,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/micro/Documents/uni/master/notes.txt",
+			"settings":
+			{
+				"buffer_size": 315,
+				"encoding": "UTF-8",
+				"line_ending": "Windows",
+				"name": "contained/contains nicht kumuliert"
+			}
+		},
+		{
+			"file": "js/lib/krittengine/view/material_lines.js",
+			"settings":
+			{
+				"buffer_size": 760,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/lib/krittengine/model/scene.js",
+			"settings":
+			{
+				"buffer_size": 2235,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/lib/krittengine/view/mesh.js",
+			"settings":
+			{
+				"buffer_size": 12404,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -352,8 +470,8 @@
 			"file": "data/objects/plane.obj",
 			"settings":
 			{
-				"buffer_size": 247,
-				"line_ending": "Unix"
+				"buffer_size": 321,
+				"line_ending": "Windows"
 			}
 		},
 		{
@@ -377,7 +495,7 @@
 			"file": "js/lib/krittengine/controller/krittengine.js",
 			"settings":
 			{
-				"buffer_size": 6115,
+				"buffer_size": 8308,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -386,16 +504,16 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 28447,
+				"buffer_size": 30263,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "js/lib/krittengine/view/material_btf.js",
+			"file": "js/lib/krittengine/model/geometry_entity.js",
 			"settings":
 			{
-				"buffer_size": 7798,
+				"buffer_size": 857,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -459,6 +577,15 @@
 	],
 	"file_history":
 	[
+		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/model/spatial_entity.js",
+		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/controller/loader.js",
+		"/C/Users/micro/Documents/krittengine/index.html",
+		"/C/Users/micro/Documents/uni/master/hiwi/netspeak/meeting_2017_05_17.txt",
+		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/view/material_texture.js",
+		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/view/material_btf.js",
+		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/controller/bounding_box.js",
+		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/controller/node_aabb.js",
+		"/C/xampp/apache/conf/httpd.conf",
 		"/C/Users/micro/Documents/krittengine/data/objects/cube.obj",
 		"/C/Users/micro/Documents/krittengine/data/objects/head_test.obj",
 		"/C/Users/micro/Documents/krittengine/data/objects/dragon_test.obj",
@@ -577,16 +704,7 @@
 		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/views/machine_learning/preprocessing.py",
 		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/views/machine_learning.py",
 		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/feature-analysis/src-python/trigram.py",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/feature_lists/3gram_similarity.tsv",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/feature_lists/2gram_similarity.tsv",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/feature_lists/1gram_similarity.tsv",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/views.py",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/log_browser/templates/log_browser/interactions_table.html",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/views/index.py",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/log_browser/static/log_browser/js/index_functions.js",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project_sqlite/data_manager/views.py",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/backups/queries2.ldjson",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/backups/queries3.ldjson"
+		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/feature_lists/3gram_similarity.tsv"
 	],
 	"find":
 	{
@@ -612,6 +730,121 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"this",
+			"node_current",
+			"true",
+			"left",
+			"m_no",
+			"balance_tree",
+			"used",
+			"1",
+			"box.max",
+			"box.min",
+			"0",
+			"point",
+			">=",
+			"<=",
+			"m_corner_miax",
+			"b.max",
+			"b.min",
+			"a.max",
+			"a.min",
+			"m_bounding_box_slim",
+			"let",
+			"m_bounding_box_slim",
+			"m_bounding_bo",
+			"m_bounding_box",
+			"Node_AABB",
+			"<",
+			"difference",
+			"center_left",
+			"center_right",
+			"center_left",
+			"left",
+			"this",
+			"func",
+			"this",
+			"data",
+			"gl_Position",
+			"depth",
+			"lines",
+			"func",
+			"color",
+			"m_vertex_array_object",
+			"scene.m_tree.material",
+			"this.m_corner_max",
+			"this.m_corner_max[0]",
+			"m_corner_min",
+			"this.m_corner_min",
+			"m_matrix_transormation",
+			"_corner_min",
+			"update_size",
+			"update_attributes",
+			"this",
+			"material",
+			"color",
+			"material_color",
+			"m_corner_min",
+			"list_vertices[vertex.index_vertex]",
+			"parse_obj",
+			"this",
+			"m_buffer_vertex_position",
+			"update_bounding_box",
+			"m_corner_min",
+			"m_bounding_box",
+			"min",
+			".data",
+			"m_data",
+			"update_bounding_box",
+			"corner_min",
+			"-",
+			"create",
+			"print",
+			"m_tree",
+			"this.EBO",
+			"node",
+			"node_root",
+			"m_active_scene",
+			"m_scenes_array",
+			"m_scenes",
+			"render_lights",
+			"normalized",
+			"j",
+			"index_normal",
+			"[triangle[i]",
+			"vertex",
+			"index_vertex",
+			"tmp_list_normals",
+			"tmp_list_uvs",
+			"tmp_list_vertices",
+			"create_indices_and_triangles",
+			"tangents1",
+			"create_indices_and_triangles",
+			"calc_tangents",
+			"textur",
+			"mesh_sphere",
+			"mesh_plane",
+			"geometry_entity",
+			"mesh_cube",
+			"material_texture",
+			"m_loader",
+			"material_texture",
+			"Material_Texture",
+			"material_texture",
+			"end_fullscreen",
+			"m_active_scene.get(this)",
+			"m_active_scene",
+			"m_scenes_array.get(this)",
+			"m_scenes.get(this)",
+			"m_scenes",
+			"m_loader.get(this)",
+			"m_loader",
+			"m_active_scene.set(this, ",
+			"m_active_scene",
+			"m_renderer_scene.get(this)",
+			"m_renderer_scene",
+			"m_key_input",
+			"C:\\Users\\micro\\Documents\\uni\\master\\hiwi\\krittengine",
 			"o",
 			"s",
 			"index_vertex * 8",
@@ -624,122 +857,7 @@
 			"index_vertex",
 			"list_normals",
 			"tmp_list_normals",
-			"3",
-			"list_normals",
-			"plane",
-			"mesh_couch",
-			"scene",
-			"index_normal",
-			"3",
-			"count_indices",
-			" - 1",
-			"index_vertex",
-			"list_faces",
-			"create_indices_and_triangles",
-			"restructure_normals",
-			"list_normals",
-			"list_vertices",
-			"i",
-			"list_vertices",
-			"float",
-			"mesh.vertices",
-			"line",
-			"list_normals",
-			"5",
-			"cube",
-			"thetaMaxAngle",
-			"tcm",
-			"viewer__filter_custom",
-			"is_array",
-			"index!!!!",
-			"index",
-			"update_ui",
-			"model_custom",
-			"fdg",
-			"glob_filter_custom",
-			"asdf",
-			"viewer__filter_tags",
-			"glob_filter_tags",
-			"filter_name",
-			"json_url_params",
-			"FITLER",
-			"data_field_name",
-			"set_session_entry('viewer__columns', glob_columns)",
-			"update_ui",
-			"label",
-			"glob_filter_tag",
-			"list_filter_tags",
-			"update_ui",
-			"viewer__selected_tags",
-			"load_current_page",
-			"0",
-			"255",
-			"update_tags_list",
-			"get_filtered_data",
-			"get_set_tags_filtered_items",
-			"print",
-			"DICT_SETTINGS_VIEWER['data_type']",
-			"th",
-			"td",
-			"th",
-			"dict_ordered_tags",
-			"update_tags_list",
-			"update_ta",
-			"load_current_page",
-			":",
-			"list_tags",
-			"100",
-			"data",
-			"load_data",
-			"tag",
-			"value",
-			"m_tags",
-			"objectd",
-			"input_name_new_tag",
-			"only_ids",
-			"set_tmp",
-			"data",
-			"queryset",
-			"input_select_all_items",
-			"input_add_to_all_filtered_items",
-			"input_name_tag",
-			"Object",
-			"shown",
-			"push",
-			"append",
-			"list_tmp",
-			"item_selection",
-			"or",
-			"item_selection",
-			"viewer__item_selection",
-			"item_selection",
-			"trigg",
-			"id_item",
-			"td",
-			"tr",
-			"update_input_all_items_selected",
-			"?",
-			"get_display_name",
-			"{% if not field in request.session.viewer__viewer__columns %}{% endif %}",
-			"hidden-xs-up",
-			"glob_columns",
-			"glob_filter_tag",
-			"'])",
-			"var",
-			".substr(1)",
-			"id()",
-			"!link.hasClass('show'));",
-			"handle_card_click($(this))",
-			"is_collapsed_div_filters",
-			"count_of_something",
-			"csv-data",
-			"data_field_id",
-			"id",
-			"csvfile",
-			"text_content",
-			"data_field_id",
-			"filter.name",
-			"data_field_name"
+			"3"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -762,7 +880,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -771,15 +889,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 330135,
+						"buffer_size": 334140,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								315824,
-								315824
+								323869,
+								323869
 							]
 						],
 						"settings":
@@ -787,57 +905,27 @@
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 4940.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "js/lib/krittengine/controller/loader.js",
+					"file": "js/lib/krittengine/model/spatial_entity.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 12547,
+						"buffer_size": 748,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8150,
-								8150
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3990.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "js/lib/krittengine/model/scene.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2586,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2072,
-								2072
+								162,
+								131
 							]
 						],
 						"settings":
@@ -846,27 +934,56 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1317.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "js/lib/krittengine/view/mesh.js",
+					"buffer": 2,
+					"file": "js/lib/krittengine/controller/tree_aabb.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5337,
+						"buffer_size": 4790,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								789,
-								789
+								2463,
+								2463
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2122.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "js/lib/krittengine/controller/node_aabb.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5670,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2456,
+								2456
 							]
 						],
 						"settings":
@@ -874,27 +991,55 @@
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 114.0,
+						"translation.y": 1402.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "js/lib/krittengine/view/renderer_scene.js",
+					"file": "js/lib/krittengine/controller/bounding_box.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4927,
+						"buffer_size": 2464,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4626,
-								4647
+								394,
+								394
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 345.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "js/lib/krittengine/view/renderer_scene.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6034,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4807,
+								4807
 							]
 						],
 						"settings":
@@ -904,27 +1049,174 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1450.0,
+						"translation.y": 2878.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "data/objects/plane.obj",
+					"buffer": 6,
+					"file": "js/lib/krittengine/model/entity.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 247,
+						"buffer_size": 438,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								247,
-								247
+								398,
+								398
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/C/Users/micro/Documents/uni/master/notes.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 315,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								141,
+								141
+							]
+						],
+						"settings":
+						{
+							"auto_name": "contained/contains nicht kumuliert",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "js/lib/krittengine/view/material_lines.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 760,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								231,
+								244
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 19.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 14,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "js/lib/krittengine/model/scene.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2235,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1827,
+								1902
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1257.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "js/lib/krittengine/view/mesh.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12404,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								720,
+								720
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 430.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "data/objects/plane.obj",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 321,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								121,
+								121
 							]
 						],
 						"settings":
@@ -935,11 +1227,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 16,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 12,
 					"file": "convert_threejs_to_kobjson.py",
 					"semi_transient": false,
 					"settings":
@@ -951,12 +1243,8 @@
 						"selection":
 						[
 							[
-								1113,
-								1141
-							],
-							[
-								5994,
-								6022
+								2394,
+								2394
 							]
 						],
 						"settings":
@@ -966,14 +1254,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2351.0,
+						"translation.y": 1046.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 15,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 13,
 					"file": "js/lib/loader_mesh.js",
 					"semi_transient": false,
 					"settings":
@@ -999,24 +1287,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 14,
 					"file": "js/lib/krittengine/controller/krittengine.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6115,
+						"buffer_size": 8308,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1339,
-								1339
+								1232,
+								1232
 							]
 						],
 						"settings":
@@ -1025,27 +1313,27 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 684.0,
+						"translation.y": 206.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 15,
 					"file": "index.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 28447,
+						"buffer_size": 30263,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								20695,
-								20695
+								23376,
+								23376
 							]
 						],
 						"settings":
@@ -1054,19 +1342,19 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 10226.0,
+						"translation.y": 11574.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
-					"file": "js/lib/krittengine/view/material_btf.js",
+					"buffer": 16,
+					"file": "js/lib/krittengine/model/geometry_entity.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7798,
+						"buffer_size": 857,
 						"regions":
 						{
 						},
@@ -1080,14 +1368,13 @@
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 9.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 11,
 					"type": "text"
 				}
 			]

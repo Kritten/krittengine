@@ -70,6 +70,9 @@ class Node_AABB
 					this.m_node_right = node_new;
 					node_new.update_parent(this);
 
+					// console.log(this.needs_update());
+					// console.log(this)
+
 					// this.update_aabb();
 					// this.update_bounding_box();
 
@@ -150,6 +153,41 @@ class Node_AABB
 		}
 	}
 
+	needs_update()
+	{
+		if(this.is_leaf_node())
+		{
+			console.log('is leaf node')
+			return false;
+		}
+
+		let bounds = this.m_bounding_box_slim.m_bounds;
+		let bounds_left = this.m_node_left.m_bounding_box_slim.m_bounds;
+		let bounds_right = this.m_node_right.m_bounding_box_slim.m_bounds;
+
+		let bounds_max_permitted = vec3.create(); 
+		vec3.scale(bounds_max_permitted, bounds, 0.6);
+		console.log(bounds);
+		console.log(bounds_max_permitted);
+		console.log(bounds_left);
+		console.log(bounds_right);
+		if(
+			bounds_left[0] <= bounds_max_permitted[0] ||
+			bounds_left[1] <= bounds_max_permitted[1] ||
+			bounds_left[2] <= bounds_max_permitted[2])
+		{
+			return false;
+		} else if (
+			bounds_right[0] <= bounds_max_permitted[0] ||
+			bounds_right[1] <= bounds_max_permitted[1] ||
+			bounds_right[2] <= bounds_max_permitted[2])
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	update_parent(node_parent)
 	{
 		this.m_depth = node_parent.m_depth + 1;
@@ -175,12 +213,15 @@ class Node_AABB
 			console.log(offset+'node on level '+node_aabb.m_depth);
 			// console.log(offset+'node on level '+this.m_depth + '; min: ' + this.m_bounding_box.m_corner_min + ', max: ' + this.m_bounding_box.m_corner_max)
 		}
+
+		if(node_aabb.m_depth == 1) return false
         return true;
 	}
 
 	update_data(data)
 	{
 		this.m_data = data;
+		data.m_node_aabb = this;
 		this.update_bounding_box()
 	}
     // 

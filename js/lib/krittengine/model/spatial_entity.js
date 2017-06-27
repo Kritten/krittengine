@@ -20,6 +20,8 @@ class Spatial_Entity extends Entity
 		this.m_rotation = rotation;
 		this.m_scale = scale;
 
+		this.m_node_aabb = undefined;
+
 		this.m_matrix_transformation = mat4.create();
 		this.update_matrix_transformation();
 	}

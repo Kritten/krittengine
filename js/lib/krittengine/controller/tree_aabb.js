@@ -56,7 +56,7 @@ class Tree_AABB
             this.m_node_root.walk(func, data);
         }
     }
-	walk(func, data)
+	walk(func, data = {})
 	{
 		if(this.m_node_root != undefined)
 		{
