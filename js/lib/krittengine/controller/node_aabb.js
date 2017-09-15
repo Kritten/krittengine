@@ -16,92 +16,92 @@ class Node_AABB
 		this.m_is_visited = false;
 	}
 
-	add_node(node_new) 
-	{
-		// if current node is a leaf node
-		if(this.is_leaf_node())
-		{
-			this.m_node_left = node_new;
-			this.m_node_left.update_parent(this);
+	// add_node(node_new) 
+	// {
+	// 	// if current node is a leaf node
+	// 	if(this.is_leaf_node())
+	// 	{
+	// 		this.m_node_left = node_new;
+	// 		this.m_node_left.update_parent(this);
 
-			this.m_node_right = new Node_AABB(this.m_offset);
-			this.m_node_right.update_parent(this);
-			this.m_node_right.update_data(this.m_data);
+	// 		this.m_node_right = new Node_AABB(this.m_offset);
+	// 		this.m_node_right.update_parent(this);
+	// 		this.m_node_right.update_data(this.m_data);
 
-			// this.sort_children();
-			this.m_data = undefined;
-			this.update_bounding_box();
-		} else {
-			if(node_new.m_bounding_box_slim.is_inside_of(this.m_node_left.m_bounding_box_slim))
-			{
-				this.m_node_left.add_node(node_new);
-			} 
-			else if(node_new.m_bounding_box_slim.is_inside_of(this.m_node_right.m_bounding_box_slim))
-			{
-				this.m_node_right.add_node(node_new);
-			}
-			else
-			{
-				// console.warn('ADDING NEW NODE')
-				let volume_current = this.m_bounding_box_slim.calc_volume();
-				let volume_left = node_new.m_bounding_box_slim.calc_volume(this.m_node_left.m_bounding_box_slim);
-				let volume_right = node_new.m_bounding_box_slim.calc_volume(this.m_node_right.m_bounding_box_slim);
+	// 		// this.sort_children();
+	// 		this.m_data = undefined;
+	// 		this.update_bounding_box();
+	// 	} else {
+	// 		if(node_new.m_bounding_box_slim.is_inside_of(this.m_node_left.m_bounding_box_slim))
+	// 		{
+	// 			this.m_node_left.add_node(node_new);
+	// 		} 
+	// 		else if(node_new.m_bounding_box_slim.is_inside_of(this.m_node_right.m_bounding_box_slim))
+	// 		{
+	// 			this.m_node_right.add_node(node_new);
+	// 		}
+	// 		else
+	// 		{
+	// 			// console.warn('ADDING NEW NODE')
+	// 			let volume_current = this.m_bounding_box_slim.calc_volume();
+	// 			let volume_left = node_new.m_bounding_box_slim.calc_volume(this.m_node_left.m_bounding_box_slim);
+	// 			let volume_right = node_new.m_bounding_box_slim.calc_volume(this.m_node_right.m_bounding_box_slim);
 
-				// if new entity is far away, put current subtree in child node and add new node to other child node
-				if(volume_current < volume_left && volume_current < volume_right)
-				{
+	// 			// if new entity is far away, put current subtree in child node and add new node to other child node
+	// 			if(volume_current < volume_left && volume_current < volume_right)
+	// 			{
 
-					let node_subtree = new Node_AABB(this.m_offset);
-					node_subtree.m_depth = this.m_depth + 1;
-					// set the parent node
-					// set the child node to new node
-					node_subtree.m_node_left = this.m_node_left;
-					this.m_node_left.update_parent(node_subtree);
-					node_subtree.m_node_right = this.m_node_right;
-					this.m_node_right.update_parent(node_subtree);
+	// 				let node_subtree = new Node_AABB(this.m_offset);
+	// 				node_subtree.m_depth = this.m_depth + 1;
+	// 				// set the parent node
+	// 				// set the child node to new node
+	// 				node_subtree.m_node_left = this.m_node_left;
+	// 				this.m_node_left.update_parent(node_subtree);
+	// 				node_subtree.m_node_right = this.m_node_right;
+	// 				this.m_node_right.update_parent(node_subtree);
 
-					node_subtree.update_bounding_box();
+	// 				node_subtree.update_bounding_box();
 
-					// this.m_right.add_node(entity);
-					// this.m_left = node_subtree;
-					this.m_node_left = node_subtree;
-					node_subtree.update_parent(this);
-					// this.m_left.add_node(entity);
-					this.m_node_right = node_new;
-					node_new.update_parent(this);
+	// 				// this.m_right.add_node(entity);
+	// 				// this.m_left = node_subtree;
+	// 				this.m_node_left = node_subtree;
+	// 				node_subtree.update_parent(this);
+	// 				// this.m_left.add_node(entity);
+	// 				this.m_node_right = node_new;
+	// 				node_new.update_parent(this);
 
-					// console.log(this.needs_update());
-					// console.log(this)
+	// 				// console.log(this.needs_update());
+	// 				// console.log(this)
 
-					// this.update_aabb();
-					// this.update_bounding_box();
+	// 				// this.update_aabb();
+	// 				// this.update_bounding_box();
 
-				} else {
-					if(volume_left < volume_right)
-					{
-						this.m_node_left.add_node(node_new);
-					} else {
-						this.m_node_right.add_node(node_new);
-					}
-				}
-			}
-			this.update_bounding_box();
-		}
-	}
+	// 			} else {
+	// 				if(volume_left < volume_right)
+	// 				{
+	// 					this.m_node_left.add_node(node_new);
+	// 				} else {
+	// 					this.m_node_right.add_node(node_new);
+	// 				}
+	// 			}
+	// 		}
+	// 		this.update_bounding_box();
+	// 	}
+	// }
 
 	sort_children()
 	{
 		// vec3.subtract(difference, this.m_node_right.m_bounding_box.m_center, this.m_node_left.m_bounding_box.m_center);	
 		let counter = 0;
-		if(this.m_node_right.m_bounding_box.m_center[0] < this.m_node_left.m_bounding_box.m_center[0])
+		if(this.m_node_right.m_bounding_box_slim.m_center[0] < this.m_node_left.m_bounding_box_slim.m_center[0])
 		{
 			counter += 1;
 		}
-		if(this.m_node_right.m_bounding_box.m_center[1] < this.m_node_left.m_bounding_box.m_center[1])
+		if(this.m_node_right.m_bounding_box_slim.m_center[1] < this.m_node_left.m_bounding_box_slim.m_center[1])
 		{
 			counter += 1;
 		}
-		if(this.m_node_right.m_bounding_box.m_center[2] < this.m_node_left.m_bounding_box.m_center[2])
+		if(this.m_node_right.m_bounding_box_slim.m_center[2] < this.m_node_left.m_bounding_box_slim.m_center[2])
 		{
 			counter += 1;
 		}
@@ -150,6 +150,16 @@ class Node_AABB
     		} else {
 				this.m_bounding_box_fat.update_size(corner_min, corner_max);
     		}
+		}
+	}
+
+	update_bounding_boxes_of_parents()
+	{
+		let node_parent = this.m_node_parent;
+		while(node_parent != undefined)
+		{
+			node_parent.update_bounding_box();
+			node_parent = node_parent.m_node_parent;
 		}
 	}
 
@@ -214,7 +224,7 @@ class Node_AABB
 			// console.log(offset+'node on level '+this.m_depth + '; min: ' + this.m_bounding_box.m_corner_min + ', max: ' + this.m_bounding_box.m_corner_max)
 		}
 
-		if(node_aabb.m_depth == 1) return false
+		// if(node_aabb.m_depth == 1) return false
         return true;
 	}
 

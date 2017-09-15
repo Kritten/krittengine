@@ -218,7 +218,7 @@ scene.add_camera(camera)
 
 let start_parsing = performance.now();
 let list_entities = []
-for (let i = 0; i < 3; i++) 
+for (let i = 0; i < 40; i++) 
 {
 	const geometry_entity2 = new Geometry_Entity("sphere_small_"+i, {
 		// position: vec3.random(vec3.create(), Math.random() * 5.0), 
