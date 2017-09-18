@@ -1,8 +1,12 @@
+import Renderer_Scene from '../view/renderer_scene.js';
+import Scene from '../model/scene.js';
+import Loader from './loader.js';
+import { time_info, key_input, mouse_input } from './utils.js';
 /**
  * Main class of the engine and entry point for the user.
  * @class
  */
-class Krittengine 
+export default class Krittengine
 {
 	/**
 	 * @param      {DOMElement}  canvas  The canvas the engine should draw into.
@@ -18,7 +22,6 @@ class Krittengine
 
 	 	this.m_scenes = new Map();
 	 	this.m_scenes_array = [];
-
 	}
 	/**
 	 * Updates the active scene and submit the scene to the {@link Renderer_Scene} for drawing.  
@@ -28,16 +31,16 @@ class Krittengine
 	{
 		// time calculations
 		// const start_time = performance.now
-		glob_time_info.delta_time = timestamp - glob_time_info.last_frame;
-		glob_time_info.time_ratio = glob_time_info.delta_time / 1000;
-		glob_time_info.elapsed_time += glob_time_info.delta_time; 
-		glob_time_info.last_frame = timestamp; 
+		time_info.delta_time = timestamp - time_info.last_frame;
+		time_info.time_ratio = time_info.delta_time / 1000;
+		time_info.elapsed_time += time_info.delta_time; 
+		time_info.last_frame = timestamp; 
 		// console.log(performance.now());
-		// if(glob_time_info.delta_time > 20)
-		// 	console.log(glob_time_info.delta_time);
-		// console.log(glob_time_info.time_ratio);
+		// if(time_info.delta_time > 20)
+		// 	console.log(time_info.delta_time);
+		// console.log(time_info.time_ratio);
 
-		if(glob_key_input.active_keys[77]) // m
+		if(key_input.active_keys[77]) // m
 		{
 			for (var i = 0; i < 300000000; i++) {
 				i*i*i*i*i*i*i*i*i*i*i*i*i;
@@ -48,10 +51,10 @@ class Krittengine
 
 		this.m_renderer_scene.render(this.m_active_scene);
 
-		glob_key_input.pressed_keys = [];
-		glob_mouse_input.moved =  false;
-		glob_mouse_input.offset[0] = 0.0;
-		glob_mouse_input.offset[1] = 0.0;
+		key_input.pressed_keys = [];
+		mouse_input.moved =  false;
+		mouse_input.offset[0] = 0.0;
+		mouse_input.offset[1] = 0.0;
 
 		// const tmp = performance.now()-timestamp;
 		// console.log(tmp);
@@ -186,9 +189,9 @@ class Krittengine
 
 	handle_mouse_move(event)
 	{
-		glob_mouse_input.offset[0] = event.movementX;
-		glob_mouse_input.offset[1] = event.movementY;
-		glob_mouse_input.moved = true;
+		mouse_input.offset[0] = event.movementX;
+		mouse_input.offset[1] = event.movementY;
+		mouse_input.moved = true;
 	}
 
 	handle_pointerlock_change(event)
@@ -201,7 +204,7 @@ class Krittengine
 			canvas.addEventListener("mousemove", this.handle_mouse_move, false);
 		} else {
 			console.log("mouse unlocked");
-			// glob_mouse_input.moved = false;
+			// mouse_input.moved = false;
 			canvas.removeEventListener("mousemove", this.handle_mouse_move, false);
 		}
 	}
@@ -246,7 +249,7 @@ class Krittengine
 	 */
 	handleKeyDown(event)
 	{
-		glob_key_input.active_keys[event.keyCode] = true;
+		key_input.active_keys[event.keyCode] = true;
 	}
 	/**
 	 * Keeps track of released keys.  
@@ -255,8 +258,8 @@ class Krittengine
 	 */
 	handleKeyUp(event)
 	{
-		glob_key_input.pressed_keys[event.keyCode] = true;
-		glob_key_input.active_keys[event.keyCode] = false;
+		key_input.pressed_keys[event.keyCode] = true;
+		key_input.active_keys[event.keyCode] = false;
 	}
 	handle_fullscreen_change(event)
 	{

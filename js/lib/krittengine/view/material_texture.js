@@ -1,8 +1,11 @@
+import Material from './material.js'
+import { handle_gl } from './context_gl.js';
+
 /**
  * Represents a material.
  * @class
  */
-class Material_Texture extends Material
+export default class Material_Texture extends Material
 {
     constructor(callback, name, info_material)
     {
@@ -12,33 +15,33 @@ class Material_Texture extends Material
         this.m_path_texture_normal = info_material.path_texture_normal
 
         this.m_texture_color = undefined;
-        this.m_shader_program.uniform_texture_color = gl.getUniformLocation(this.m_shader_program, 'texture_color');
-        gl.uniform1i(this.m_shader_program.uniform_texture_color, 0);
+        this.m_shader_program.uniform_texture_color = handle_gl.getUniformLocation(this.m_shader_program, 'texture_color');
+        handle_gl.uniform1i(this.m_shader_program.uniform_texture_color, 0);
 
         this.m_texture_normal = undefined;
-        this.m_shader_program.uniform_texture_normal = gl.getUniformLocation(this.m_shader_program, 'texture_normal');
-        gl.uniform1i(this.m_shader_program.uniform_texture_normal, 1);
+        this.m_shader_program.uniform_texture_normal = handle_gl.getUniformLocation(this.m_shader_program, 'texture_normal');
+        handle_gl.uniform1i(this.m_shader_program.uniform_texture_normal, 1);
     }
 
     texture_color_loaded(image_data)
     {
-        gl.useProgram(this.m_shader_program);
-        gl.activeTexture(gl.TEXTURE0);
-        var texture = gl.createTexture();
-        gl.bindTexture(gl.TEXTURE_2D, texture);
+        handle_gl.useProgram(this.m_shader_program);
+        handle_gl.activeTexture(handle_gl.TEXTURE0);
+        var texture = handle_gl.createTexture();
+        handle_gl.bindTexture(handle_gl.TEXTURE_2D, texture);
         
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        handle_gl.pixelStorei(handle_gl.UNPACK_FLIP_Y_WEBGL, true);
         // let start =performance.now()
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image_data.image);
+        handle_gl.texImage2D(handle_gl.TEXTURE_2D, 0, handle_gl.RGBA, handle_gl.RGBA, handle_gl.UNSIGNED_BYTE, image_data.image);
         // console.log(performance.now()-start)
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); //Prevents s-coordinate wrapping (repeating).
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); //Prevents t-coordinate wrapping (repeating)
+        handle_gl.texParameteri(handle_gl.TEXTURE_2D, handle_gl.TEXTURE_MAG_FILTER, handle_gl.LINEAR);
+        handle_gl.texParameteri(handle_gl.TEXTURE_2D, handle_gl.TEXTURE_MIN_FILTER, handle_gl.LINEAR);
+        handle_gl.texParameteri(handle_gl.TEXTURE_2D, handle_gl.TEXTURE_WRAP_S, handle_gl.CLAMP_TO_EDGE); //Prevents s-coordinate wrapping (repeating).
+        handle_gl.texParameteri(handle_gl.TEXTURE_2D, handle_gl.TEXTURE_WRAP_T, handle_gl.CLAMP_TO_EDGE); //Prevents t-coordinate wrapping (repeating)
                                                                               //
-        gl.bindTexture(gl.TEXTURE_2D, null);
+        handle_gl.bindTexture(handle_gl.TEXTURE_2D, null);
         this.m_texture_color = texture;
-        gl.useProgram(null);
+        handle_gl.useProgram(null);
 
         if(this.all_textures_created())
         {
@@ -47,23 +50,23 @@ class Material_Texture extends Material
     }
     texture_normal_loaded(image_data)
     {
-        gl.useProgram(this.m_shader_program);
-        gl.activeTexture(gl.TEXTURE1);
-        var texture = gl.createTexture();
-        gl.bindTexture(gl.TEXTURE_2D, texture);
+        handle_gl.useProgram(this.m_shader_program);
+        handle_gl.activeTexture(handle_gl.TEXTURE1);
+        var texture = handle_gl.createTexture();
+        handle_gl.bindTexture(handle_gl.TEXTURE_2D, texture);
         
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        handle_gl.pixelStorei(handle_gl.UNPACK_FLIP_Y_WEBGL, true);
         // let start =performance.now()
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image_data.image);
+        handle_gl.texImage2D(handle_gl.TEXTURE_2D, 0, handle_gl.RGBA, handle_gl.RGBA, handle_gl.UNSIGNED_BYTE, image_data.image);
         // console.log(performance.now()-start)
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); //Prevents s-coordinate wrapping (repeating).
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE); //Prevents t-coordinate wrapping (repeating)
+        handle_gl.texParameteri(handle_gl.TEXTURE_2D, handle_gl.TEXTURE_MAG_FILTER, handle_gl.LINEAR);
+        handle_gl.texParameteri(handle_gl.TEXTURE_2D, handle_gl.TEXTURE_MIN_FILTER, handle_gl.LINEAR);
+        handle_gl.texParameteri(handle_gl.TEXTURE_2D, handle_gl.TEXTURE_WRAP_S, handle_gl.CLAMP_TO_EDGE); //Prevents s-coordinate wrapping (repeating).
+        handle_gl.texParameteri(handle_gl.TEXTURE_2D, handle_gl.TEXTURE_WRAP_T, handle_gl.CLAMP_TO_EDGE); //Prevents t-coordinate wrapping (repeating)
                                                                               //
-        gl.bindTexture(gl.TEXTURE_2D, null);
+        handle_gl.bindTexture(handle_gl.TEXTURE_2D, null);
         this.m_texture_normal = texture;
-        gl.useProgram(null);
+        handle_gl.useProgram(null);
 
         if(this.all_textures_created())
         {
@@ -81,9 +84,9 @@ class Material_Texture extends Material
 
     upload_properties()
     {
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, this.m_texture_color);
-        gl.activeTexture(gl.TEXTURE1);
-        gl.bindTexture(gl.TEXTURE_2D, this.m_texture_normal);
+        handle_gl.activeTexture(handle_gl.TEXTURE0);
+        handle_gl.bindTexture(handle_gl.TEXTURE_2D, this.m_texture_color);
+        handle_gl.activeTexture(handle_gl.TEXTURE1);
+        handle_gl.bindTexture(handle_gl.TEXTURE_2D, this.m_texture_normal);
     }
 }

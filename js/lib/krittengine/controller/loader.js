@@ -1,4 +1,10 @@
-class Loader
+import Image_Data from '../view/image_data.js';
+import Material_Color from '../view/material_color.js';
+import Material_Texture from '../view/material_texture.js';
+import Material_Light from '../view/material_light.js';
+import Mesh from '../view/mesh.js';
+
+export default class
 {
     constructor()
     {

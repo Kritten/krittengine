@@ -1,8 +1,12 @@
+import Camera from './camera.js'
+import Tree_AABB from '../controller/tree_aabb.js'
+import Material_Lines from '../view/material_lines.js'
+
 /**
  * Container for the gameobjects
  * @class
  */
-class Scene 
+export default class Scene 
 {
 	/**
 	 * @param      {String}  name    The name

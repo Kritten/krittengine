@@ -1,8 +1,9 @@
+import Entity from './entity.js'
 /**
  * Represents a entity in space
  * @class
  */
-class Spatial_Entity extends Entity
+export default class Spatial_Entity extends Entity
 {
 	constructor(name, data)
 	{

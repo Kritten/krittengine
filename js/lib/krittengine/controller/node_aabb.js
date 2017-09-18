@@ -1,7 +1,9 @@
+import Bounding_Box from './bounding_box.js';
+
 /**
  * @class
  */
-class Node_AABB 
+export default class Node_AABB 
 {
 	constructor(offset) 
 	{

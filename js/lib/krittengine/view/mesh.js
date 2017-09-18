@@ -1,3 +1,7 @@
+import Bounding_Box from '../controller/bounding_box.js';
+import { handle_gl } from './context_gl.js';
+import { load_text } from '../controller/utils.js';
+
 /**
  * @private
  * @instance
@@ -10,7 +14,7 @@
  * Represents a mesh.
  * @class
  */
-class Mesh
+export default class Mesh
 {
 	constructor(callback, name, path)
 	{
@@ -20,7 +24,7 @@ class Mesh
         this.callback = callback
         this.m_vertex_array_object = undefined;
         
-        glob_loader_mesh.load(path).then(
+        load_text(path).then(
             function(string_mesh)
             {
             	let start_parsing = performance.now();
@@ -28,36 +32,38 @@ class Mesh
             	let {list_indices, list_data_vertex} = data_vertex;
             	console.log('Parsing took ' + (performance.now() - start_parsing).toFixed(2)+'ms')
 
-            	this.m_vertex_array_object =  gl.createVertexArray();
-				gl.bindVertexArray(this.m_vertex_array_object);
+            	this.m_vertex_array_object =  handle_gl.createVertexArray();
+				handle_gl.bindVertexArray(this.m_vertex_array_object);
 
 				this.count_indices = list_indices.length
 
-				let buffer_vertex_position = gl.createBuffer()
-				gl.bindBuffer(gl.ARRAY_BUFFER, buffer_vertex_position);
-			    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(list_data_vertex), gl.STATIC_DRAW);
-				gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 56, 0);
-			    gl.enableVertexAttribArray(0);  
-				gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 56, 12);
-			    gl.enableVertexAttribArray(1);  
-				gl.vertexAttribPointer(2, 3, gl.FLOAT, false, 56, 20);
-			    gl.enableVertexAttribArray(2); 
-				gl.vertexAttribPointer(3, 3, gl.FLOAT, false, 56, 32);
-			    gl.enableVertexAttribArray(3); 
-				gl.vertexAttribPointer(4, 3, gl.FLOAT, false, 56, 44);
-			    gl.enableVertexAttribArray(4);  
+				let buffer_vertex_position = handle_gl.createBuffer()
+				handle_gl.bindBuffer(handle_gl.ARRAY_BUFFER, buffer_vertex_position);
+			    handle_gl.bufferData(handle_gl.ARRAY_BUFFER, new Float32Array(list_data_vertex), handle_gl.STATIC_DRAW);
+				handle_gl.vertexAttribPointer(0, 3, handle_gl.FLOAT, false, 56, 0);
+			    handle_gl.enableVertexAttribArray(0);  
+				handle_gl.vertexAttribPointer(1, 2, handle_gl.FLOAT, false, 56, 12);
+			    handle_gl.enableVertexAttribArray(1);  
+				handle_gl.vertexAttribPointer(2, 3, handle_gl.FLOAT, false, 56, 20);
+			    handle_gl.enableVertexAttribArray(2); 
+				handle_gl.vertexAttribPointer(3, 3, handle_gl.FLOAT, false, 56, 32);
+			    handle_gl.enableVertexAttribArray(3); 
+				handle_gl.vertexAttribPointer(4, 3, handle_gl.FLOAT, false, 56, 44);
+			    handle_gl.enableVertexAttribArray(4);  
 				
-				let ebo = gl.createBuffer();
-			    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ebo);
-			    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,  new Uint16Array(list_indices), gl.STATIC_DRAW);
+				let ebo = handle_gl.createBuffer();
+			    handle_gl.bindBuffer(handle_gl.ELEMENT_ARRAY_BUFFER, ebo);
+			    handle_gl.bufferData(handle_gl.ELEMENT_ARRAY_BUFFER,  new Uint16Array(list_indices), handle_gl.STATIC_DRAW);
 			    
-				gl.bindVertexArray(null);
-			    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+				handle_gl.bindVertexArray(null);
+			    handle_gl.bindBuffer(handle_gl.ELEMENT_ARRAY_BUFFER, null);
 
                 this.finished_loading() 
             }.bind(this)
         )
 	}
+
+    // 
 
 	parse_obj(string_mesh)
 	{

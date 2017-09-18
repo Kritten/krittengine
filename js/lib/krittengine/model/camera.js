@@ -1,8 +1,12 @@
+import Spatial_Entity from './spatial_entity.js'
+import { handle_gl } from '../view/context_gl.js';
+import { key_input, time_info, mouse_input } from '../controller/utils.js';
+
 /**
  * Represents a renderable entity
  * @class
  */
-class Camera extends Spatial_Entity
+export default class Camera extends Spatial_Entity
 {
 	constructor(name, data)
 	{
@@ -12,10 +16,14 @@ class Camera extends Spatial_Entity
 	 	this.m_matrix_perspective = mat4.create();
 	 	this.m_matrix_view = mat4.create();
 
-        mat4.perspective(this.matrix_perspective, 70, gl.drawingBufferWidth / gl.drawingBufferHeight, 0.1, 100.0);
+        mat4.perspective(this.matrix_perspective, 70, handle_gl.drawingBufferWidth / handle_gl.drawingBufferHeight, 0.1, 100.0);
 	 	this.compute_viewing_direction()
 
 		this.update_view_matrix()
+
+		this.glob_key_input = key_input;
+		this.glob_time_info = time_info;
+		this.glob_mouse_input = mouse_input;
 	}
 
 	update_all()

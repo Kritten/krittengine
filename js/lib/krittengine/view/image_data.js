@@ -1,4 +1,6 @@
-class Image_Data
+import { load_image } from '../controller/utils.js';
+
+export default class Image_Data
 {
 	constructor(path)
 	{
@@ -6,7 +8,7 @@ class Image_Data
 		this.path = path
 		this.image = undefined
 		this.waiting_materials = []
-	 	glob_loader_texture.load(path).then(
+	 	load_image(path).then(
 	        function(image)
 	        {
 	        	this.image = image

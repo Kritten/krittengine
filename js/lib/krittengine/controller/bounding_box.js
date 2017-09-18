@@ -1,7 +1,7 @@
 /**
  * @class
  */
-class Bounding_Box 
+export default class Bounding_Box 
 {
 	constructor(corner_min, corner_max) 
 	{

@@ -1,3 +1,5 @@
+import Spatial_Entity from './spatial_entity.js'
+
 /**
  * @private
  * @instance
@@ -10,7 +12,7 @@ const m_geometry_entity_material = new WeakMap();
  * Represents a renderable entity
  * @class
  */
-class Geometry_Entity extends Spatial_Entity
+export default class Geometry_Entity extends Spatial_Entity
 {
 	constructor(name, data)
 	{

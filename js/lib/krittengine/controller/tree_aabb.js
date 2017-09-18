@@ -1,7 +1,10 @@
+import { handle_gl } from '../view/context_gl.js';
+import Node_AABB from './node_aabb.js';
+
 /**
  * @class
  */
-class Tree_AABB 
+export default class Tree_AABB 
 {
     constructor() 
     {
@@ -10,7 +13,7 @@ class Tree_AABB
         this.m_depth = 0;
         // this.m_offset = vec3.create();
         this.m_offset = vec3.fromValues(0.1, 0.1, 0.1);
-        this.m_vertex_array_object =  gl.createVertexArray();
+        this.m_vertex_array_object =  handle_gl.createVertexArray();
 
         this.create_lines();
     }
@@ -266,19 +269,19 @@ class Tree_AABB
         list_indices.push(3);
         list_indices.push(7);
 
-        gl.bindVertexArray(this.m_vertex_array_object);
+        handle_gl.bindVertexArray(this.m_vertex_array_object);
 
-        let buffer_vertex_position = gl.createBuffer()
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer_vertex_position);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(list_data_vertex), gl.STATIC_DRAW);
-        gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 12, 0);
-        gl.enableVertexAttribArray(0);  
+        let buffer_vertex_position = handle_gl.createBuffer()
+        handle_gl.bindBuffer(handle_gl.ARRAY_BUFFER, buffer_vertex_position);
+        handle_gl.bufferData(handle_gl.ARRAY_BUFFER, new Float32Array(list_data_vertex), handle_gl.STATIC_DRAW);
+        handle_gl.vertexAttribPointer(0, 3, handle_gl.FLOAT, false, 12, 0);
+        handle_gl.enableVertexAttribArray(0);  
         
-        let ebo = gl.createBuffer();
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ebo);
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,  new Uint16Array(list_indices), gl.STATIC_DRAW);
+        let ebo = handle_gl.createBuffer();
+        handle_gl.bindBuffer(handle_gl.ELEMENT_ARRAY_BUFFER, ebo);
+        handle_gl.bufferData(handle_gl.ELEMENT_ARRAY_BUFFER,  new Uint16Array(list_indices), handle_gl.STATIC_DRAW);
         
-        gl.bindVertexArray(null);
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+        handle_gl.bindVertexArray(null);
+        handle_gl.bindBuffer(handle_gl.ELEMENT_ARRAY_BUFFER, null);
     }
 }

@@ -1,8 +1,11 @@
+import Material from './material.js'
+import { handle_gl } from './context_gl.js';
+
 /**
  * Represents a material.
  * @class
  */
-class Material_Light extends Material
+export default class Material_Light extends Material
 {
     constructor(callback, name)
     {

@@ -2,7 +2,7 @@
  * Represents a entity
  * @class
  */
-class Entity
+export default class Entity
 {
 	constructor(name)
 	{
