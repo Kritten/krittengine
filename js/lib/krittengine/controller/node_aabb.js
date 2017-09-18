@@ -16,6 +16,8 @@ class Node_AABB
 		this.m_is_visited = false;
 	}
 
+
+
 	// add_node(node_new) 
 	// {
 	// 	// if current node is a leaf node
@@ -114,7 +116,7 @@ class Node_AABB
 		}
 	}
 
-	update_bounding_box()
+	update_bounding_box(slim_only=false)
 	{
 		if(this.is_leaf_node())
 		{
@@ -123,11 +125,13 @@ class Node_AABB
 			vec3.transformMat4(corner_min, corner_min, this.m_data.m_matrix_transformation);
 			vec3.transformMat4(corner_max, corner_max, this.m_data.m_matrix_transformation);
 			this.m_bounding_box_slim = new Bounding_Box(corner_min, corner_max);
+			if(!slim_only)
+			{
+	    		vec3.sub(corner_min, corner_min, this.m_offset);
+    			vec3.add(corner_max, corner_max, this.m_offset);
 
-    		vec3.sub(corner_min, corner_min, this.m_offset);
-    		vec3.add(corner_max, corner_max, this.m_offset);
-
-			this.m_bounding_box_fat = new Bounding_Box(corner_min, corner_max);
+				this.m_bounding_box_fat = new Bounding_Box(corner_min, corner_max);
+			}
 		} else {
 			let corner_min = vec3.create();
 			let corner_max = vec3.create();
@@ -141,15 +145,18 @@ class Node_AABB
 				this.m_bounding_box_slim.update_size(corner_min, corner_max);
     		}
     			
-    		vec3.sub(corner_min, corner_min, this.m_offset);
-    		vec3.add(corner_max, corner_max, this.m_offset);
-			
-    		if(this.m_bounding_box_fat == undefined)
-    		{
-    			this.m_bounding_box_fat = new Bounding_Box(corner_min, corner_max); 
-    		} else {
-				this.m_bounding_box_fat.update_size(corner_min, corner_max);
-    		}
+			if(!slim_only)
+			{
+	    		vec3.sub(corner_min, corner_min, this.m_offset);
+	    		vec3.add(corner_max, corner_max, this.m_offset);
+				
+	    		if(this.m_bounding_box_fat == undefined)
+	    		{
+	    			this.m_bounding_box_fat = new Bounding_Box(corner_min, corner_max); 
+	    		} else {
+					this.m_bounding_box_fat.update_size(corner_min, corner_max);
+	    		}
+			}
 		}
 	}
 

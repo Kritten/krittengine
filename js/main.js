@@ -218,7 +218,7 @@ scene.add_camera(camera)
 
 let start_parsing = performance.now();
 let list_entities = []
-for (let i = 0; i < 40; i++) 
+for (let i = 0; i < 4; i++) 
 {
 	const geometry_entity2 = new Geometry_Entity("sphere_small_"+i, {
 		// position: vec3.random(vec3.create(), Math.random() * 5.0), 
@@ -226,7 +226,19 @@ for (let i = 0; i < 40; i++)
 		scale: vec3.fromValues(0.1, 0.2, 0.1), 
 		mesh: krittengine.get_mesh('mesh_sphere')
 	});
-	geometry_entity2.update = function(){ }
+	if(false)
+	// if(i == 3)
+	{
+		geometry_entity2.update = function()
+		{ 
+			// this.position = vec3.create(1.0, 0.0, 0.0);
+			// vec3.add(this.position, this.position, vec3.create(0.1, 0.0, 0.0));
+			// glob_time_info.delta_time
+			console.log( this.position) 
+		}
+	} else {
+		geometry_entity2.update = function(){ }
+	}
 	list_entities.push(geometry_entity2);
 	// scene.add(geometry_entity2);
 }
