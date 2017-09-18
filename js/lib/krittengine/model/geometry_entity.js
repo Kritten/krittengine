@@ -1,4 +1,5 @@
 import Spatial_Entity from './spatial_entity.js'
+import { key_input, time_info, mouse_input } from '../controller/utils.js';
 
 /**
  * @private
@@ -26,6 +27,11 @@ export default class Geometry_Entity extends Spatial_Entity
 
 		m_geometry_entity_mesh.set(this, mesh);
 		m_geometry_entity_material.set(this, material);
+
+		
+		this.glob_key_input = key_input;
+		this.glob_time_info = time_info;
+		this.glob_mouse_input = mouse_input;
 	}
 
 	get material()
