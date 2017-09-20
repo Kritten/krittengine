@@ -223,24 +223,26 @@ scene.add_camera(camera)
 
 let start_parsing = performance.now();
 let list_entities = []
-for (let i = 0; i < 5; i++) 
+for (let i = 0; i <2; i++) 
 {
-	const geometry_entity2 = new Geometry_Entity("sphere_small_"+i, {
-		// position: vec3.random(vec3.create(), Math.random() * 5.0), 
-		position: vec3.fromValues(-3.0 + i * i * 0.3, -0.0 + i * 0.1, -5.0), 
-		scale: vec3.fromValues(0.1, 0.2, 0.1), 
-		mesh: krittengine.get_mesh('mesh_sphere'),
-		material: material_texture
-	});
+	let geometry_entity2 = undefined;
 	// if(false)
-	if(i == 4)
+	if(i == 0)
 	{
+		geometry_entity2 = new Geometry_Entity("sphere_small_"+i, {
+			// position: vec3.random(vec3.create(), Math.random() * 5.0), a
+			position: vec3.fromValues(-3.0 + i * i * 0.3, -0.0 + i * 0.1, -5.0), 
+			scale: vec3.fromValues(0.1, 0.2, 0.1), 
+			mesh: krittengine.get_mesh('mesh_sphere'),
+			material: material_texture,
+			movable: true,
+		});
 		geometry_entity2.update = function()
 		{
 			// let tmp = timestamp;
 			// vec3.add(tmp)
 			let tmp = vec3.fromValues(-0.01, -0.001, 0.0);
-			vec3.scale(tmp, tmp, this.glob_time_info.delta_time * 0.05)
+			vec3.scale(tmp, tmp, this.glob_time_info.delta_time * 0.01)
 			// let tmp = vec3.clone(this.position);
 			// vec3.sub(this.position, this.position, vec3.scale(tmp, tmp, 0.01));
 
@@ -250,6 +252,15 @@ for (let i = 0; i < 5; i++)
 
 		}
 	} else {
+		geometry_entity2 = new Geometry_Entity("sphere_small_"+i, {
+			// position: vec3.random(vec3.create(), Math.random() * 5.0), 
+			position: vec3.fromValues(-3.0 + i * i * 0.3, -0.0 + i * 0.1, -5.0), 
+			scale: vec3.fromValues(0.1, 0.2, 0.1), 
+			mesh: krittengine.get_mesh('mesh_sphere'),
+			material: material_texture,
+			// movable: true,
+
+		});
 		geometry_entity2.update = function(){ }
 	}
 	list_entities.push(geometry_entity2);

@@ -12,6 +12,8 @@ export default class Tree_AABB
         this.m_count_objects = 0;
         this.m_depth = 0;
         // this.m_offset = vec3.create();
+        // this.m_offset = vec3.fromValues(0.5, 0.5, 0.5);
+        // this.m_offset = vec3.fromValues(0.06, 0.06, 0.06);
         this.m_offset = vec3.fromValues(0.1, 0.1, 0.1);
         this.m_vertex_array_object =  handle_gl.createVertexArray();
 
@@ -28,13 +30,15 @@ export default class Tree_AABB
                 console.log('leaf')
 
                 node_current.m_node_left = node_new;
+                node_current.m_node_left.m_is_left_child = true;
                 node_current.m_node_left.update_parent(node_current);
 
-                node_current.m_node_right = new Node_AABB(node_current.m_offset);
+                node_current.m_node_right = new Node_AABB(this, node_current.m_offset);
+                node_current.m_node_right.m_is_left_child = false;
                 node_current.m_node_right.update_parent(node_current);
                 node_current.m_node_right.update_data(node_current.m_data);
 
-                node_current.sort_children();
+                // node_current.sort_children();
                 node_current.m_data = undefined;
                 // node_current.update_bounding_box();
                 break;
@@ -59,26 +63,30 @@ export default class Tree_AABB
                     if(volume_current < volume_left && volume_current < volume_right)
                     {
                         // create new node for subtree
-                        let node_subtree = new Node_AABB(node_current.m_offset);
+                        let node_subtree = new Node_AABB(this, node_current.m_offset);
                         node_subtree.m_depth = node_current.m_depth + 1;
                         // set the parent node
                         // set the child node to new node
 
                         node_subtree.m_node_left = node_current.m_node_left;
-                        node_current.m_node_left.update_parent(node_subtree);
+                        node_subtree.m_node_left.m_is_left_child = true;
+                        node_subtree.m_node_left.update_parent(node_subtree);
 
                         node_subtree.m_node_right = node_current.m_node_right;
-                        node_current.m_node_right.update_parent(node_subtree);
+                        node_subtree.m_node_right.m_is_left_child = false;
+                        node_subtree.m_node_right.update_parent(node_subtree);
 
-                        node_subtree.update_bounding_box();
+                        node_subtree.update_bounding_boxes();
 
                         // node_current.m_right.add_node(entity);
                         // node_current.m_left = node_subtree;
                         node_current.m_node_left = node_subtree;
-                        node_subtree.update_parent(node_current);
+                        node_current.m_node_left.m_is_left_child = true;
+                        node_current.m_node_left.update_parent(node_current);
                         // node_current.m_left.add_node(entity);
                         node_current.m_node_right = node_new;
-                        node_new.update_parent(node_current);
+                        node_current.m_node_right.m_is_left_child = false;
+                        node_current.m_node_right.update_parent(node_current);
 
                         // console.log(node_current.needs_update());
                         // console.log(node_current)
@@ -104,7 +112,7 @@ export default class Tree_AABB
     add_entity(entity)
     {
         // console.log(entity)
-        let node = new Node_AABB(this.m_offset);
+        let node = new Node_AABB(this, this.m_offset);
         node.update_data(entity);
 
         if(this.m_node_root == undefined)

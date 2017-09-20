@@ -5,17 +5,19 @@ import Bounding_Box from './bounding_box.js';
  */
 export default class Node_AABB 
 {
-	constructor(offset) 
+	constructor(tree, offset) 
 	{
-		this.m_data = undefined;
-		this.m_node_parent = undefined;
-		this.m_bounding_box_slim = undefined;
-		this.m_bounding_box_fat = undefined;
-		this.m_node_left = undefined;
-		this.m_node_right = undefined;
-		this.m_depth = 0;
-		this.m_offset = offset;
-		this.m_is_visited = false;
+        this.m_tree = tree;
+        this.m_data = undefined;
+        this.m_node_parent = undefined;
+        this.m_bounding_box_slim = undefined;
+        this.m_bounding_box_fat = undefined;
+        this.m_node_left = undefined;
+        this.m_node_right = undefined;
+        this.m_depth = 0;
+        this.m_offset = offset;
+        this.m_is_visited = false;
+        this.m_is_left_child = undefined;
 	}
 
 
@@ -117,8 +119,170 @@ export default class Node_AABB
 			this.m_node_right = node_tmp;
 		}
 	}
+	update_bounding_box_fat()
+    {
+        if(this.is_leaf_node())
+        {
+            let corner_min = vec3.fromValues(-0.5, -0.5, -0.5);
+            let corner_max = vec3.fromValues(0.5, 0.5, 0.5);
+            vec3.transformMat4(corner_min, corner_min, this.m_data.m_matrix_transformation);
+            vec3.transformMat4(corner_max, corner_max, this.m_data.m_matrix_transformation);
+            vec3.sub(corner_min, corner_min, this.m_offset);
+            vec3.add(corner_max, corner_max, this.m_offset);
 
-	update_bounding_box(slim_only=false)
+            if(this.m_bounding_box_fat == undefined)
+            {
+                this.m_bounding_box_fat = new Bounding_Box(corner_min, corner_max); 
+            } else {
+                this.m_bounding_box_fat.update_size(corner_min, corner_max);
+            } 
+        } else {
+            let corner_min = vec3.create();
+            let corner_max = vec3.create();
+                
+            if(this.m_node_left.is_leaf_node() && this.m_node_right.is_leaf_node())
+            {
+                vec3.min(corner_min, this.m_node_left.m_bounding_box_fat.m_corner_min, this.m_node_right.m_bounding_box_fat.m_corner_min);
+                vec3.max(corner_max, this.m_node_left.m_bounding_box_fat.m_corner_max, this.m_node_right.m_bounding_box_fat.m_corner_max);
+            } 
+            else if(!this.m_node_left.is_leaf_node() && !this.m_node_right.is_leaf_node())
+            {
+                vec3.min(corner_min, this.m_node_left.m_bounding_box_slim.m_corner_min, this.m_node_right.m_bounding_box_slim.m_corner_min);
+                vec3.max(corner_max, this.m_node_left.m_bounding_box_slim.m_corner_max, this.m_node_right.m_bounding_box_slim.m_corner_max);
+            } 
+            else if(!this.m_node_left.is_leaf_node() && this.m_node_right.is_leaf_node())
+            {
+                vec3.min(corner_min, this.m_node_left.m_bounding_box_slim.m_corner_min, this.m_node_right.m_bounding_box_fat.m_corner_min);
+                vec3.max(corner_max, this.m_node_left.m_bounding_box_slim.m_corner_max, this.m_node_right.m_bounding_box_fat.m_corner_max);
+            } 
+            else if(this.m_node_left.is_leaf_node() && !this.m_node_right.is_leaf_node())
+            {
+                vec3.min(corner_min, this.m_node_left.m_bounding_box_fat.m_corner_min, this.m_node_right.m_bounding_box_slim.m_corner_min);
+                vec3.max(corner_max, this.m_node_left.m_bounding_box_fat.m_corner_max, this.m_node_right.m_bounding_box_slim.m_corner_max);
+            }
+
+            vec3.sub(corner_min, corner_min, this.m_offset);
+            vec3.add(corner_max, corner_max, this.m_offset);
+            
+            if(this.m_bounding_box_fat == undefined)
+            {
+                this.m_bounding_box_fat = new Bounding_Box(corner_min, corner_max); 
+            } else {
+                this.m_bounding_box_fat.update_size(corner_min, corner_max);
+            }
+        }
+    }
+
+    entity_moved()
+    {
+        // console.log(this.m_tree)
+        // throw new Error('test');
+        // console.log(this.m_data.m_name)
+        let start = performance.now();
+        this.update_bounding_box_slim();
+
+        // this.m_node_parent
+        if(!this.m_bounding_box_slim.is_inside_of(this.m_bounding_box_fat))
+        {
+            // throw new Error('bounding box not inside');
+            // if node is root
+            if(this.m_node_parent == undefined)
+            {
+                this.update_bounding_box_fat();
+            } else {
+                // console.log(this.m_is_left_child)
+                if(this.m_is_left_child)
+                {
+
+                } else {
+                    const node_parent = this.m_node_parent;
+                    const node_grandparent = node_parent.m_node_parent;
+                    const node_sibling = node_parent.m_node_left;
+
+                    if(node_grandparent == undefined)
+                    {
+                        node_parent.m_node_left = undefined;
+                        node_parent.m_node_right = undefined;
+
+                        node_sibling.m_node_parent = undefined;
+                        this.m_node_parent = undefined;
+
+                        node_sibling.m_is_left_child = undefined;
+                        node_sibling.m_depth = node_parent.m_depth;
+                        this.m_tree.m_node_root = node_sibling;
+
+                    }
+
+                    // this.m_bounding_box_slim = undefined;
+                    // this.m_bounding_box_fat = undefined;
+                    this.update_bounding_boxes()
+                    this.m_depth = 0;
+                    this.m_is_left_child = undefined;
+                    // console.log(this)
+                    this.m_tree.insert_entity(this);
+
+                    this.update_bounding_boxes_of_parents();
+                    // console.log(this.m_tree)
+
+                     // throw new Error('test');
+                }
+            }
+        }
+        // console.log(this.m_tree)
+        let end = performance.now();
+        // console.log((end - start).toFixed(4))
+    }
+
+    update_bounding_box_slim()
+    {
+        if(this.is_leaf_node())
+        {
+            let corner_min = vec3.fromValues(-0.5, -0.5, -0.5);
+            let corner_max = vec3.fromValues(0.5, 0.5, 0.5);
+            vec3.transformMat4(corner_min, corner_min, this.m_data.m_matrix_transformation);
+            vec3.transformMat4(corner_max, corner_max, this.m_data.m_matrix_transformation);
+
+            if(this.m_bounding_box_slim == undefined)
+            {
+                this.m_bounding_box_slim = new Bounding_Box(corner_min, corner_max); 
+            } else {
+                this.m_bounding_box_slim.update_size(corner_min, corner_max);
+            }   
+        } else {
+            let corner_min = vec3.create();
+            let corner_max = vec3.create();
+
+            if(this.m_node_left.is_leaf_node() && this.m_node_right.is_leaf_node())
+            {
+                vec3.min(corner_min, this.m_node_left.m_bounding_box_fat.m_corner_min, this.m_node_right.m_bounding_box_fat.m_corner_min);
+                vec3.max(corner_max, this.m_node_left.m_bounding_box_fat.m_corner_max, this.m_node_right.m_bounding_box_fat.m_corner_max);
+            } 
+            else if(!this.m_node_left.is_leaf_node() && !this.m_node_right.is_leaf_node())
+            {
+                vec3.min(corner_min, this.m_node_left.m_bounding_box_slim.m_corner_min, this.m_node_right.m_bounding_box_slim.m_corner_min);
+                vec3.max(corner_max, this.m_node_left.m_bounding_box_slim.m_corner_max, this.m_node_right.m_bounding_box_slim.m_corner_max);
+            } 
+            else if(!this.m_node_left.is_leaf_node() && this.m_node_right.is_leaf_node())
+            {
+                vec3.min(corner_min, this.m_node_left.m_bounding_box_slim.m_corner_min, this.m_node_right.m_bounding_box_fat.m_corner_min);
+                vec3.max(corner_max, this.m_node_left.m_bounding_box_slim.m_corner_max, this.m_node_right.m_bounding_box_fat.m_corner_max);
+            } 
+            else if(this.m_node_left.is_leaf_node() && !this.m_node_right.is_leaf_node())
+            {
+                vec3.min(corner_min, this.m_node_left.m_bounding_box_fat.m_corner_min, this.m_node_right.m_bounding_box_slim.m_corner_min);
+                vec3.max(corner_max, this.m_node_left.m_bounding_box_fat.m_corner_max, this.m_node_right.m_bounding_box_slim.m_corner_max);
+            }
+
+            if(this.m_bounding_box_slim == undefined)
+            {
+                this.m_bounding_box_slim = new Bounding_Box(corner_min, corner_max); 
+            } else {
+                this.m_bounding_box_slim.update_size(corner_min, corner_max);
+            }        
+        }
+    }
+
+    update_bounding_boxes()
 	{
 		if(this.is_leaf_node())
 		{
@@ -126,19 +290,48 @@ export default class Node_AABB
 			let corner_max = vec3.fromValues(0.5, 0.5, 0.5);
 			vec3.transformMat4(corner_min, corner_min, this.m_data.m_matrix_transformation);
 			vec3.transformMat4(corner_max, corner_max, this.m_data.m_matrix_transformation);
-			this.m_bounding_box_slim = new Bounding_Box(corner_min, corner_max);
-			if(!slim_only)
-			{
-	    		vec3.sub(corner_min, corner_min, this.m_offset);
-    			vec3.add(corner_max, corner_max, this.m_offset);
 
-				this.m_bounding_box_fat = new Bounding_Box(corner_min, corner_max);
-			}
+            if(this.m_bounding_box_slim == undefined)
+            {
+                this.m_bounding_box_slim = new Bounding_Box(corner_min, corner_max); 
+            } else {
+                this.m_bounding_box_slim.update_size(corner_min, corner_max);
+            } 
+
+    		vec3.sub(corner_min, corner_min, this.m_offset);
+			vec3.add(corner_max, corner_max, this.m_offset);
+
+            if(this.m_bounding_box_fat == undefined)
+            {
+                this.m_bounding_box_fat = new Bounding_Box(corner_min, corner_max); 
+            } else {
+                this.m_bounding_box_fat.update_size(corner_min, corner_max);
+            } 
 		} else {
 			let corner_min = vec3.create();
 			let corner_max = vec3.create();
-    		vec3.min(corner_min, this.m_node_left.m_bounding_box_slim.m_corner_min, this.m_node_right.m_bounding_box_slim.m_corner_min);
-    		vec3.max(corner_max, this.m_node_left.m_bounding_box_slim.m_corner_max, this.m_node_right.m_bounding_box_slim.m_corner_max);
+
+            if(this.m_node_left.is_leaf_node() && this.m_node_right.is_leaf_node())
+            {
+                vec3.min(corner_min, this.m_node_left.m_bounding_box_fat.m_corner_min, this.m_node_right.m_bounding_box_fat.m_corner_min);
+                vec3.max(corner_max, this.m_node_left.m_bounding_box_fat.m_corner_max, this.m_node_right.m_bounding_box_fat.m_corner_max);
+            } 
+            else if(!this.m_node_left.is_leaf_node() && !this.m_node_right.is_leaf_node())
+            {
+                vec3.min(corner_min, this.m_node_left.m_bounding_box_slim.m_corner_min, this.m_node_right.m_bounding_box_slim.m_corner_min);
+                vec3.max(corner_max, this.m_node_left.m_bounding_box_slim.m_corner_max, this.m_node_right.m_bounding_box_slim.m_corner_max);
+            } 
+            else if(!this.m_node_left.is_leaf_node() && this.m_node_right.is_leaf_node())
+            {
+                vec3.min(corner_min, this.m_node_left.m_bounding_box_slim.m_corner_min, this.m_node_right.m_bounding_box_fat.m_corner_min);
+                vec3.max(corner_max, this.m_node_left.m_bounding_box_slim.m_corner_max, this.m_node_right.m_bounding_box_fat.m_corner_max);
+            } 
+            else if(this.m_node_left.is_leaf_node() && !this.m_node_right.is_leaf_node())
+            {
+                vec3.min(corner_min, this.m_node_left.m_bounding_box_fat.m_corner_min, this.m_node_right.m_bounding_box_slim.m_corner_min);
+                vec3.max(corner_max, this.m_node_left.m_bounding_box_fat.m_corner_max, this.m_node_right.m_bounding_box_slim.m_corner_max);
+            }
+
 
     		if(this.m_bounding_box_slim == undefined)
     		{
@@ -147,18 +340,15 @@ export default class Node_AABB
 				this.m_bounding_box_slim.update_size(corner_min, corner_max);
     		}
     			
-			if(!slim_only)
-			{
-	    		vec3.sub(corner_min, corner_min, this.m_offset);
-	    		vec3.add(corner_max, corner_max, this.m_offset);
-				
-	    		if(this.m_bounding_box_fat == undefined)
-	    		{
-	    			this.m_bounding_box_fat = new Bounding_Box(corner_min, corner_max); 
-	    		} else {
-					this.m_bounding_box_fat.update_size(corner_min, corner_max);
-	    		}
-			}
+    		vec3.sub(corner_min, corner_min, this.m_offset);
+    		vec3.add(corner_max, corner_max, this.m_offset);
+			
+    		if(this.m_bounding_box_fat == undefined)
+    		{
+    			this.m_bounding_box_fat = new Bounding_Box(corner_min, corner_max); 
+    		} else {
+				this.m_bounding_box_fat.update_size(corner_min, corner_max);
+    		}
 		}
 	}
 
@@ -167,7 +357,7 @@ export default class Node_AABB
 		let node_parent = this.m_node_parent;
 		while(node_parent != undefined)
 		{
-			node_parent.update_bounding_box();
+			node_parent.update_bounding_boxes();
 			node_parent = node_parent.m_node_parent;
 		}
 	}
@@ -226,7 +416,7 @@ export default class Node_AABB
 		}
 		if(node_aabb.is_leaf_node())
 		{
-			console.log(offset+'leaf_node on level '+node_aabb.m_depth + '; name: ' + node_aabb.m_data.m_name);
+			console.log(offset+'  leaf_node on level '+node_aabb.m_depth + '; name: ' + node_aabb.m_data.m_name);
 			// console.log(offset+'leaf_node on level '+this.m_depth + '; min: ' + this.m_bounding_box.m_corner_min + ', max: ' + this.m_bounding_box.m_corner_max);
 		} else {
 			console.log(offset+'node on level '+node_aabb.m_depth);
@@ -241,7 +431,7 @@ export default class Node_AABB
 	{
 		this.m_data = data;
 		data.m_node_aabb = this;
-		this.update_bounding_box()
+		this.update_bounding_boxes()
 	}
     // 
     // RECURSIVE

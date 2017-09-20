@@ -4,76 +4,32 @@
 		"selected_items":
 		[
 			[
-				"node",
-				"node_current"
-			],
-			[
-				"is_",
-				"is_leaf_node"
-			],
-			[
 				"m_node",
 				"m_node_left"
 			],
 			[
-				"false",
-				"false"
+				"node",
+				"node_aabb"
 			],
 			[
-				"m_bound",
-				"m_bounding_box_slim"
+				"boun",
+				"bound_max"
 			],
 			[
-				"cente",
-				"center_left"
+				"di",
+				"dir_tangents1"
 			],
 			[
-				"center",
-				"center_right"
-			],
-			[
-				"bo",
-				"m_bounding_box"
+				"normal",
+				"normalize"
 			],
 			[
 				"list",
-				"list_indices"
-			],
-			[
-				"corn",
-				"corner_min"
-			],
-			[
-				"update",
-				"update_data"
-			],
-			[
-				"print",
-				"print_node"
-			],
-			[
-				"m_left",
-				"m_node_left"
-			],
-			[
-				"m_",
-				"m_depth"
+				"list_tangents1"
 			],
 			[
 				"is",
-				"is_leaf_node"
-			],
-			[
-				"tr",
-				"m_tree"
-			],
-			[
-				"material",
-				"material_color1"
-			],
-			[
-				"MATERIAL",
-				"material_color"
+				"is_fullscreen"
 			],
 			[
 				"dict",
@@ -356,6 +312,10 @@
 				"classes"
 			],
 			[
+				"print",
+				"print_html"
+			],
+			[
 				"coun",
 				"count"
 			],
@@ -371,131 +331,7 @@
 			"file": "js/main.js",
 			"settings":
 			{
-				"buffer_size": 334421,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/lib/krittengine/model/spatial_entity.js",
-			"settings":
-			{
-				"buffer_size": 781,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/lib/krittengine/controller/tree_aabb.js",
-			"settings":
-			{
-				"buffer_size": 7616,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/lib/krittengine/controller/node_aabb.js",
-			"settings":
-			{
-				"buffer_size": 6685,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/lib/krittengine/controller/loader.js",
-			"settings":
-			{
-				"buffer_size": 11688,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/lib/krittengine/controller/bounding_box.js",
-			"settings":
-			{
-				"buffer_size": 2464,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/lib/krittengine/view/renderer_scene.js",
-			"settings":
-			{
-				"buffer_size": 6184,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/lib/krittengine/model/entity.js",
-			"settings":
-			{
-				"buffer_size": 438,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/micro/Documents/uni/master/notes.txt",
-			"settings":
-			{
-				"buffer_size": 172,
-				"encoding": "UTF-8",
-				"line_ending": "Windows",
-				"name": "contained/contains nicht kumuliert"
-			}
-		},
-		{
-			"file": "js/lib/krittengine/view/material_lines.js",
-			"settings":
-			{
-				"buffer_size": 760,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/lib/krittengine/model/scene.js",
-			"settings":
-			{
-				"buffer_size": 2235,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/lib/krittengine/view/mesh.js",
-			"settings":
-			{
-				"buffer_size": 12404,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "data/objects/plane.obj",
-			"settings":
-			{
-				"buffer_size": 321,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "convert_threejs_to_kobjson.py",
-			"settings":
-			{
-				"buffer_size": 9754,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "js/lib/loader_mesh.js",
-			"settings":
-			{
-				"buffer_size": 478,
+				"buffer_size": 335854,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -504,16 +340,33 @@
 			"file": "js/lib/krittengine/controller/krittengine.js",
 			"settings":
 			{
-				"buffer_size": 8308,
+				"buffer_size": 8404,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "index.html",
+			"file": "js/lib/krittengine/model/scene.js",
 			"settings":
 			{
-				"buffer_size": 30263,
+				"buffer_size": 2422,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/lib/krittengine/model/entity.js",
+			"settings":
+			{
+				"buffer_size": 453,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/lib/krittengine/view/mesh.js",
+			"settings":
+			{
+				"buffer_size": 12796,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -522,7 +375,72 @@
 			"file": "js/lib/krittengine/model/geometry_entity.js",
 			"settings":
 			{
-				"buffer_size": 857,
+				"buffer_size": 1111,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/lib/krittengine/model/spatial_entity.js",
+			"settings":
+			{
+				"buffer_size": 1401,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/lib/krittengine/model/light.js",
+			"settings":
+			{
+				"buffer_size": 712,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/lib/krittengine/controller/loader.js",
+			"settings":
+			{
+				"buffer_size": 11953,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "import { handle_gl, init as init_gl } from './context_gl.js';\nimport Renderer_Quad from './renderer_quad.js';\n\n/**\n * This class is used to render scenes.\n * @class\n */\nexport default class\n{\n    /**\n     * @param      {DOMElement}  canvas  The canvas the engine should draw into.\n     */\n    constructor(canvas)\n    {\n        init_gl(canvas);\n        console.log(canvas)\n        handle_gl.clearColor(0.0, 0.0, 0.0, 1.0);\n        handle_gl.enable(handle_gl.DEPTH_TEST);\n        handle_gl.viewport(0, 0, handle_gl.drawingBufferWidth, handle_gl.drawingBufferHeight);\n\n        this.m_renderer_quad = new Renderer_Quad();\n    }\n\n    screen_resized(width, height)\n    {\n        canvas.width = width;\n        canvas.height = height;\n        handle_gl.viewport(0, 0, width, height);\n\n        this.m_renderer_quad.screen_resized();  \n    }\n\n    /**\n     * Renders the given scene.\n     * @param      {Scene}  scene   The scene which should be rendered.\n     */\n    render(scene)\n    {\n        handle_gl.bindFramebuffer(handle_gl.FRAMEBUFFER, this.m_renderer_quad.framebuffer);\n        handle_gl.clear(handle_gl.COLOR_BUFFER_BIT | handle_gl.DEPTH_BUFFER_BIT);\n\n        if(scene.m_render_lights)\n        {\n            scene.lights.forEach(function(light) {\n                const mesh = light.mesh;\n                const material = light.material;\n                handle_gl.useProgram(material.m_shader_program);\n\n                handle_gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_view, false, scene.active_camera.matrix_view);\n\n                handle_gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_perspective, false, scene.active_camera.matrix_perspective);\n\n                handle_gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_model, false, light.m_matrix_transformation);\n\n                handle_gl.bindVertexArray(mesh.m_vertex_array_object)\n                handle_gl.drawElements(handle_gl.TRIANGLES, mesh.count_indices, handle_gl.UNSIGNED_SHORT, 0);  \n                handle_gl.bindVertexArray(null)\n\n                handle_gl.useProgram(null);\n            })\n        }\n\n        for (let i = 0; i < scene.objects.length; i++)\n        {\n            let object = scene.objects[i];\n            const mesh = object.mesh;\n            const material = object.material;\n\n            handle_gl.useProgram(material.m_shader_program);\n\n            handle_gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_view, false, scene.active_camera.matrix_view);\n\n            handle_gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_perspective, false, scene.active_camera.matrix_perspective);\n\n            handle_gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_model, false, object.m_matrix_transformation);\n            \n            let matrix_normal = mat4.create();\n            mat4.multiply(matrix_normal, scene.active_camera.matrix_view, object.m_matrix_transformation);\n            mat4.invert(matrix_normal, matrix_normal);\n            mat4.transpose(matrix_normal, matrix_normal);\n            handle_gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_normal, false, matrix_normal);\n\n            scene.lights.forEach(function(light) {\n                handle_gl.uniform3f(this.m_shader_program.uniform_position_light, light.m_position[0], light.m_position[1], light.m_position[2]); \n                // console.log(light.position[1])\n            }, material)\n            \n            \n            material.upload_properties()\n            // console.log(mesh.m_vertex_array_object)\n            handle_gl.bindVertexArray(mesh.m_vertex_array_object)\n            handle_gl.drawElements(handle_gl.TRIANGLES, mesh.count_indices, handle_gl.UNSIGNED_SHORT, 0);  \n            handle_gl.bindVertexArray(null)\n\n            handle_gl.useProgram(null);\n        }\n\n        if(scene.m_render_bounding_boxes)\n        {\n                const material = scene.m_tree.material;\n                handle_gl.useProgram(material.m_shader_program);\n                handle_gl.bindVertexArray(scene.m_tree.m_vertex_array_object)\n\n                handle_gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_view, false, scene.active_camera.matrix_view);\n                handle_gl.uniformMatrix4fv(material.m_shader_program.uniform_matrix_perspective, false, scene.active_camera.matrix_perspective);\n\n                // const start = performance.now();\n                scene.m_tree.walk(this.draw_bounding_box, {material: material, depth: scene.m_depth_bounding_box_draw});\n                // scene.m_tree.walk_recursive(this.draw_bounding_box_recursive, {material: material, depth: scene.m_depth_bounding_box_draw});\n                // console.log((performance.now()-start).toFixed(2)+'ms');\n\n                handle_gl.bindVertexArray(null)\n                handle_gl.useProgram(null);\n        }\n        \n        handle_gl.bindFramebuffer(handle_gl.FRAMEBUFFER, null);\n        this.m_renderer_quad.render();\n    }\n    // \n    // RECURSIVE\n    //\n    draw_bounding_box_recursive(node_aabb, func, data)\n    {\n        if(!node_aabb.is_leaf_node())\n        {\n            handle_gl.uniformMatrix4fv(data.material.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_fat.m_matrix_transormation);\n\n        } else {\n            handle_gl.uniformMatrix4fv(data.material.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_slim.m_matrix_transormation);\n        }\n        \n        handle_gl.uniform1i(data.material.m_shader_program.uniform_depth, node_aabb.m_depth); \n        handle_gl.drawElements(handle_gl.LINES, 24, handle_gl.UNSIGNED_SHORT, 0);\n\n        if(!node_aabb.is_leaf_node())\n        {\n            node_aabb.m_node_left.walk(func, data);\n            node_aabb.m_node_right.walk(func, data);\n        }\n    }\n    // draw_bounding_box(node_aabb, data)\n    // {\n    //     let result = true;\n    //     // if(!node_aabb.is_leaf_node())\n    //     // {\n    //         if(node_aabb.m_depth == data.depth)\n    //         {\n    //             result = false;\n    //         }\n\n    //     //     // handle_gl.uniformMatrix4fv(data.material.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_slim.m_matrix_transormation);\n    //     // } else {\n    //     // }\n    //     handle_gl.uniform1i(data.material.m_shader_program.uniform_depth, node_aabb.m_depth); \n    //         handle_gl.uniformMatrix4fv(data.material.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_fat.m_matrix_transormation);\n        \n    //     handle_gl.drawElements(handle_gl.LINES, 24, handle_gl.UNSIGNED_SHORT, 0);\n    //         handle_gl.uniformMatrix4fv(data.material.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_slim.m_matrix_transormation);\n    //     handle_gl.drawElements(handle_gl.LINES, 24, handle_gl.UNSIGNED_SHORT, 0);\n\n    //     return result;\n    // }\n    draw_bounding_box(node_aabb, data)\n    {\n        let result = true;\n        handle_gl.uniform1i(data.material.m_shader_program.uniform_depth, node_aabb.m_depth); \n        if(!node_aabb.is_leaf_node())\n        {\n            if(node_aabb.m_depth == data.depth)\n            {\n                result = false;\n            }\n\n            // handle_gl.uniformMatrix4fv(data.material.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_slim.m_matrix_transormation);\n            handle_gl.uniformMatrix4fv(data.material.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_fat.m_matrix_transormation);\n            handle_gl.drawElements(handle_gl.LINES, 24, handle_gl.UNSIGNED_SHORT, 0);\n            handle_gl.uniformMatrix4fv(data.material.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_fat.m_matrix_transormation);\n            handle_gl.drawElements(handle_gl.LINES, 24, handle_gl.UNSIGNED_SHORT, 0);\n        } else {\n            handle_gl.uniformMatrix4fv(data.material.m_shader_program.uniform_matrix_model, false, node_aabb.m_bounding_box_slim.m_matrix_transormation);\n            handle_gl.drawElements(handle_gl.LINES, 24, handle_gl.UNSIGNED_SHORT, 0);\n        }\n        \n\n        return result;\n    }\n}",
+			"file": "js/lib/krittengine/view/renderer_scene.js",
+			"file_size": 8097,
+			"file_write_time": 131503298085431046,
+			"settings":
+			{
+				"buffer_size": 8152,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/lib/krittengine/controller/tree_aabb.js",
+			"settings":
+			{
+				"buffer_size": 9662,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/lib/krittengine/controller/node_aabb.js",
+			"settings":
+			{
+				"buffer_size": 9877,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "js/lib/krittengine/controller/bounding_box.js",
+			"settings":
+			{
+				"buffer_size": 2479,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -586,19 +504,42 @@
 	],
 	"file_history":
 	[
-		"/C/Users/micro/Documents/uni/master/hiwi/wstud-viewer-framework-django/settings/settings_viewer_large_corpus.py",
-		"/C/Users/micro/Documents/uni/master/Touchpivot/.idea/modules.xml",
+		"/C/Users/micro/AppData/Local/Temp/fz3temp-2/train_classifier.py",
 		"/C/Users/micro/AppData/Local/Temp/fz3temp-2/shared_code.py",
-		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/model/spatial_entity.js",
-		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/controller/loader.js",
+		"/C/Users/micro/AppData/Local/Temp/fz3temp-2/test_classifier.py",
+		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/view/renderer_quad.js",
+		"//KRITTEN-NAS/home/files/websites/krittengine.org/javascript/view/mesh/Mesh.js",
+		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/view/mesh.js",
+		"/C/Users/micro/Documents/krittengine/data/objects/cube_unit.obj",
+		"/C/Users/micro/Documents/krittengine/data/objects/cube_offset.obj",
+		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/model/scene.js",
+		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/model/geometry_entity.js",
 		"/C/Users/micro/Documents/krittengine/index.html",
-		"/C/Users/micro/Documents/uni/master/hiwi/netspeak/meeting_2017_05_17.txt",
+		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/controller/loader.js",
+		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/view/renderer_scene.js",
 		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/view/material_texture.js",
-		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/view/material_btf.js",
-		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/controller/bounding_box.js",
+		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/model/spatial_entity.js",
+		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/model/camera.js",
+		"/C/Users/micro/Documents/krittengine/data/objects/sphere.obj",
+		"/C/Users/micro/Documents/krittengine/data/objects/sphere_flat.obj",
+		"/C/Users/micro/Documents/krittengine/data/objects/plane.obj",
+		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/controller/tree_aabb.js",
 		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/controller/node_aabb.js",
-		"/C/xampp/apache/conf/httpd.conf",
+		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/controller/bounding_box.js",
 		"/C/Users/micro/Documents/krittengine/data/objects/cube.obj",
+		"/C/Users/micro/Documents/krittengine/data/unitcube.py",
+		"/C/Users/micro/Downloads/blender.py",
+		"/C/Users/micro/Downloads/scaleTo1.blend",
+		"/C/Users/micro/Documents/krittengine/data/objects/cube_small.obj",
+		"/C/Users/micro/Documents/krittengine/data/objects/cube_flat.obj",
+		"/C/Users/micro/Documents/krittengine/js/lib/loader_mesh.js",
+		"//KRITTEN-NAS/home/files/websites/krittengine/js/lib/krittengine/view/mesh.js",
+		"/C/Users/micro/Downloads/Game_Engine.js",
+		"/C/Users/micro/Downloads/Game_State.js",
+		"/C/Users/micro/Downloads/main.js",
+		"/C/Users/micro/Downloads/index.html",
+		"/C/Users/micro/Documents/krittengine/js/lib/krittengine/view/material_btf.js",
+		"/C/Users/micro/Documents/krittengine/js/lib/doc/Krittengine.html",
 		"/C/Users/micro/Documents/krittengine/data/objects/head_test.obj",
 		"/C/Users/micro/Documents/krittengine/data/objects/dragon_test.obj",
 		"/C/Users/micro/Documents/krittengine/data/objects/teapot_test.obj",
@@ -690,30 +631,7 @@
 		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/language-de/features/length_difference.tsv",
 		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/preparing-training-set/src/jaccard_coefficient_bigram.rb",
 		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/preparing-training-set/src/jaccard_coefficient.rb",
-		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/preparing-training-set/src/number_overlapping_terms.rb",
-		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/preparing-training-set/src/number_overlapping_characters.rb",
-		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/preparing-training-set/src/levenshtein_distance.rb",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/language-de/features/levenshtein_distance.tsv",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/language-de/features/time_gap.tsv",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/language-de/features/containment_in_next.tsv",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/language-de/features/1gram_similarity.tsv",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/language-de/target.tsv",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/annotated-by-amir/target.tsv",
-		"/home/yiro4618/hiwi/webis-cbc-16-old-corpus/messages.txt",
-		"/home/yiro4618/hiwi/webis-cbc-16-old-corpus/title-extractor.py",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/templates/data_manager/index.html",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/log_browser/templates/log_browser/identify_queries.html",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/annotated-by-komlossy/target.tsv",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/datasets/annotated-by-komlossy/features/1gram_similarity.tsv",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project_sqlite/log_browser/templates/log_browser/index.html",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/log_browser/static/log_browser/js/identify_queries_functions.js",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/log_browser/static/log_browser/css/formats.css",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/data/feature_lists/time_gap.tsv",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/urls.py",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/views/preprocessing.py",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/views/__init__.py",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/views/machine_learning/__init__.py",
-		"/home/yiro4618/hiwi/wstud-netspeak-log-analysis/src-py/django-project/data_manager/views/machine_learning/preprocessing.py"
+		"/home/yiro4618/hiwi/wstud-netspeak-analysis-query-detection/preparing-training-set/src/number_overlapping_terms.rb"
 	],
 	"find":
 	{
@@ -724,6 +642,8 @@
 		"height": 93.0,
 		"where_history":
 		[
+			"C:\\Users\\micro\\Documents\\krittengine\\js\\lib\\krittengine",
+			"C:\\Users\\micro\\Documents\\krittengine",
 			"C:\\Users\\Kritten\\Documents\\uni\\master\\hiwi\\wstud-viewer-framework-django\\viewer-framework",
 			"C:\\Users\\Kritten\\Documents\\uni\\master\\hiwi\\wstud-viewer-framework-django\\viewer-framework\\viewer",
 			"<current file>",
@@ -739,134 +659,134 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"node_current = node_current.m_node_right;\n\t\t\t\t\t\t\tcontinue;",
-			"this",
-			"0",
-			"update_data",
-			"this",
-			"node_current",
-			"true",
-			"left",
-			"m_no",
-			"balance_tree",
-			"used",
+			"fat",
+			"slim",
+			"fat",
+			"m_bounding_box_slim",
+			"1920",
 			"1",
-			"box.max",
-			"box.min",
-			"0",
-			"point",
-			">=",
-			"<=",
-			"m_corner_miax",
-			"b.max",
-			"b.min",
-			"a.max",
-			"a.min",
-			"m_bounding_box_slim",
-			"let",
-			"m_bounding_box_slim",
-			"m_bounding_bo",
-			"m_bounding_box",
-			"Node_AABB",
-			"<",
-			"difference",
-			"center_left",
-			"center_right",
-			"center_left",
-			"left",
-			"this",
-			"func",
-			"this",
+			"draw_bounding_box",
+			"Context_GL",
+			"static",
+			"\"",
 			"data",
-			"gl_Position",
-			"depth",
-			"lines",
-			"func",
-			"color",
-			"m_vertex_array_object",
-			"scene.m_tree.material",
-			"this.m_corner_max",
-			"this.m_corner_max[0]",
-			"m_corner_min",
-			"this.m_corner_min",
-			"m_matrix_transormation",
-			"_corner_min",
-			"update_size",
-			"update_attributes",
-			"this",
-			"material",
-			"color",
-			"material_color",
-			"m_corner_min",
-			"list_vertices[vertex.index_vertex]",
-			"parse_obj",
-			"this",
-			"m_buffer_vertex_position",
+			"perfor",
+			"walk_recursive",
+			"print_node",
+			"create_stats",
+			"classifier_stored",
+			"pipeline",
+			"update_data",
 			"update_bounding_box",
-			"m_corner_min",
 			"m_bounding_box",
-			"min",
-			".data",
-			"m_data",
-			"update_bounding_box",
+			"m_bounding",
+			"m_bounding_box",
+			"m_bounding_box_fat",
+			"m_bounding_box",
+			"00001",
+			"001",
+			"1",
+			"output",
+			"const output = vec4.create()",
+			"update_matrix_transformation",
+			"console",
+			"geometry_entity2",
+			"bounding_box",
+			"node_new",
+			"new_node",
+			"1",
+			"vol_old",
+			"node_new",
+			"this.m_bounding_box",
+			"this.m_bounds",
+			"eft",
+			"calc_volume",
+			"1",
+			"m_bounds",
+			"cube",
+			"geometry_entity1",
+			"2",
+			"Node_AABB",
+			"m_offset",
+			"offset",
+			"1",
 			"corner_min",
-			"-",
-			"create",
-			"print",
-			"m_tree",
-			"this.EBO",
-			"node",
-			"node_root",
-			"m_active_scene",
-			"m_scenes_array",
-			"m_scenes",
-			"render_lights",
-			"normalized",
-			"j",
-			"index_normal",
-			"[triangle[i]",
-			"vertex",
-			"index_vertex",
-			"tmp_list_normals",
-			"tmp_list_uvs",
-			"tmp_list_vertices",
-			"create_indices_and_triangles",
-			"tangents1",
-			"create_indices_and_triangles",
-			"calc_tangents",
-			"textur",
-			"mesh_sphere",
-			"mesh_plane",
-			"geometry_entity",
-			"mesh_cube",
-			"material_texture",
-			"m_loader",
-			"material_texture",
-			"Material_Texture",
-			"material_texture",
+			"update_bounding_box",
+			"m_bounding_box",
+			"Math.abs(",
+			"document",
+			"canvas",
+			"document",
+			"_handleMove",
+			"_moveHandler",
+			"mousemove",
+			"event",
+			"mouse_movement",
+			"handle_mouse_move",
+			"handle_pointerlock_change",
+			"handleFullscreenChange",
+			"handlePointerlockChange",
+			"removeEventListener",
+			"addEventListener",
+			"handleFullscreenChange",
 			"end_fullscreen",
-			"m_active_scene.get(this)",
-			"m_active_scene",
-			"m_scenes_array.get(this)",
-			"m_scenes.get(this)",
-			"m_scenes",
-			"m_loader.get(this)",
-			"m_loader",
-			"m_active_scene.set(this, ",
-			"m_active_scene",
-			"m_renderer_scene.get(this)",
-			"m_renderer_scene",
-			"m_key_input",
-			"C:\\Users\\micro\\Documents\\uni\\master\\hiwi\\krittengine",
-			"o",
-			"s",
-			"index_vertex * 8",
-			".5",
-			"5",
-			"false",
-			"6",
-			"´",
-			"tmp_list_vertices"
+			"enter_fullscreen",
+			"lock",
+			"enter_fullscreen",
+			"movement_parameter",
+			">>>>",
+			"mat4.identity(this.matrix_view);\n        mat4.translate(this.matrix_view, this.matrix_view, this.m_position);\n        // console.log(this.rotation)\n\n        let matrix_rotation = mat4.create();\n        mat4.fromQuat(matrix_rotation, this.m_rotation);\n        mat4.multiply(this.matrix_view, this.matrix_view, matrix_rotation)\n        // mat4.rotateY(this.matrix_view, this.matrix_view, this.rotation[1]);\n        // mat4.rotateX(this.matrix_view, this.matrix_view, this.rotation[0]);\n        mat4.invert(this.matrix_view, this.matrix_view);\n        this.viewing_direction = vec3.fromValues(-this.matrix_view[2], -this.matrix_view[6], -this.matrix_view[10]);",
+			">>>",
+			"mesh_cube",
+			"this.position",
+			" m_",
+			"this.matrix_view",
+			"matrix_view",
+			" glob_time_info",
+			"= 1",
+			"1",
+			"offset_x",
+			"offset_y",
+			"offset_x",
+			"x",
+			"xoffset",
+			"viewing_direction",
+			"0.0",
+			"create",
+			"mesh_sphere",
+			"001",
+			"0001",
+			">=",
+			"000000000001",
+			"00001",
+			"001",
+			"000000000000000001",
+			"0000000000001",
+			"00000001",
+			"Number.Epsilon",
+			"0.00000001",
+			"0000001",
+			"01",
+			"0001",
+			"00001",
+			"000001",
+			"0000001",
+			"Number.EPSILON",
+			">",
+			"bounding_box",
+			">",
+			"parse_obj",
+			"mesh_cube",
+			"mesh_sphere",
+			"matrix_model",
+			"position",
+			"rotation",
+			"position",
+			"scale",
+			"m_scale",
+			"scale",
+			"\t\t\t\n",
+			"set parent"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -889,7 +809,7 @@
 	"groups":
 	[
 		{
-			"selected": 5,
+			"selected": 9,
 			"sheets":
 			[
 				{
@@ -898,15 +818,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 334421,
+						"buffer_size": 335854,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								324584,
-								324591
+								324634,
+								324634
 							]
 						],
 						"settings":
@@ -914,415 +834,33 @@
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 4463.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "js/lib/krittengine/model/spatial_entity.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 781,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								507,
-								507
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "js/lib/krittengine/controller/tree_aabb.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7616,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3087,
-								3087
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 738.0,
+						"translation.y": 4047.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "js/lib/krittengine/controller/node_aabb.js",
+					"buffer": 1,
+					"file": "js/lib/krittengine/controller/krittengine.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6685,
+						"buffer_size": 8404,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2560,
-								2560
+								290,
+								301
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1106.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "js/lib/krittengine/controller/loader.js",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 11688,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 405.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "js/lib/krittengine/controller/bounding_box.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2464,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								379,
-								379
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 214.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "js/lib/krittengine/view/renderer_scene.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6184,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5646,
-								5646
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2221.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "js/lib/krittengine/model/entity.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 438,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								398,
-								398
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "/C/Users/micro/Documents/uni/master/notes.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 172,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"auto_name": "contained/contains nicht kumuliert",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "js/lib/krittengine/view/material_lines.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 760,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								231,
-								244
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 20.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 15,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "js/lib/krittengine/model/scene.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2235,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1827,
-								1902
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1323.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "js/lib/krittengine/view/mesh.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 12404,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								720,
-								720
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 452.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 12,
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"file": "data/objects/plane.obj",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 321,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								121,
-								121
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 17,
-					"type": "text"
-				},
-				{
-					"buffer": 13,
-					"file": "convert_threejs_to_kobjson.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9754,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2394,
-								2394
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1101.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 16,
-					"type": "text"
-				},
-				{
-					"buffer": 14,
-					"file": "js/lib/loader_mesh.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 478,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								349,
-								349
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1332,20 +870,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 15,
-					"file": "js/lib/krittengine/controller/krittengine.js",
+					"buffer": 2,
+					"file": "js/lib/krittengine/model/scene.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8308,
+						"buffer_size": 2422,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1232,
-								1232
+								1575,
+								1575
 							]
 						],
 						"settings":
@@ -1354,56 +892,144 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 216.0,
+						"translation.y": 964.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 16,
-					"file": "index.html",
-					"semi_transient": false,
+					"buffer": 3,
+					"file": "js/lib/krittengine/model/entity.js",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 30263,
+						"buffer_size": 453,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								23376,
-								23376
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 12171.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 17,
-					"file": "js/lib/krittengine/model/geometry_entity.js",
+					"buffer": 4,
+					"file": "js/lib/krittengine/view/mesh.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 857,
+						"buffer_size": 12796,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								855,
-								855
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "js/lib/krittengine/model/geometry_entity.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1111,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 66.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "js/lib/krittengine/model/spatial_entity.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1401,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								674,
+								683
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 275.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "js/lib/krittengine/model/light.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 712,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1416,6 +1042,154 @@
 						"zoom_level": 1.0
 					},
 					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "js/lib/krittengine/controller/loader.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11953,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								9122,
+								9122
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4104.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "js/lib/krittengine/view/renderer_scene.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8152,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7949,
+								6876
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2679.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "js/lib/krittengine/controller/tree_aabb.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9662,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								607,
+								607
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "js/lib/krittengine/controller/node_aabb.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9877,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6243,
+								6243
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3106.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "js/lib/krittengine/controller/bounding_box.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2479,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 256.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
 					"type": "text"
 				}
 			]
@@ -1498,7 +1272,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 309.0,
+	"side_bar_width": 273.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
