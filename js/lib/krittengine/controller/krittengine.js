@@ -22,6 +22,53 @@ export default class Krittengine
 
 	 	this.m_scenes = new Map();
 	 	this.m_scenes_array = [];
+
+	 	this.m_times = [];
+		// var measure = function() 
+		// {
+		//   	times.push(new Date().getTime());
+
+		//   	if (times.length > 100) 
+		// 	{
+		// 		return draw();
+		// 	}
+		//   	requestAnimationFrame(measure);
+		// };
+		// measure();
+	}
+	draw() 
+	{
+		let array_tmp = this.m_times;
+		// let array_tmp = this.m_times.slice(0);
+		array_tmp.shift();
+	  let dataset = {
+	    x: [],
+	    y: [],
+	    type: 'bar'
+	  };
+	  let layout = {
+	    xaxis: {
+	      title: 'measurement #'
+	    },
+	    yaxis: {
+	      title: 'iteration duration (ms)'
+	    },
+	    height: 250
+	  };
+	  let options = {
+	    displayModeBar: false
+	  };
+	  // this.m_times.reduce(function(previous, current, i) {
+	  //   dataset.x.push(i);
+	  //   dataset.y.push(current - previous);
+	  //   return current;
+	  // }, this.m_times.shift());
+	  for (var i = 0; i < array_tmp.length; i++) {
+	    dataset.x.push(i);
+	    dataset.y.push(array_tmp[i]);
+	  }
+
+	  Plotly.newPlot('target', [dataset], layout, options);
 	}
 	/**
 	 * Updates the active scene and submit the scene to the {@link Renderer_Scene} for drawing.  
@@ -29,12 +76,27 @@ export default class Krittengine
 	 */
 	update(timestamp)
 	{
+
 		// time calculations
 		// const start_time = performance.now
 		time_info.delta_time = timestamp - time_info.last_frame;
 		time_info.time_ratio = time_info.delta_time / 1000;
 		time_info.elapsed_time += time_info.delta_time; 
 		time_info.last_frame = timestamp; 
+		// console.log(timestamp)
+		// if(time_info.delta_time > 20)
+		// {
+		// console.log(time_info.delta_time)
+			
+		// }
+		// if(this.m_times.length < 100) 
+		// {
+		// 	this.m_times.push(time_info.delta_time);
+		// }
+	 //  	if(this.m_times.length == 100) 
+		// {
+		// 	this.draw();
+		// } 
 		// console.log(performance.now());
 		// if(time_info.delta_time > 20)
 		// 	console.log(time_info.delta_time);
@@ -59,31 +121,45 @@ export default class Krittengine
 		// const tmp = performance.now()-timestamp;
 		// console.log(tmp);
 		// console.log((performance.now()-timestamp).toFixed(2)+'ms');
+
+	  	requestAnimationFrame(this.update.bind(this));
 	}	
+
+
+	// render(timestamp) 
+	// {
+	// 	this.update(timestamp);
+	//   	requestAnimationFrame(this.render.bind(this));
+	// };
 
 	/**
 	 * Starts the main loop after all default entities were loaded
 	 * @param      {function}  func   The main loop-function 
 	 */
-	start(func)
+	// start(func)
+	// {
+	// 	if(this.m_loader.is_loading_defaults())
+	// 	{
+	// 		setTimeout(function() {
+	// 			this.start(func);
+	// 		}.bind(this), 0)
+	// 	} 
+	// 	else {
+	// 		console.log('started engine');
+	// 		func(performance.now())
+	// 	}
+	// }
+	start()
 	{
 		if(this.m_loader.is_loading_defaults())
 		{
-			// console.log('still loading defaults')
-			setTimeout(function(){this.start(func)}.bind(this), 0)
-		} else {
-			// console.log('started engine')
-			func(performance.now())
+			// console.log('waiting for defaults');
+			setTimeout(this.start.bind(this), 0)
+		} 
+		else {
+			// console.log('started engine');
+			requestAnimationFrame(this.update.bind(this));
 		}
-		// while(loading)
-		// {
-		// 	counter++;
-		// 	if(counter == 100)
-		// 	{
-		// 		loading = false
-		// 	}
-		// }
-		// setTimeout(function(){func(performance.now());}, 50)
 	}
 	/**
 	 * Returns a mesh object. Creates this mesh if it was not created.

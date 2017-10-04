@@ -20,6 +20,27 @@ export default class Tree_AABB
         this.create_lines();
     }
 
+    calc_volume(node1, node2)
+    {
+        let bounding_box1 = undefined;
+        let bounding_box2 = undefined;
+
+        if(node1.is_leaf_node())
+        {
+            bounding_box1 = node1.m_bounding_box_fat;
+        } else {
+            bounding_box1 = node1.m_bounding_box_slim;
+        }
+        if(node2.is_leaf_node())
+        {
+            bounding_box2 = node2.m_bounding_box_fat;
+        } else {
+            bounding_box2 = node2.m_bounding_box_slim;
+        }
+
+        return bounding_box1.calc_volume(bounding_box2);
+    }
+
    insert_entity(node_new)
     {
         let node_current = this.m_node_root;
@@ -27,7 +48,7 @@ export default class Tree_AABB
         {
             if(node_current.is_leaf_node())
             {
-                console.log('leaf')
+                // console.log('leaf')
 
                 node_current.m_node_left = node_new;
                 node_current.m_node_left.m_is_left_child = true;
@@ -43,7 +64,7 @@ export default class Tree_AABB
                 // node_current.update_bounding_box();
                 break;
             } else {
-                console.log('inner')
+                // console.log('inner')
                 if(node_new.m_bounding_box_slim.is_inside_of(node_current.m_node_left.m_bounding_box_slim))
                 {
                     node_current = node_current.m_node_left;
@@ -54,17 +75,19 @@ export default class Tree_AABB
                     node_current = node_current.m_node_right;
                     continue;
                 } else {
-                    console.warn('ADDING NEW NODE')
+                    // console.warn('ADDING NEW NODE')
                     let volume_current = node_current.m_bounding_box_slim.calc_volume();
-                    let volume_left = node_new.m_bounding_box_slim.calc_volume(node_current.m_node_left.m_bounding_box_slim);
-                    let volume_right = node_new.m_bounding_box_slim.calc_volume(node_current.m_node_right.m_bounding_box_slim);
+                    let volume_left = this.calc_volume(node_new, node_current.m_node_left);
+                    let volume_right = this.calc_volume(node_new, node_current.m_node_right);
 
                     // if new entity is far away, put current subtree in child node and add new node to other child node
                     if(volume_current < volume_left && volume_current < volume_right)
                     {
                         // create new node for subtree
                         let node_subtree = new Node_AABB(this, node_current.m_offset);
-                        node_subtree.m_depth = node_current.m_depth + 1;
+
+                        const depth_subtree = node_current.m_depth;
+                        // console.log(depth_subtree);
                         // set the parent node
                         // set the child node to new node
 
@@ -88,6 +111,7 @@ export default class Tree_AABB
                         node_current.m_node_right.m_is_left_child = false;
                         node_current.m_node_right.update_parent(node_current);
 
+                        node_subtree.update_depth(depth_subtree + 1);
                         // console.log(node_current.needs_update());
                         // console.log(node_current)
 
@@ -119,8 +143,15 @@ export default class Tree_AABB
         {
             this.m_node_root = node;
         } else {
+            console.log('ADDING NEW NODE -------------------------------------------------------------')
+            let start = performance.now();
+
             this.insert_entity(node);
             node.update_bounding_boxes_of_parents();
+            node.m_node_parent.needs_update()
+            let end = performance.now();
+            console.log((end - start).toFixed(4))
+
             // this.m_node_root.add_node(node);
         }
         this.m_depth = Math.max(node.m_depth, this.m_depth);

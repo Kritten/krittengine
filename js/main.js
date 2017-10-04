@@ -85,8 +85,8 @@ camera.set_init_vars(function() {
 	this.m_pitch = 0.0;
 	this.m_yaw = 0.0;
 
-	this.m_sensitivity_mouse_pitch = 90.0;
-	this.m_sensitivity_mouse_yaw = 80.0;
+	this.m_sensitivity_mouse_pitch = 30.0;
+	this.m_sensitivity_mouse_yaw = 20.0;
 
 	this.m_movement_speed = 3.0;
 })
@@ -220,17 +220,18 @@ scene.add_camera(camera)
 // 							});
 // geometry_entity1.update = function(){ }
 // scene.add(geometry_entity1);
-
+const NUMBER_MAX = 500;
 let start_parsing = performance.now();
 let list_entities = []
-for (let i = 0; i <2; i++) 
+for (let i = 0; i < NUMBER_MAX; i++) 
 {
 	let geometry_entity2 = undefined;
 	// if(false)
-	if(i == 0)
+	if(i == 100)
 	{
 		geometry_entity2 = new Geometry_Entity("sphere_small_"+i, {
 			// position: vec3.random(vec3.create(), Math.random() * 5.0), a
+			// position: vec3.fromValues(-3.0 + i * i * 0.3, 0.0, -5.0), 
 			position: vec3.fromValues(-3.0 + i * i * 0.3, -0.0 + i * 0.1, -5.0), 
 			scale: vec3.fromValues(0.1, 0.2, 0.1), 
 			mesh: krittengine.get_mesh('mesh_sphere'),
@@ -254,6 +255,7 @@ for (let i = 0; i <2; i++)
 	} else {
 		geometry_entity2 = new Geometry_Entity("sphere_small_"+i, {
 			// position: vec3.random(vec3.create(), Math.random() * 5.0), 
+			// position: vec3.fromValues(-3.0 + i * i * 0.3, 0.0, -5.0), 
 			position: vec3.fromValues(-3.0 + i * i * 0.3, -0.0 + i * 0.1, -5.0), 
 			scale: vec3.fromValues(0.1, 0.2, 0.1), 
 			mesh: krittengine.get_mesh('mesh_sphere'),
@@ -267,21 +269,59 @@ for (let i = 0; i <2; i++)
 	// scene.add(geometry_entity2);
 }
 
+// const list_tmp = [
+// 	{foo: 0}, 
+// 	{foo: 1}, 
+// 	{foo: 2}
+// ];
+// for (let i = 0; i < list_tmp.length; i++) {
+// 	// console.log(list_tmp[i]);
+// 	list_tmp[i].foo = 3;
+// }
+
+// for (let tmp of list_tmp) {
+// 	// console.log(tmp);
+// 	tmp.foo = 3;
+// }
+
+// list_tmp.forEach(function(tmp) {
+// 	// console.log(tmp);
+// 	tmp.foo = 3;
+// });
+
+// for (let i = 0; i < list_tmp.length; i++) {
+// 	console.log(list_tmp[i]);
+// }
+
+
 function shuffle(a) {
     for (let i = a.length; i; i--) {
         let j = Math.floor(Math.random() * i);
         [a[i - 1], a[j]] = [a[j], a[i - 1]];
     }
 }
+scene.add(list_entities[0]);
+scene.add(list_entities[1]);
+scene.add(list_entities[2]);
+scene.add(list_entities[3]);
 
 // shuffle(list_entities);
+let counter = 4;
+$(document).on('keydown', function(event) {
+	if(event.which == 32 && counter < NUMBER_MAX)
+	{
+		scene.add(list_entities[counter]);
+		counter += 1;
+	}
+});
 
-for (var i = 0; i < list_entities.length; i++) {
-	scene.add(list_entities[i]);
-}
-console.log(scene.m_tree.m_depth);
+// for (var i = 0; i < list_entities.length; i++) {
+// 	scene.add(list_entities[i]);
+// }
+// console.log(scene.m_tree.m_depth);
 
-scene.m_tree.print_tree();
+// scene.m_tree.print_tree();
+
 // scene.m_tree.walk(function(node_aabb, data) {
 // 	if(node_aabb.is_leaf_node())
 // 	{
@@ -317,11 +357,18 @@ scene.m_tree.print_tree();
 
 console.log("loading took " + (performance.now() - start_parsing) + " milliseconds.")
 
-const render = function (timestamp) {
-	krittengine.update(timestamp);
-  	requestAnimationFrame(render);
-};
-krittengine.start(render)
+
+// const render = function(timestamp) 
+// {
+// 	// console.log(this)
+// 	// console.log(timestamp)
+// 	krittengine.update(timestamp);
+//   	requestAnimationFrame(render);
+// };
+
+// krittengine.start(render)
+krittengine.start()
+
 // console.log(scene.m_tree);
 
 // const geometry_entity1 = new Geometry_Entity("btf", {

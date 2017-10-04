@@ -635,10 +635,10 @@
 		    void main(void) {
 		    	switch(depth % 4)
 			    {
-				    case 0: theColor = vec4(1.0, 1.0, 0.0, 1.0); break;
-				    case 1: theColor = vec4(1.0, 1.0, 1.0, 1.0); break;
-				    case 2: theColor = vec4(0.0, 1.0, 0.0, 1.0); break;
-				    case 3: theColor = vec4(1.0, 0.0, 0.0, 1.0); break;
+				    case 0: theColor = vec4(1.0, 0.0, 0.0, 1.0); break;
+				    case 1: theColor = vec4(0.0, 1.0, 0.0, 1.0); break;
+				    case 2: theColor = vec4(0.0, 0.0, 1.0, 1.0); break;
+				    case 3: theColor = vec4(1.0, 1.0, 1.0, 1.0); break;
 			    }
 		    	// if(depth == 2)
 		    	// {
@@ -786,6 +786,8 @@
 		<script src="css/bootstrap.min.js"></script>
 		<script src="js/lib/gl-matrix.js"></script>
 		<script src="js/lib/webgl-utils.js"></script>
+		<script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
+		<div id="target"></div>
 		<!-- <script src="js/lib/krittengine/controller/loader.js"></script>
 		<script src="js/lib/krittengine/controller/bounding_box.js"></script>
 		<script src="js/lib/krittengine/controller/tree_aabb.js"></script>
