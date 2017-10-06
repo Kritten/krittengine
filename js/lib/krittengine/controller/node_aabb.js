@@ -340,8 +340,12 @@ export default class Node_AABB
         let list_parents = [];
         while(parent != undefined)
         {
+        	let obj_info = {
+        		node: parent, 
+    			score: undefined,
+    			is_left: undefined
+    		};
             let bounds = parent.m_bounding_box_slim.m_bounds;
-            let score = undefined;
             // console.log(bounds)
             let bounds_left = undefined;
             let bounds_right = undefined;
@@ -361,7 +365,16 @@ export default class Node_AABB
 
             if(bounds[0] > bounds[1] && bounds[0] > bounds[2])
             {
-                score = Math.max(bounds_left[0] / bounds[0], bounds_right[0] / bounds[0])
+            	let ratio_left = bounds_left[0] / bounds[0];
+            	let ratio_right = bounds_right[0] / bounds[0];
+            	if(ratio_left > ratio_right)
+            	{
+                	obj_info.score = ratio_left;
+            		obj_info.is_left = true;
+            	} else {
+                	obj_info.score = ratio_right;
+            		obj_info.is_left = false;
+            	}
             } else if(bounds[1] > bounds[0] && bounds[1] > bounds[2]) {
                 console.log('y')
             } else {
@@ -373,8 +386,8 @@ export default class Node_AABB
             // let bounds_left = this.m_node_left.m_bounding_box_slim.m_bounds;
             // let bounds_right = this.m_node_right.m_bounding_box_slim.m_bounds;
 
-            let bounds_max_permitted = vec3.create(); 
-            vec3.scale(bounds_max_permitted, bounds, 0.6);
+            // let bounds_max_permitted = vec3.create(); 
+            // vec3.scale(bounds_max_permitted, bounds, 0.6);
             // console.log(bounds);
             // console.log(bounds_max_permitted);
             // console.log(bounds_left);
@@ -399,7 +412,7 @@ export default class Node_AABB
             //     console.log('true')
             // }
 
-            list_parents.push({parent: parent, score: score});
+            list_parents.push(obj_info);
 
             parent = parent.m_node_parent;
         }
@@ -411,10 +424,11 @@ export default class Node_AABB
         //     console.log(parent);
         // }
         for (var i = list_parents.length - 1; i >= 0; i--) {
-            const parent = list_parents[i];
-            if(parent.score >= 0.6)
+            const obj_info = list_parents[i];
+            if(obj_info.score >= 0.6)
             {
-                // console.error(parent);
+
+                console.error(obj_info);
             }
         }
 

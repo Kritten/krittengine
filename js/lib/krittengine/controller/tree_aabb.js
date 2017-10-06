@@ -150,7 +150,7 @@ export default class Tree_AABB
             node.update_bounding_boxes_of_parents();
             node.m_node_parent.needs_update()
             let end = performance.now();
-            console.log((end - start).toFixed(4))
+            // console.log((end - start).toFixed(4))
 
             // this.m_node_root.add_node(node);
         }
