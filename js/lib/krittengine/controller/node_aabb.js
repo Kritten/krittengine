@@ -109,6 +109,24 @@ export default class Node_AABB
         }
     }
 
+    get_sibling()
+    {
+        let node_sibling = undefined;
+        
+        const node_parent = this.m_node_parent;
+        if(node_parent != undefined)
+        {
+            if(this.m_is_left_child)
+            {
+                node_sibling = node_parent.m_node_right;
+            } else {
+                node_sibling = node_parent.m_node_left;
+            }
+        }
+
+        return node_sibling;
+    }
+
     entity_moved()
     {
         // console.log(this.m_tree)
@@ -133,14 +151,7 @@ export default class Node_AABB
                 this.update_bounding_box_fat();
             } else {
                 const node_grandparent = node_parent.m_node_parent;
-                let node_sibling = undefined;
-                
-                if(this.m_is_left_child)
-                {
-                    node_sibling = node_parent.m_node_right;
-                } else {
-                    node_sibling = node_parent.m_node_left;
-                }
+                let node_sibling = this.get_sibling();
 
                 node_parent.m_node_left = undefined;
                 node_parent.m_node_right = undefined;
@@ -185,7 +196,6 @@ export default class Node_AABB
                 this.update_bounding_boxes()
                 this.m_depth = 0;
                 this.m_is_left_child = undefined;
-
                 this.m_tree.insert_entity(this);
                 this.update_bounding_boxes_of_parents();
 
@@ -328,57 +338,197 @@ export default class Node_AABB
         }
     }
 
-    needs_update()
+    rebalance()
     {
         if(this.is_leaf_node())
         {
             console.error('is leaf node')
             return false;
         }
-        // let foo = true;
-        let parent = this;
+
+        let list_parents = this.collect_information();
+
+        // if(this.m_tree.m_count_objects < 13)
+        // {
+            this.foo(list_parents);
+        // } else {
+        //     console.log(list_parents);
+        // }
+    }
+    foo(list_parents)
+    {
+        for (var i = list_parents.length - 1; i >= 0; i--) {
+            const obj_info = list_parents[i];
+            if(obj_info.score >= 0.6)
+            {
+                console.error(obj_info);
+                let node_big = undefined;
+                let node_small = undefined;
+                if(obj_info.is_left)
+                {
+                    node_big = obj_info.node.m_node_left;
+                    node_small = obj_info.node.m_node_right;
+                } else {
+                    node_big = obj_info.node.m_node_right;
+                    node_small = obj_info.node.m_node_left;
+                }
+
+                // check if whole node can be merged
+                // console.log(bounds_combined);
+                // console.log(obj_info.node.get_bounding_box().m_bounds);
+                // let b = nodede_big.get_bounding_box().calc_volume(node_small.get_bounding_box());
+                // console.log(b)
+
+                let node_candidate_for_transfer = node_big;
+                let foo = undefined;
+
+                do
+                {
+                    [node_candidate_for_transfer, foo] = node_candidate_for_transfer.get_child(obj_info.axis, obj_info.smaller);
+                    const bounds_combined = node_candidate_for_transfer.get_bounding_box().bounds_combined(node_small.get_bounding_box());
+                    const ratio = bounds_combined[obj_info.axis] / obj_info.node.get_bounding_box().m_bounds[obj_info.axis];
+                    // console.log(ratio)
+                    if(ratio < 0.6)
+                    {
+                        this.m_tree.remove_node(node_candidate_for_transfer);
+                        this.m_tree.insert_entity(node_candidate_for_transfer);
+                        break;
+                    }
+
+                } while(node_candidate_for_transfer != undefined);
+
+
+                // let [node_candidate_for_transfer2, bar] = node_candidate_for_transfer1.get_child(obj_info.axis, true);
+                // const bounds_combined1 = node_candidate_for_transfer2.get_bounding_box().bounds_combined(node_small.get_bounding_box());
+                // const ratio1 = bounds_combined1[obj_info.axis] / obj_info.node.get_bounding_box().m_bounds[obj_info.axis];
+                // console.log(ratio1)
+
+
+
+
+                // node_candidate_for_transfer1.update_parent(node_small); 
+
+                // if(node_candidate_for_transfer1.m_is_left_child)
+                // {
+                //     node_candidate_for_transfer1.m_node_parent.m_node_left = undefined;
+                // } else {
+                //     node_candidate_for_transfer1.m_node_parent.m_node_right = undefined;
+                // }
+
+                // bar.update_parent(node_big);
+                // node_candidate_for_transfer1.m_node_parent.m_node_left = undefined;
+                // node_candidate_for_transfer1.m_node_parent.m_node_right = undefined;
+            
+                // node_candidate_for_transfer1.m_node_parent = undefined;
+
+                // bar.update_bounding_boxes();
+
+
+                // console.log(node_candidate_for_transfer);
+                // console.log(node_big.m_node_right)
+
+                break;
+            }
+        }
+    }
+
+
+    get_child(axis, smaller)
+    {
+        if(this.is_leaf_node())
+        {
+            return undefined;
+        } else {
+            let bounding_box_left = this.m_node_left.get_bounding_box();
+            let bounding_box_right = this.m_node_right.get_bounding_box();
+
+            if(smaller)
+            {
+                if(bounding_box_left.m_corner_min[axis] < bounding_box_right.m_corner_min[axis])
+                {
+                    return [this.m_node_left, this.m_node_right];
+                } else {
+                    return [this.m_node_right, this.m_node_left];
+                }
+            } else  {
+                if(bounding_box_left.m_corner_max[axis] > bounding_box_right.m_corner_max[axis])
+                {
+                    return [this.m_node_left, this.m_node_right];
+                } else {
+                    return [this.m_node_right, this.m_node_left];
+                }
+            }
+        }
+    }
+
+    get_bounding_box()
+    {
+        if(this.is_leaf_node())
+        {
+            return this.m_bounding_box_fat;
+        } else {
+            return this.m_bounding_box_slim;
+        }
+    }
+
+    collect_information()
+    {
         let list_parents = [];
+        let parent = this;
         while(parent != undefined)
         {
-        	let obj_info = {
-        		node: parent, 
-    			score: undefined,
-    			is_left: undefined
-    		};
+            let obj_info = {
+                node: parent, 
+                score: undefined,
+                is_left: undefined,
+                axis: undefined,
+                smaller: undefined
+            };
             let bounds = parent.m_bounding_box_slim.m_bounds;
             // console.log(bounds)
-            let bounds_left = undefined;
-            let bounds_right = undefined;
-            if(parent.m_node_left.is_leaf_node())
-            {
-                bounds_left = parent.m_node_left.m_bounding_box_fat.m_bounds;
-            } else {
-                bounds_left = parent.m_node_left.m_bounding_box_slim.m_bounds;
-            }
+            const bounding_box_left = parent.m_node_left.get_bounding_box();
+            const bounding_box_right = parent.m_node_right.get_bounding_box();
+            const bounds_left = bounding_box_left.m_bounds;
+            const bounds_right = bounding_box_right.m_bounds;
 
-            if(parent.m_node_right.is_leaf_node())
-            {
-                bounds_right = parent.m_node_right.m_bounding_box_fat.m_bounds;
-            } else {
-                bounds_right = parent.m_node_right.m_bounding_box_slim.m_bounds;
-            }
-
+            // get the largest axis
             if(bounds[0] > bounds[1] && bounds[0] > bounds[2])
             {
-            	let ratio_left = bounds_left[0] / bounds[0];
-            	let ratio_right = bounds_right[0] / bounds[0];
-            	if(ratio_left > ratio_right)
-            	{
-                	obj_info.score = ratio_left;
-            		obj_info.is_left = true;
-            	} else {
-                	obj_info.score = ratio_right;
-            		obj_info.is_left = false;
-            	}
+                let ratio_left = bounds_left[0] / bounds[0];
+                let ratio_right = bounds_right[0] / bounds[0];
+                if(ratio_left > ratio_right)
+                {
+                    obj_info.score = ratio_left;
+                    obj_info.is_left = true;
+                } else {
+                    obj_info.score = ratio_right;
+                    obj_info.is_left = false;
+                }
+                obj_info.axis = 0;
             } else if(bounds[1] > bounds[0] && bounds[1] > bounds[2]) {
-                console.log('y')
+                let ratio_left = bounds_left[1] / bounds[1];
+                let ratio_right = bounds_right[1] / bounds[1];
+                if(ratio_left > ratio_right)
+                {
+                    obj_info.score = ratio_left;
+                    obj_info.is_left = true;
+                } else {
+                    obj_info.score = ratio_right;
+                    obj_info.is_left = false;
+                }
+                obj_info.axis = 1;
             } else {
-                console.log('z')
+                let ratio_left = bounds_left[2] / bounds[2];
+                let ratio_right = bounds_right[2] / bounds[2];
+                if(ratio_left > ratio_right)
+                {
+                    obj_info.score = ratio_left;
+                    obj_info.is_left = true;
+                } else {
+                    obj_info.score = ratio_right;
+                    obj_info.is_left = false;
+                }
+                obj_info.axis = 2;
             }
 
             // let longest_axis = vec3.max(bounds)
@@ -416,29 +566,7 @@ export default class Node_AABB
 
             parent = parent.m_node_parent;
         }
-
-        // for (var i = 0; i < list_parents.length; i++) {
-        //     const parent = list_parents[i];
-
-
-        //     console.log(parent);
-        // }
-        for (var i = list_parents.length - 1; i >= 0; i--) {
-            const obj_info = list_parents[i];
-            if(obj_info.score >= 0.6)
-            {
-
-                console.error(obj_info);
-            }
-        }
-
-        // this.print_list(list_parents);
-        // if(foo)
-        // {
-        // console.log('true');
-            
-        // }
-        // return true;
+        return list_parents;
     }
 
     print_list(list_parents)
@@ -451,7 +579,8 @@ export default class Node_AABB
 
     update_parent(node_parent)
     {
-        this.m_depth = node_parent.m_depth + 1;
+
+        this.update_depth(node_parent.m_depth + 1);
         this.m_node_parent = node_parent;
     }
 
@@ -488,8 +617,4 @@ export default class Node_AABB
     // 
     // RECURSIVE
     //
-    walk(func, data)
-    {
-        func(this, func, data);
-    }
 }

@@ -40,6 +40,19 @@ export default class Bounding_Box
 		       (point[2] >= this.m_corner_min[2] && point[2] <= this.m_corner_max[2]);
 	}
 
+	bounds_combined(bounding_box)
+	{
+		let corner_min = vec3.create();
+		let corner_max = vec3.create();
+
+		vec3.min(corner_min, this.m_corner_min, bounding_box.m_corner_min);
+		vec3.max(corner_max, this.m_corner_max, bounding_box.m_corner_max);
+
+		vec3.subtract(corner_min, corner_max, corner_min);
+
+		return corner_min;
+	}
+
 	calc_volume(bounding_box = undefined)
 	{
 		if(bounding_box == undefined)

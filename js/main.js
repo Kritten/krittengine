@@ -300,13 +300,17 @@ function shuffle(a) {
         [a[i - 1], a[j]] = [a[j], a[i - 1]];
     }
 }
-scene.add(list_entities[0]);
-scene.add(list_entities[1]);
-scene.add(list_entities[2]);
-scene.add(list_entities[3]);
+
+// let counter = 10;
+// let counter = 13;
+let counter = 0;
+
+for (var i = 0; i < counter; i++) {
+	scene.add(list_entities[i]);
+}
 
 // shuffle(list_entities);
-let counter = 4;
+
 $(document).on('keydown', function(event) {
 	if(event.which == 32 && counter < NUMBER_MAX)
 	{

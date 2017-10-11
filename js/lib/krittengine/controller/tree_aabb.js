@@ -20,34 +20,85 @@ export default class Tree_AABB
         this.create_lines();
     }
 
-    calc_volume(node1, node2)
+    remove_node(node)
     {
-        let bounding_box1 = undefined;
-        let bounding_box2 = undefined;
+        const node_parent = node.m_node_parent;
 
-        if(node1.is_leaf_node())
+        if(node_parent == undefined)
         {
-            bounding_box1 = node1.m_bounding_box_fat;
+            this.m_node_root = undefined;
         } else {
-            bounding_box1 = node1.m_bounding_box_slim;
-        }
-        if(node2.is_leaf_node())
-        {
-            bounding_box2 = node2.m_bounding_box_fat;
-        } else {
-            bounding_box2 = node2.m_bounding_box_slim;
+            const node_sibling = node.get_sibling();
+            const node_grandparent = node_parent.m_node_parent;
+
+            if(node_grandparent == undefined)
+            {
+                this.m_node_root = node_sibling;
+                node_sibling.m_node_parent = undefined;
+            } else {
+                node_parent.m_node_parent = undefined;
+                if(node_parent.m_is_left_child)
+                {
+                    node_grandparent.m_node_left = node_sibling;
+                    node_grandparent.m_node_left.m_is_left_child = true;
+                } else {
+                    node_grandparent.m_node_right = node_sibling;
+                    node_grandparent.m_node_right.m_is_left_child = false;
+                }
+                node_sibling.update_parent(node_grandparent);
+            }
+
+            node_parent.m_node_left = undefined;
+            node_parent.m_node_right = undefined;
+
+            node.m_node_parent = undefined;
+
+            node_sibling.update_bounding_boxes_of_parents();
         }
 
-        return bounding_box1.calc_volume(bounding_box2);
+        return node;
     }
 
-   insert_entity(node_new)
+    verify(node_current = this.m_node_root)
+    { 
+        let data = {is_valid: true, count_total: 0, count_leafs: 0};
+        this.walk(function(node_aabb, data) {
+            let valid = false;
+            if(node_aabb.m_data == undefined && node_aabb.m_node_left != undefined && node_aabb.m_node_right != undefined)
+            {
+                valid = true;
+            } else if(node_aabb.m_data != undefined && node_aabb.m_node_left == undefined && node_aabb.m_node_right == undefined) {
+                valid = true;
+
+            }
+
+            if(node_aabb.is_leaf_node())
+            {
+                data.count_leafs += 1;
+            }
+            data.count_total += 1;
+            console.log(valid)
+
+            if(!valid)
+            {
+                data.is_valid = false;
+            }
+
+            return true;
+        }, data);
+
+        return data;
+    }
+
+   insert_entity(node_new, node_current = this.m_node_root)
     {
-        let node_current = this.m_node_root;
         while(node_current != undefined)
         {
             if(node_current.is_leaf_node())
             {
+
+                // console.log('node_current');
+                // console.log(node_current.m_data == undefined);
                 // console.log('leaf')
 
                 node_current.m_node_left = node_new;
@@ -59,26 +110,24 @@ export default class Tree_AABB
                 node_current.m_node_right.update_parent(node_current);
                 node_current.m_node_right.update_data(node_current.m_data);
 
-                // node_current.sort_children();
                 node_current.m_data = undefined;
-                // node_current.update_bounding_box();
                 break;
             } else {
                 // console.log('inner')
-                if(node_new.m_bounding_box_slim.is_inside_of(node_current.m_node_left.m_bounding_box_slim))
+                if(node_new.get_bounding_box().is_inside_of(node_current.m_node_left.get_bounding_box()))
                 {
                     node_current = node_current.m_node_left;
                     continue;
                 } 
-                else if(node_new.m_bounding_box_slim.is_inside_of(node_current.m_node_right.m_bounding_box_slim))
+                else if(node_new.get_bounding_box().is_inside_of(node_current.m_node_right.get_bounding_box()))
                 {
                     node_current = node_current.m_node_right;
                     continue;
                 } else {
                     // console.warn('ADDING NEW NODE')
-                    let volume_current = node_current.m_bounding_box_slim.calc_volume();
-                    let volume_left = this.calc_volume(node_new, node_current.m_node_left);
-                    let volume_right = this.calc_volume(node_new, node_current.m_node_right);
+                    let volume_current = node_current.get_bounding_box().calc_volume();
+                    let volume_left = node_new.get_bounding_box().calc_volume(node_current.m_node_left.get_bounding_box());
+                    let volume_right = node_new.get_bounding_box().calc_volume(node_current.m_node_right.get_bounding_box());
 
                     // if new entity is far away, put current subtree in child node and add new node to other child node
                     if(volume_current < volume_left && volume_current < volume_right)
@@ -131,6 +180,7 @@ export default class Tree_AABB
                 // node_current.update_bounding_box();
             }
         }
+        node_new.update_bounding_boxes_of_parents();
     }
 
     add_entity(entity)
@@ -145,12 +195,12 @@ export default class Tree_AABB
         } else {
             console.log('ADDING NEW NODE -------------------------------------------------------------')
             let start = performance.now();
-
             this.insert_entity(node);
-            node.update_bounding_boxes_of_parents();
-            node.m_node_parent.needs_update()
+            // node.m_node_parent.rebalance();
+            // console.log(JSON.stringify(this.verify()));
             let end = performance.now();
-            // console.log((end - start).toFixed(4))
+            // console.log(this)
+            console.log((end - start).toFixed(4))
 
             // this.m_node_root.add_node(node);
         }
@@ -162,17 +212,17 @@ export default class Tree_AABB
         this.m_count_objects += 1;
     }
 
-    balance_tree(node_aabb, func, data)
-    {
-        if(!node_aabb.is_leaf_node())
-        {
-            let ratio_volume = node_aabb.m_node_left.m_bounding_box_slim.calc_volume_ratio(node_aabb.m_node_right.m_bounding_box_slim);
-            console.log(ratio_volume)
-            node_aabb.m_node_left.walk(func, data);
-            node_aabb.m_node_right.walk(func, data);
-        }
-        // console.log(node_aabb)
-    }
+    // balance_tree(node_aabb, func, data)
+    // {
+    //     if(!node_aabb.is_leaf_node())
+    //     {
+    //         let ratio_volume = node_aabb.m_node_left.m_bounding_box_slim.calc_volume_ratio(node_aabb.m_node_right.m_bounding_box_slim);
+    //         console.log(ratio_volume)
+    //         node_aabb.m_node_left.walk(func, data);
+    //         node_aabb.m_node_right.walk(func, data);
+    //     }
+    //     // console.log(node_aabb)
+    // }
     // 
     // RECURSIVE
     // 
@@ -183,16 +233,15 @@ export default class Tree_AABB
             this.m_node_root.walk(func, data);
         }
     }
-    walk(func, data = {})
+    walk(func, data = {}, node_passed = this.m_node_root) 
     {
-        if(this.m_node_root != undefined)
+        if(node_passed != undefined)
         {
-            let node_current = this.m_node_root;
+            let node_current = node_passed;
             while(node_current != undefined)
             {
                 if(node_current.m_is_visited == false)
                 {
-                    
                     node_current.m_is_visited = true;
 
                     if(func(node_current, data) == false) 
@@ -200,7 +249,6 @@ export default class Tree_AABB
                         node_current = node_current.m_node_parent;
                         continue;
                     }
-                    // console.log(func)
                 }
 
                 if(node_current.m_node_left && node_current.m_node_left.m_is_visited == false)
@@ -227,11 +275,11 @@ export default class Tree_AABB
         }
     }
 
-    print_tree()
+    print_tree(node_passed = this.m_node_root)
     {
-        if(this.m_node_root != undefined)
+        if(node_passed != undefined)
         {
-            this.walk(this.m_node_root.print_node);
+            this.walk(this.m_node_root.print_node, {}, node_passed);
         }
     }
 
