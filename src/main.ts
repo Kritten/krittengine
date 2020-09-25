@@ -2,7 +2,7 @@ import { Krittengine } from './controller/krittengine';
 
 declare global {
   interface Window {
-    Krittengine: Krittengine;
+    Krittengine: typeof Krittengine;
   }
 }
 
