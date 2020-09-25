@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
-  entry: './src/krittengine.ts',
+  entry: './src/main.ts',
   output: {
     filename: 'krittengine.js',
     path: path.resolve(__dirname, 'dist'),
@@ -28,6 +28,6 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.ts', '.js'],
   },
 };

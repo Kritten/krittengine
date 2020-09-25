@@ -1,15 +1,17 @@
 module.exports = {
   env: {
-    node: true,
+    browser: true,
   },
-  extends: [
-    'airbnb-base',
-  ],
+  extends: ['airbnb-typescript/base'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 12,
-    sourceType: 'module',
+    project: './tsconfig.json',
   },
+  ignorePatterns: [
+    "/*.*",
+    'deprecated/',
+    'dist/'
+  ],
   plugins: [
     '@typescript-eslint',
   ],
@@ -23,7 +25,6 @@ module.exports = {
       },
     ],
   },
-  // other configuration are omitted for brevity
   settings: {
     'import/resolver': {
       typescript: {}, // this loads <rootdir>/tsconfig.json to eslint

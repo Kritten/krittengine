@@ -6,7 +6,7 @@
   "scripts": {
     "serve": "webpack-dev-server",
     "build": "webpack",
-    "lint": "eslint . --ext .ts,.js --max-warnings=0",
+    "lint": "eslint . --ext .ts --max-warnings=0",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -29,6 +29,7 @@
     "clean-webpack-plugin": "^3.0.0",
     "eslint": "^7.9.0",
     "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-airbnb-typescript": "^10.0.0",
     "eslint-import-resolver-typescript": "^2.3.0",
     "eslint-plugin-import": "^2.22.0",
     "husky": "^4.3.0",
@@ -40,6 +41,6 @@
     "webpack-dev-server": "^3.11.0"
   },
   "lint-staged": {
-    "*.{js,ts}": "npm run lint"
+    "{demo,src}/**/*.{js,ts}": "npm run lint"
   }
 }
