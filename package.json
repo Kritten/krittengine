@@ -6,6 +6,7 @@
   "scripts": {
     "serve": "webpack-dev-server",
     "build": "webpack",
+    "lint": "eslint",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,6 +29,7 @@
     "clean-webpack-plugin": "^3.0.0",
     "eslint": "^7.9.0",
     "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-import-resolver-typescript": "^2.3.0",
     "eslint-plugin-import": "^2.22.0",
     "ts-loader": "^8.0.4",
     "typescript": "^4.0.3",

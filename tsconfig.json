@@ -2,8 +2,18 @@
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
-    "sourceMap": true
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    }
   },
+  "include": [
+    "src/**/*.ts",
+    "demo/**/*.ts"
+  ],
   "exclude": [
     "node_modules"
   ]
