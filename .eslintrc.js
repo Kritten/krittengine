@@ -24,6 +24,16 @@ module.exports = {
         ts: 'never',
       },
     ],
+    "@typescript-eslint/member-delimiter-style": ["error", {
+      multiline: {
+        delimiter: 'semi',    // 'none' or 'semi' or 'comma'
+        requireLast: true,
+      },
+      singleline: {
+        delimiter: 'semi',    // 'semi' or 'comma'
+        requireLast: false,
+      },
+    }]
   },
   settings: {
     'import/resolver': {
