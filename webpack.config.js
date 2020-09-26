@@ -1,6 +1,6 @@
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
   devtool: 'inline-source-map',
   entry: {
     krittengine: './src/main.ts',
-    demo: './demo/demo.ts'
+    demo: './demo/demo.ts',
   },
   output: {
     filename: '[name].js',
@@ -22,11 +22,11 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: 'demo/demo.html',
-      title: "KrittEngine Demo",
+      title: 'KrittEngine Demo',
       chunksSortMode: 'manual',
       chunks: ['krittengine', 'demo'],
-      filename: "demo.html"
-    })
+      filename: 'demo.html',
+    }),
   ],
   module: {
     rules: [
@@ -41,6 +41,10 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
-    plugins: [new TsconfigPathsPlugin({/* options: see below */})]
+    plugins: [
+      new TsconfigPathsPlugin({
+        /* options: see below */
+      }),
+    ],
   },
 };
