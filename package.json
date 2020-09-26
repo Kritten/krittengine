@@ -48,5 +48,9 @@
   },
   "lint-staged": {
     "{demo,src}/**/*.{js,ts}": "npm run lint"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.161",
+    "lodash": "^4.17.20"
   }
 }
