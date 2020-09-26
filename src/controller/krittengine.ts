@@ -1,13 +1,8 @@
 import { BaseRenderingTechnique } from '@/view/renderingTechnique/base.renderingTechnique';
 import { RaytracerRenderingTechnique } from '@/view/renderingTechnique/raytracer.renderingTechnique';
 import { merge } from 'lodash';
-
-type NameRenderingTechnique = 'raytracer';
-
-type Config = {
-  loop?: boolean;
-  renderingTechnique?: NameRenderingTechnique;
-};
+import { Scene } from '@/model/scene';
+import { Config, NameRenderingTechnique } from '@/controller/krittengine.types';
 
 export interface InterfaceKrittengine {
   start(config: Config): void;
@@ -22,18 +17,21 @@ export class Krittengine implements InterfaceKrittengine {
   private config: Config = {
     loop: true,
     renderingTechnique: 'raytracer',
+    dimensions: { width: 10, height: 10 },
   };
 
   private renderingTechniques: { [key in NameRenderingTechnique]: BaseRenderingTechnique };
 
-  private renderingTechnique: BaseRenderingTechnique;
+  private activeRenderingTechnique: BaseRenderingTechnique;
+
+  private activeScene: Scene;
 
   constructor(canvas: HTMLCanvasElement, config: Config = {}) {
     this.config = merge(this.config, config);
 
-    this.renderingTechniques = { raytracer: new RaytracerRenderingTechnique(canvas) };
+    this.renderingTechniques = { raytracer: new RaytracerRenderingTechnique(canvas, this.config) };
 
-    this.renderingTechnique = this.renderingTechniques.raytracer;
+    this.activeRenderingTechnique = this.renderingTechniques.raytracer;
   }
 
   start(config: Config = {}) {
@@ -63,8 +61,8 @@ export class Krittengine implements InterfaceKrittengine {
 
   private update(timestamp: DOMHighResTimeStamp = 0) {
     // eslint-disable-next-line no-console
-    console.log(timestamp, this.renderingTechnique, 'this.renderingTechnique');
-    // this.renderingTechnique.render(this.scene);
+    console.log(timestamp, this.activeRenderingTechnique, 'this.activeRenderingTechnique');
+    this.activeRenderingTechnique.render(this.activeScene);
   }
 
   updateConfig(config: Config) {
@@ -73,7 +71,7 @@ export class Krittengine implements InterfaceKrittengine {
     }
 
     if (config.renderingTechnique !== undefined) {
-      this.renderingTechnique = this.renderingTechniques[config.renderingTechnique];
+      this.activeRenderingTechnique = this.renderingTechniques[config.renderingTechnique];
     }
 
     this.config = merge(this.config, config);
