@@ -31,6 +31,17 @@ module.exports = {
         },
       },
     ],
+    '@typescript-eslint/naming-convention': [
+      'error',
+      {
+        selector: 'interface',
+        format: ['PascalCase'],
+        custom: {
+          regex: '^Interface[A-Z]',
+          match: true,
+        },
+      },
+    ],
   },
   settings: {
     'import/resolver': {
