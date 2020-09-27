@@ -1,5 +1,5 @@
-import { Scene } from '@/model/scene';
-import { Config } from '@/controller/krittengine.types';
+import { Scene } from '@/krittengine/model/scene';
+import { ConfigKrittengineInitial } from '@/krittengine/controller/krittengine.types';
 
 export interface InterfaceBaseRenderingTechnique {
   render(scene: Scene): void;
@@ -8,9 +8,9 @@ export interface InterfaceBaseRenderingTechnique {
 export abstract class BaseRenderingTechnique implements InterfaceBaseRenderingTechnique {
   protected canvas: HTMLCanvasElement;
 
-  protected config: Config;
+  protected config: ConfigKrittengineInitial;
 
-  protected constructor(canvas: HTMLCanvasElement, config: Config) {
+  protected constructor(canvas: HTMLCanvasElement, config: ConfigKrittengineInitial) {
     this.canvas = canvas;
     this.config = config;
 

@@ -1,4 +1,4 @@
-import { Krittengine } from '@/controller/krittengine';
+import { Krittengine } from '@/krittengine/controller/krittengine';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/naming-convention
