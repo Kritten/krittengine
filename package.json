@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "@types/lodash": "^4.14.161",
+    "gl-matrix": "^3.3.0",
     "lodash": "^4.17.20",
     "mathjs": "^7.2.0"
   }
