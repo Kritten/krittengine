@@ -3,6 +3,7 @@ import { RaytracerRenderingTechnique } from '@/krittengine/view/renderingTechniq
 import { merge } from 'lodash';
 import { ConfigKrittengine, ConfigKrittengineInitial, NameRenderingTechnique } from '@/krittengine/controller/krittengine.types';
 import { SceneBuilder } from '@/sceneBuilder/sceneBuilder';
+import { TimeService } from '@/krittengine/controller/time.service';
 
 export interface InterfaceKrittengine {
   start(config: ConfigKrittengine): void;
@@ -46,6 +47,8 @@ export class Krittengine implements InterfaceKrittengine {
 
     const { loop = true } = this.config;
 
+    TimeService.init();
+
     if (loop) {
       this.updateLoop();
     } else {
@@ -83,8 +86,8 @@ export class Krittengine implements InterfaceKrittengine {
   }
 
   private update(timestamp: DOMHighResTimeStamp = 0) {
-    // eslint-disable-next-line no-console
-    console.log(timestamp, 'timestamp');
+    TimeService.update(timestamp);
+
     this.activeRenderingTechnique.render(this.sceneBuilder.getActiveScene());
   }
 }
