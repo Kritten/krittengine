@@ -54,6 +54,8 @@ module.exports = {
         },
       },
     ],
+    'class-methods-use-this': 'off',
+    'no-restricted-syntax': 'off',
   },
   settings: {
     'import/resolver': {
