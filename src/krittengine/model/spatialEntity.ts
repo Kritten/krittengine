@@ -25,11 +25,13 @@ export abstract class SpatialEntity extends Entity {
     if (params.scale !== undefined) {
       this.scale = params.scale;
     }
+  }
 
+  init(): void {
     this.updateMatrixTransformation();
   }
 
-  updateMatrixTransformation() {
+  updateMatrixTransformation(): void {
     mat4.fromRotationTranslationScale(this.matrixTransformation, this.rotation, this.position, this.scale);
   }
 }

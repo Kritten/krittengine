@@ -2,9 +2,13 @@ import { InterfaceScene, ParamsScene } from '@/krittengine/model/scene.types';
 import { IDCamera } from '@/krittengine/model/camera.types';
 import { Camera } from '@/krittengine/model/camera';
 import { Entity } from '@/krittengine/model/entity';
+import { ShapeEntity } from '@/krittengine/model/shapes/shapeEntity';
+import { IDShapeEntity } from '@/krittengine/model/shapes/shapeEntity.types';
 
 export class Scene extends Entity implements InterfaceScene {
   private cameras: Map<IDCamera, Camera> = new Map();
+
+  private objects: Map<IDShapeEntity, ShapeEntity> = new Map();
 
   private activeCamera: Camera;
 
@@ -20,11 +24,37 @@ export class Scene extends Entity implements InterfaceScene {
     }
   }
 
+  addObject(object: ShapeEntity): void {
+    this.objects.set(object.id, object);
+  }
+
   getActiveCamera(): Camera {
     return this.activeCamera;
   }
 
+  setActiveCamera(camera: Camera): Camera {
+    const cameraActive = this.cameras.get(camera.id);
+
+    if (cameraActive !== undefined) {
+      this.activeCamera = cameraActive;
+    } else {
+      throw new Error(`Camera '${camera.id}' not found`);
+    }
+
+    return this.activeCamera;
+  }
+
   getCamera(id: IDCamera): Camera {
-    return this.cameras.get(id);
+    const camera = this.cameras.get(id);
+
+    if (camera === undefined) {
+      throw new Error(`Camera '${id}' not found`);
+    }
+
+    return camera;
+  }
+
+  getObjects(): Map<string, ShapeEntity> {
+    return this.objects;
   }
 }

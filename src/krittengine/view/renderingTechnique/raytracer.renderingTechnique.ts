@@ -1,43 +1,50 @@
 import { BaseRenderingTechnique, InterfaceBaseRenderingTechnique } from '@/krittengine/view/renderingTechnique/base.renderingTechnique';
 import { Scene } from '@/krittengine/model/scene';
-import { ConfigKrittengineInitial } from '@/krittengine/controller/krittengine.types';
-import { mat4, quat, vec3 } from 'gl-matrix';
+import { ConfigKrittengine } from '@/krittengine/controller/krittengine.types';
+import { glMatrix, mat4, quat, vec3 } from 'gl-matrix';
 import { Ray } from '@/krittengine/model/ray';
-import { Sphere } from '@/krittengine/model/shapes/sphere';
 
-export interface InterfaceRaytracerTechnique extends InterfaceBaseRenderingTechnique {}
-
-export class RaytracerRenderingTechnique extends BaseRenderingTechnique implements InterfaceRaytracerTechnique {
+export class RaytracerRenderingTechnique extends BaseRenderingTechnique implements InterfaceBaseRenderingTechnique {
   private context: CanvasRenderingContext2D;
 
   private readonly imageData: ImageData;
 
-  private pixelPerUnit = 9;
+  private pixelPerUnit = 1;
 
-  constructor(canvas: HTMLCanvasElement, config: ConfigKrittengineInitial) {
+  constructor(canvas: HTMLCanvasElement, config: ConfigKrittengine) {
     super(canvas, config);
 
-    this.context = this.canvas.getContext('2d');
+    this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
     // this.imageData = this.context.createImageData(this.canvas.width, this.canvas.height);
-    this.imageData = this.context.createImageData(1, 1);
+    this.imageData = new ImageData(config.dimensions.width, config.dimensions.height);
   }
 
   render(scene: Scene): void {
     // eslint-disable-next-line no-console
     // console.log(scene, 'scene');
+    // console.log(TimeService, 'timestamp');
     const camera = scene.getActiveCamera();
+
+    camera.updateAspectRatio(this.canvas.width / this.canvas.height);
+
+    // console.log(camera.matrixPerspective, 'camera.matrixPerspective');
+
+    const inverseProjectionMatrix = mat4.invert(mat4.create(), camera.matrixPerspective);
 
     // let quat_x = quat.setAxisAngle(quat.create(), vec3.fromValues(1.0, 0.0, 0.0), glMatrix.toRadian(360));
     /**
      * Rotation
      */
-    camera.position = vec3.fromValues(0, 0, 2);
+    vec3.add(camera.position, camera.position, vec3.fromValues(0, 0, 0));
     // let quatX = quat.create();
     // let quatY = quat.create();
-    // let quatY = quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), glMatrix.toRadian(0));
-
+    const quatY = quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), glMatrix.toRadian(0));
+    // let quatY = quat.setAxisAngle(quat.create(), vec3.fromValues(1.0, 0.0, 0.0), glMatrix.toRadian(-TimeService.timeDeltaInSeconds));
     // quat.multiply(quatX, quatY, quatX);
-    // quat.normalize(camera.rotation, quatX);
+    // quat.normalize(quatX, quatX);
+    quat.multiply(camera.rotation, camera.rotation, quatY);
+    // quat.normalize(camera.rotation, camera.rotation);
+    // console.log(camera.rotation, 'camera.rotation');
     /**
      * Update transformation matrix
      */
@@ -53,7 +60,7 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
     /**
      * Plane
      */
-    const planeTransformation = mat4.translate(mat4.create(), camera.matrixTransformation, vec3.fromValues(0.0, 0.0, -2));
+    const planeTransformation = mat4.translate(mat4.create(), camera.matrixTransformation, vec3.fromValues(0.0, 0.0, -5));
     // const planeTranslation = mat4.fromTranslation(mat4.create(), vec3.fromValues(0.0, 0.0, 2.0));
 
     // console.log(planeTransformation, 'planeTransformation');
@@ -72,12 +79,20 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
     const bar = 1 / this.pixelPerUnit;
 
     let heightSpace = ((this.canvas.height - 1) * 0.5) / this.pixelPerUnit - bar;
-    let widthSpace = -((this.canvas.width - 1) * 0.5) / this.pixelPerUnit - bar;
+    let widthSpace = -(((this.canvas.width - 1) * 0.5) / this.pixelPerUnit - bar);
+    // console.log(heightSpace, 'heightSpace');
+    // console.log(widthSpace, 'widthSpace');
+
+    const upVector = vec3.fromValues(0, 1, 0);
+    const dummyMat4 = mat4.create();
+
+    const map = (value: number, x1: number, y1: number, x2: number, y2: number) => ((value - x1) * (y2 - x2)) / (y1 - x1) + x2;
 
     const start = performance.now();
     (async () => {
       for (let indexHeight = 0; indexHeight < this.canvas.height; indexHeight += 1) {
         heightSpace -= bar;
+        // console.warn('###################################');
 
         for (let indexWidth = 0; indexWidth < this.canvas.width; indexWidth += 1) {
           let widthSpaceLocal = widthValues[indexWidth];
@@ -86,11 +101,26 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
             widthValues[indexWidth] = widthSpace;
             widthSpaceLocal = widthSpace;
           }
+          // console.log('############################');
+
+          const pixelVector = vec3.fromValues(
+            map(indexWidth, 0, this.canvas.width - 1, -1, 1),
+            -map(indexHeight, 0, this.canvas.height - 1, -1, 1),
+            // 2.0 * ((indexWidth + 0.5) / this.canvas.width) - 1.0,
+            // 2.0 * ((indexHeight + 0.5) / this.canvas.height) - 1.0,
+            0.1,
+          );
+          // console.log(pixelVector, 'pixelVector');
+          const pixelViewSpace = vec3.transformMat4(vec3.create(), pixelVector, inverseProjectionMatrix);
+          // console.log(pixelViewSpace, 'screenSpace');
+          // const pixelWorldSpace = vec3.transformMat4(vec3.create(), pixelViewSpace, camera.matrixView);
+          const pixelWorldSpace = vec3.transformMat4(vec3.create(), pixelViewSpace, mat4.invert(mat4.create(), camera.matrixView));
+          // console.log(pixelWorldSpace, 'pixelWorldSpace');
 
           const positionPixelObjectSpace = vec3.fromValues(widthSpaceLocal, heightSpace, 0);
           // console.log(positionPixelObjectSpace, 'positionPixelObjectSpace');
-
-          const positionPixelWorldSpace = vec3.transformMat4(vec3.create(), positionPixelObjectSpace, planeTransformation);
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const positionPixelWorldSpace = vec3.transformMat4(positionPixelObjectSpace, positionPixelObjectSpace, planeTransformation);
           // console.log(positionPixelWorldSpace, 'positionPixelWorldSpace');
 
           // const directionCameraToPixel = vec3.normalize(vec3.create(), vec3.subtract(vec3.create(), positionPixelWorldSpace, camera.position));
@@ -98,7 +128,7 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
           // const cross = vec3.cross(vec3.create());
 
           // const lookAt = mat4.lookAt(mat4.create(), camera.position, positionPixelWorldSpace, vec3.fromValues(0, 1, 0));
-          const lookAt = mat4.targetTo(mat4.create(), camera.position, positionPixelWorldSpace, vec3.fromValues(0, 1, 0));
+          const lookAt = mat4.targetTo(dummyMat4, camera.position, pixelWorldSpace, upVector);
           // console.log(lookAt, 'lookAt');
           const rotation = mat4.getRotation(quat.create(), lookAt);
           // console.log(rotation, 'rotation');
@@ -109,25 +139,27 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
 
           // camera.rotation;
 
-          const ray = new Ray({ position: camera.position, rotation });
+          const ray = new Ray({
+            position: camera.position,
+            rotation,
+          });
           // console.log(ray, 'ray');
 
           const intersected = this.intersect(ray, scene);
-          // console.warn(intersected, 'intersected');
 
+          const index = (this.canvas.width * indexHeight + indexWidth) * 4;
           if (intersected) {
-            this.imageData.data[0] = 0;
-            this.imageData.data[1] = 255;
-            this.imageData.data[2] = 0;
-            this.imageData.data[3] = 255;
+            this.imageData.data[index] = 255;
+            this.imageData.data[index + 1] = 0;
+            this.imageData.data[index + 2] = 0;
+            this.imageData.data[index + 3] = 255;
           } else {
-            this.imageData.data[0] = 255;
-            this.imageData.data[1] = 0;
-            this.imageData.data[2] = 0;
-            this.imageData.data[3] = 255;
+            this.imageData.data[index] = 0;
+            this.imageData.data[index + 1] = 0;
+            this.imageData.data[index + 2] = 0;
+            this.imageData.data[index + 3] = 255;
           }
           // console.log(widthSpaceLocal);
-          this.context.putImageData(this.imageData, indexWidth, indexHeight);
           // await new Promise((resolve) => {
           //   setTimeout(() => {
           //     resolve();
@@ -136,67 +168,26 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
         }
       }
     })();
+    const endRaytracing = performance.now();
     // eslint-disable-next-line no-console
-    console.warn(performance.now() - start, 'performance.now() - start');
+    console.warn(endRaytracing - start, 'raytracing');
+    this.context.putImageData(this.imageData, 0, 0);
   }
 
   // eslint-disable-next-line class-methods-use-this
   intersect(ray: Ray, scene: Scene): boolean {
+    // TODO: direction ray kann vorberechnet werden
+    // const directionRay = vec3.transformQuat(vec3.create(), this.directionRayInitial, ray.rotation);
+    // vec3.normalize(directionRay, directionRay);
+
     // eslint-disable-next-line no-console
-    console.log(scene, 'scene');
-    const sphere1 = new Sphere({ position: vec3.fromValues(0, 4, -6), radius: 2 });
-    const sphere2 = new Sphere({ position: vec3.fromValues(0, 0, -3) });
-    const sphere3 = new Sphere({ position: vec3.fromValues(-9, 0, -2), radius: 2 });
-    const arr = [sphere1, sphere2, sphere3];
-
-    for (let i = 0; i < arr.length; i += 1) {
-      const sphere = arr[i];
-      // console.log(sphere, 'sphere');
-
-      const directionRay = vec3.transformQuat(vec3.create(), vec3.fromValues(0, 0, -1), ray.rotation);
-      // console.log(directionRay, 'directionRay');
-      vec3.normalize(directionRay, directionRay);
-
-      const sphereToRayOrigin = vec3.subtract(vec3.create(), ray.position, sphere.position);
-      const rayOriginToSphere = vec3.subtract(vec3.create(), sphere.position, ray.position);
-      // console.log(rayOriginToSphere, 'rayOriginToSphere');
-      // console.log(directionRay, 'directionRay');
-      const t = vec3.dot(rayOriginToSphere, directionRay);
-      // console.warn('######', t);
-      const p = vec3.scaleAndAdd(vec3.create(), ray.position, directionRay, t);
-      const y = vec3.len(vec3.subtract(vec3.create(), sphere.position, p));
-      if (y <= sphere.radius) {
+    // console.log(scene, 'scene');
+    for (const [, object] of scene.getObjects()) {
+      if (object.intersectsWithRay(ray)) {
         return true;
-        // const x = Math.sqrt(sphere.radius ** 2 - y ** 2);
-        // const t1 = t - x;
-        // const t2 = t + x;
-      }
-
-      const a = vec3.dot(directionRay, directionRay);
-      const b = 2.0 * vec3.dot(sphereToRayOrigin, directionRay);
-      const c = vec3.dot(sphereToRayOrigin, sphereToRayOrigin) - sphere.radius ** 2;
-
-      const discriminant = b ** 2 - 4 * a * c;
-      // console.warn(discriminant, 'discriminant');
-
-      if (discriminant < 0) {
-        // console.warn(-1, '+++++++++++++++++++++++++');
-      } else {
-        let numerator = -b - Math.sqrt(discriminant);
-        if (numerator > 0) {
-          // console.warn(numerator / (2.0 * a), '+++++++++++++++++++++++++');
-          return true;
-        }
-
-        numerator = -b + Math.sqrt(discriminant);
-        if (numerator > 0) {
-          // console.warn(numerator / (2.0 * a), '+++++++++++++++++++++++++');
-          return true;
-        }
-
-        // console.warn(-1, '+++++++++++++++++++++++++');
       }
     }
+
     return false;
   }
 }

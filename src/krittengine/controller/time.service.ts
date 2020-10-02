@@ -1,9 +1,9 @@
 class TimeServiceClass {
-  timeElapsed: number = 0.0;
+  timeElapsed = 0.0;
 
-  timeDelta: number = 0.0;
+  timeDelta = 0.0;
 
-  timeDeltaInSeconds: number = 0.0;
+  timeDeltaInSeconds = 0.0;
 
   init() {
     this.timeDelta = 0;

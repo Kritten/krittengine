@@ -1,17 +1,16 @@
 import { BaseRenderingTechnique } from '@/krittengine/view/renderingTechnique/base.renderingTechnique';
 import { RaytracerRenderingTechnique } from '@/krittengine/view/renderingTechnique/raytracer.renderingTechnique';
 import { merge } from 'lodash';
-import { ConfigKrittengine, ConfigKrittengineInitial, NameRenderingTechnique } from '@/krittengine/controller/krittengine.types';
+import {
+  ConfigKrittengine,
+  ConfigKrittengineInitial,
+  InterfaceKrittengine,
+  NameRenderingTechnique,
+} from '@/krittengine/controller/krittengine.types';
 import { SceneBuilder } from '@/sceneBuilder/sceneBuilder';
 import { TimeService } from '@/krittengine/controller/time.service';
-
-export interface InterfaceKrittengine {
-  start(config: ConfigKrittengine): void;
-  stop(): void;
-  continue(): void;
-  updateConfig(config: ConfigKrittengine): void;
-  getSceneBuilder(): SceneBuilder;
-}
+import { IDScene } from '@/krittengine/model/scene.types';
+import { Scene } from '@/krittengine/model/scene';
 
 export class Krittengine implements InterfaceKrittengine {
   private idAnimation: number;
@@ -28,6 +27,10 @@ export class Krittengine implements InterfaceKrittengine {
 
   private readonly sceneBuilder: SceneBuilder;
 
+  private scenes: Map<IDScene, Scene> = new Map();
+
+  private activeScene: Scene;
+
   constructor(canvas: HTMLCanvasElement, config: ConfigKrittengineInitial = {}) {
     this.config = merge(this.config, config);
 
@@ -38,8 +41,8 @@ export class Krittengine implements InterfaceKrittengine {
     this.sceneBuilder = new SceneBuilder();
   }
 
-  start(config: ConfigKrittengine = {}) {
-    if (this.sceneBuilder.getScenes().size === 0) {
+  start(config: ConfigKrittengineInitial = {}): void {
+    if (this.scenes.size === 0) {
       throw Error('At least on scene is required');
     }
 
@@ -56,15 +59,15 @@ export class Krittengine implements InterfaceKrittengine {
     }
   }
 
-  stop() {
+  stop(): void {
     window.cancelAnimationFrame(this.idAnimation);
   }
 
-  continue() {
+  continue(): void {
     this.start(this.config);
   }
 
-  updateConfig(config: ConfigKrittengine) {
+  updateConfig(config: ConfigKrittengine): void {
     if (config.loop !== undefined) {
       throw Error('not implemented');
     }
@@ -76,7 +79,7 @@ export class Krittengine implements InterfaceKrittengine {
     this.config = merge(this.config, config);
   }
 
-  getSceneBuilder() {
+  getSceneBuilder(): SceneBuilder {
     return this.sceneBuilder;
   }
 
@@ -88,6 +91,14 @@ export class Krittengine implements InterfaceKrittengine {
   private update(timestamp: DOMHighResTimeStamp = 0) {
     TimeService.update(timestamp);
 
-    this.activeRenderingTechnique.render(this.sceneBuilder.getActiveScene());
+    this.activeRenderingTechnique.render(this.activeScene);
+  }
+
+  addScene(scene: Scene): void {
+    this.scenes.set(scene.id, scene);
+
+    if (this.scenes.size === 1) {
+      this.activeScene = scene;
+    }
   }
 }
