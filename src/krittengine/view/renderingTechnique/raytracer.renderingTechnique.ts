@@ -1,7 +1,7 @@
 import { BaseRenderingTechnique, InterfaceBaseRenderingTechnique } from '@/krittengine/view/renderingTechnique/base.renderingTechnique';
 import { Scene } from '@/krittengine/model/scene';
 import { ConfigKrittengine } from '@/krittengine/controller/krittengine.types';
-import { mat4, vec3 } from 'gl-matrix';
+import { mat4, vec3, vec4 } from 'gl-matrix';
 import { Ray } from '@/krittengine/model/ray';
 
 export class RaytracerRenderingTechnique extends BaseRenderingTechnique implements InterfaceBaseRenderingTechnique {
@@ -93,20 +93,16 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
           });
           // console.log(ray, 'ray');
 
-          const intersected = this.intersectWithScene(ray, scene);
+          const color = this.intersectWithScene(ray, scene);
 
           const index = (this.canvas.width * indexHeight + indexWidth) * 4;
-          if (intersected) {
-            this.imageData.data[index] = 255;
-            this.imageData.data[index + 1] = 0;
-            this.imageData.data[index + 2] = 0;
-            this.imageData.data[index + 3] = 255;
-          } else {
-            this.imageData.data[index] = 0;
-            this.imageData.data[index + 1] = 0;
-            this.imageData.data[index + 2] = 0;
-            this.imageData.data[index + 3] = 255;
-          }
+          [this.imageData.data[index], this.imageData.data[index + 1], this.imageData.data[index + 2], this.imageData.data[index + 3]] = color;
+
+          // this.imageData.data[index] = color[0];
+          // this.imageData.data[index + 1] = color[1];
+          // this.imageData.data[index + 2] = color[2];
+          // this.imageData.data[index + 3] = color[3];
+
           // console.log(widthSpaceLocal);
           // await new Promise((resolve) => {
           //   setTimeout(() => {
@@ -123,7 +119,7 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
   }
 
   // eslint-disable-next-line class-methods-use-this
-  intersectWithScene(ray: Ray, scene: Scene): boolean {
+  private intersectWithScene(ray: Ray, scene: Scene): vec4 {
     // TODO: direction ray kann vorberechnet werden
     // const directionRay = vec3.transformQuat(vec3.create(), this.directionRayInitial, ray.rotation);
     // vec3.normalize(directionRay, directionRay);
@@ -132,10 +128,10 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
     // console.log(scene, 'scene');
     for (const [, object] of scene.getObjects()) {
       if (object.intersectsWithRay(ray)) {
-        return true;
+        return [255, 0, 0, 255];
       }
     }
 
-    return false;
+    return [0, 0, 0, 255];
   }
 }

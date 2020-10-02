@@ -2,7 +2,6 @@ import { ParamsSphere } from '@/krittengine/model/shapes/sphere.types';
 import { ShapeEntity } from '@/krittengine/model/shapes/shapeEntity';
 import { Ray } from '@/krittengine/model/ray';
 import { vec3 } from 'gl-matrix';
-import { DIRECTION_RAY_INITIAL } from '@/krittengine/controller/constants';
 
 export class Sphere extends ShapeEntity {
   radius = 1;
@@ -17,7 +16,8 @@ export class Sphere extends ShapeEntity {
 
   intersectsWithRay(ray: Ray): boolean {
     const sphereToRayOrigin = vec3.subtract(vec3.create(), ray.position, this.position);
-    const directionRay = vec3.transformQuat(vec3.create(), DIRECTION_RAY_INITIAL, ray.rotation);
+    // const directionRay = vec3.transformQuat(vec3.create(), DIRECTION_RAY_INITIAL, ray.rotation);
+    const directionRay = ray.direction;
     vec3.normalize(directionRay, directionRay);
     // const rayOriginToSphere = vec3.subtract(vec3.create(), sphere.position, ray.position);
     // console.log(rayOriginToSphere, 'rayOriginToSphere');
