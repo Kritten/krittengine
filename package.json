@@ -26,6 +26,8 @@
     "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-typescript": "^7.10.4",
+    "@types/lodash": "^4.14.161",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.2.0",
     "babel-loader": "^8.1.0",
@@ -52,9 +54,8 @@
     "{demo,src}/**/*.{js,ts}": "npm run lintPreCommit"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.161",
     "gl-matrix": "^3.3.0",
     "lodash": "^4.17.20",
-    "mathjs": "^7.2.0"
+    "uuid": "^8.3.0"
   }
 }
