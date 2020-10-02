@@ -11,6 +11,7 @@ import { SceneBuilder } from '@/sceneBuilder/sceneBuilder';
 import { TimeService } from '@/krittengine/controller/time.service';
 import { IDScene } from '@/krittengine/model/scene.types';
 import { Scene } from '@/krittengine/model/scene';
+import * as Stats from 'stats.js';
 
 export class Krittengine implements InterfaceKrittengine {
   private idAnimation: number;
@@ -31,6 +32,8 @@ export class Krittengine implements InterfaceKrittengine {
 
   private activeScene: Scene;
 
+  private stats = new Stats();
+
   constructor(canvas: HTMLCanvasElement, config: ConfigKrittengineInitial = {}) {
     this.config = merge(this.config, config);
 
@@ -39,6 +42,8 @@ export class Krittengine implements InterfaceKrittengine {
     this.activeRenderingTechnique = this.renderingTechniques.raytracer;
 
     this.sceneBuilder = new SceneBuilder();
+
+    this.initStats();
   }
 
   start(config: ConfigKrittengineInitial = {}): void {
@@ -84,7 +89,10 @@ export class Krittengine implements InterfaceKrittengine {
   }
 
   private updateLoop(timestamp: DOMHighResTimeStamp = 0) {
+    this.stats.begin();
     this.update(timestamp);
+    this.stats.end();
+
     this.idAnimation = window.requestAnimationFrame(this.updateLoop.bind(this));
   }
 
@@ -100,5 +108,16 @@ export class Krittengine implements InterfaceKrittengine {
     if (this.scenes.size === 1) {
       this.activeScene = scene;
     }
+  }
+
+  private initStats() {
+    this.stats.showPanel(0);
+
+    this.stats.dom.id = 'krittengine-stats';
+    this.stats.dom.style.left = 'unset';
+    this.stats.dom.style.right = '0';
+    (this.stats.dom.childNodes[1] as HTMLCanvasElement).style.display = 'block';
+
+    document.body.appendChild(this.stats.dom);
   }
 }

@@ -27,6 +27,7 @@
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-typescript": "^7.10.4",
     "@types/lodash": "^4.14.161",
+    "@types/stats.js": "^0.17.0",
     "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.2.0",
@@ -56,6 +57,7 @@
   "dependencies": {
     "gl-matrix": "^3.3.0",
     "lodash": "^4.17.20",
+    "stats.js": "^0.17.0",
     "uuid": "^8.3.0"
   }
 }
