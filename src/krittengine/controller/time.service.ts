@@ -6,9 +6,7 @@ class TimeServiceClass {
   timeDeltaInSeconds = 0.0;
 
   init() {
-    this.timeDelta = 0;
-    this.timeDeltaInSeconds = this.timeDelta * 0.001;
-    this.timeElapsed += this.timeDelta;
+    this.update(0);
   }
 
   update(timestamp: DOMHighResTimeStamp) {

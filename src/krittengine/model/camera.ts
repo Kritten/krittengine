@@ -35,3 +35,18 @@ export class Camera extends SpatialEntity {
     this.viewingDirection = vec3.fromValues(-this.matrixView[2], -this.matrixView[6], -this.matrixView[10]);
   }
 }
+
+// // let quat_x = quat.setAxisAngle(quat.create(), vec3.fromValues(1.0, 0.0, 0.0), glMatrix.toRadian(360));
+// // let quatX = quat.create();
+// // let quatY = quat.create();
+// const quatY = quat.setAxisAngle(quat.create(), vec3.fromValues(0.0, 1.0, 0.0), glMatrix.toRadian(0));
+// // let quatY = quat.setAxisAngle(quat.create(), vec3.fromValues(1.0, 0.0, 0.0), glMatrix.toRadian(-TimeService.timeDeltaInSeconds));
+// // quat.multiply(quatX, quatY, quatX);
+// // quat.normalize(quatX, quatX);
+// quat.multiply(camera.rotation, camera.rotation, quatY);
+// // quat.normalize(camera.rotation, camera.rotation);
+// // console.log(camera.rotation, 'camera.rotation');
+// /**
+//  * Update transformation matrix
+//  */
+// camera.updateMatrixTransformation();
