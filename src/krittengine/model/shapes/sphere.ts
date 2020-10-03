@@ -2,6 +2,7 @@ import { ParamsSphere } from '@/krittengine/model/shapes/sphere.types';
 import { ShapeEntity } from '@/krittengine/model/shapes/shapeEntity';
 import { Ray } from '@/krittengine/model/ray';
 import { vec3 } from 'gl-matrix';
+import { InterfaceDataIntersection } from '@/krittengine/view/view.types';
 
 export class Sphere extends ShapeEntity {
   radius = 1;
@@ -14,11 +15,11 @@ export class Sphere extends ShapeEntity {
     }
   }
 
-  intersectsWithRay(ray: Ray): boolean {
+  intersectsWithRay(ray: Ray): InterfaceDataIntersection {
+    const result: InterfaceDataIntersection = {};
     const sphereToRayOrigin = vec3.subtract(vec3.create(), ray.position, this.position);
     // const directionRay = vec3.transformQuat(vec3.create(), DIRECTION_RAY_INITIAL, ray.rotation);
     const directionRay = ray.direction;
-    vec3.normalize(directionRay, directionRay);
     // const rayOriginToSphere = vec3.subtract(vec3.create(), sphere.position, ray.position);
     // console.log(rayOriginToSphere, 'rayOriginToSphere');
     // console.log(directionRay, 'directionRay');
@@ -38,16 +39,28 @@ export class Sphere extends ShapeEntity {
     // console.warn(discriminant, 'discriminant');
 
     if (discriminant < 0) {
-      return false;
+      return result;
     }
 
-    // treats the case of t = 0 (ray way tangential to the sphere) the same as an intersection
+    // treats the case of discriminant = 0 (ray way tangential to the sphere) the same as an intersection
     const numerator = -b - Math.sqrt(discriminant);
-    if (numerator > 0) {
-      // console.warn(numerator / (2.0 * a), '+++++++++++++++++++++++++');
-      return true;
+    if (numerator >= 0) {
+      const t = numerator / (2.0 * a);
+      // console.warn(t, '+++++++++++++++++++++++++');
+
+      const pointIntersection = vec3.scaleAndAdd(vec3.create(), ray.position, ray.direction, t);
+      // console.log(pointIntersection, 'pointIntersection');
+
+      const normal = this.getNormal(pointIntersection);
+      // console.log(normal, 'normal');
+
+      result.color = [255, 0, 0, 255];
+      result.pointIntersection = pointIntersection;
+      result.normal = normal;
+      return result;
     }
-    return false;
+
+    return result;
     // ray starts inside of sphere
     // numerator = -b + Math.sqrt(discriminant);
     // if (numerator > 0) {
@@ -56,5 +69,10 @@ export class Sphere extends ShapeEntity {
     // }
 
     // console.warn(-1, '+++++++++++++++++++++++++');
+  }
+
+  getNormal(point: vec3): vec3 {
+    const dummy = vec3.create();
+    return vec3.normalize(dummy, vec3.subtract(dummy, point, this.position));
   }
 }

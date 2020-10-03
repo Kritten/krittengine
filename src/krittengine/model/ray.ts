@@ -11,6 +11,7 @@ export class Ray extends SpatialEntity {
 
     if (params.direction !== undefined) {
       this.direction = params.direction;
+      vec3.normalize(this.direction, this.direction);
       this.updateRotation();
     }
   }

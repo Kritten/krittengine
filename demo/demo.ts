@@ -13,6 +13,11 @@ const scene = sceneBuilder.createScene('default');
  */
 const camera = sceneBuilder.createCamera('camera');
 /**
+ * Lights
+ */
+const light1 = sceneBuilder.createLight('light1');
+light1.position = [1.0, 5.0, 4.0];
+/**
  * Shapes
  */
 const sphere1 = sceneBuilder.createSphere('sphere1');
@@ -28,6 +33,8 @@ scene.addObject(sphere2);
 scene.addObject(sphere3);
 
 scene.addCamera(camera);
+
+scene.addLight(light1);
 
 // console.log(scene, 'scene');
 // console.log(camera, 'camera');

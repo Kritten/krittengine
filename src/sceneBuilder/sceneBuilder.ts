@@ -7,6 +7,8 @@ import { IDCamera } from '@/krittengine/model/camera.types';
 import { Camera } from '@/krittengine/model/camera';
 import { Sphere } from '@/krittengine/model/shapes/sphere';
 import { IDShapeEntity } from '@/krittengine/model/shapes/shapeEntity.types';
+import { IDLight } from '@/krittengine/model/light.types';
+import { Light } from '@/krittengine/model/light';
 
 export class SceneBuilder implements InterfaceSceneBuilder {
   createScene(id: IDScene): Scene {
@@ -19,5 +21,9 @@ export class SceneBuilder implements InterfaceSceneBuilder {
 
   createSphere(id: IDShapeEntity): Sphere {
     return new Sphere({ id });
+  }
+
+  createLight(id: IDLight): Light {
+    return new Light({ id });
   }
 }

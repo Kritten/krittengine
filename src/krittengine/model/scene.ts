@@ -4,9 +4,13 @@ import { Camera } from '@/krittengine/model/camera';
 import { Entity } from '@/krittengine/model/entity';
 import { ShapeEntity } from '@/krittengine/model/shapes/shapeEntity';
 import { IDShapeEntity } from '@/krittengine/model/shapes/shapeEntity.types';
+import { Light } from '@/krittengine/model/light';
+import { IDLight } from '@/krittengine/model/light.types';
 
 export class Scene extends Entity implements InterfaceScene {
   private cameras: Map<IDCamera, Camera> = new Map();
+
+  private lights: Map<IDLight, Light> = new Map();
 
   private objects: Map<IDShapeEntity, ShapeEntity> = new Map();
 
@@ -56,5 +60,9 @@ export class Scene extends Entity implements InterfaceScene {
 
   getObjects(): Map<string, ShapeEntity> {
     return this.objects;
+  }
+
+  addLight(light: Light): void {
+    this.lights.set(light.id, light);
   }
 }
