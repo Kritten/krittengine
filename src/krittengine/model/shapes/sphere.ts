@@ -15,8 +15,7 @@ export class Sphere extends ShapeEntity {
     }
   }
 
-  intersectsWithRay(ray: Ray): InterfaceDataIntersection {
-    const result: InterfaceDataIntersection = {};
+  intersectsWithRay(ray: Ray): InterfaceDataIntersection | false {
     const sphereToRayOrigin = vec3.subtract(vec3.create(), ray.position, this.position);
     // const directionRay = vec3.transformQuat(vec3.create(), DIRECTION_RAY_INITIAL, ray.rotation);
     const directionRay = ray.direction;
@@ -39,7 +38,7 @@ export class Sphere extends ShapeEntity {
     // console.warn(discriminant, 'discriminant');
 
     if (discriminant < 0) {
-      return result;
+      return false;
     }
 
     // treats the case of discriminant = 0 (ray way tangential to the sphere) the same as an intersection
@@ -54,13 +53,14 @@ export class Sphere extends ShapeEntity {
       const normal = this.getNormal(pointIntersection);
       // console.log(normal, 'normal');
 
-      result.color = [255, 0, 0, 255];
-      result.pointIntersection = pointIntersection;
-      result.normal = normal;
-      return result;
+      return {
+        material: this.material,
+        point: pointIntersection,
+        normal,
+      };
     }
 
-    return result;
+    return false;
     // ray starts inside of sphere
     // numerator = -b + Math.sqrt(discriminant);
     // if (numerator > 0) {

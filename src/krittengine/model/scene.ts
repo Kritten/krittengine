@@ -6,15 +6,18 @@ import { ShapeEntity } from '@/krittengine/model/shapes/shapeEntity';
 import { IDShapeEntity } from '@/krittengine/model/shapes/shapeEntity.types';
 import { Light } from '@/krittengine/model/light';
 import { IDLight } from '@/krittengine/model/light.types';
+import { vec4 } from 'gl-matrix';
 
 export class Scene extends Entity implements InterfaceScene {
-  private cameras: Map<IDCamera, Camera> = new Map();
+  cameras: Map<IDCamera, Camera> = new Map();
 
-  private lights: Map<IDLight, Light> = new Map();
+  lights: Map<IDLight, Light> = new Map();
 
-  private objects: Map<IDShapeEntity, ShapeEntity> = new Map();
+  lightAmbient = vec4.fromValues(0.0, 0.0, 0.0, 1.0);
 
-  private activeCamera: Camera;
+  objects: Map<IDShapeEntity, ShapeEntity> = new Map();
+
+  activeCamera: Camera;
 
   constructor(params: ParamsScene = {}) {
     super(params);
@@ -32,10 +35,6 @@ export class Scene extends Entity implements InterfaceScene {
     this.objects.set(object.id, object);
   }
 
-  getActiveCamera(): Camera {
-    return this.activeCamera;
-  }
-
   setActiveCamera(camera: Camera): Camera {
     const cameraActive = this.cameras.get(camera.id);
 
@@ -46,20 +45,6 @@ export class Scene extends Entity implements InterfaceScene {
     }
 
     return this.activeCamera;
-  }
-
-  getCamera(id: IDCamera): Camera {
-    const camera = this.cameras.get(id);
-
-    if (camera === undefined) {
-      throw new Error(`Camera '${id}' not found`);
-    }
-
-    return camera;
-  }
-
-  getObjects(): Map<string, ShapeEntity> {
-    return this.objects;
   }
 
   addLight(light: Light): void {

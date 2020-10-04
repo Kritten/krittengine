@@ -13,6 +13,8 @@ import { IDScene } from '@/krittengine/model/scene.types';
 import { Scene } from '@/krittengine/model/scene';
 import * as Stats from 'stats.js';
 
+// glMatrix.setMatrixArrayType(Array);
+
 export class Krittengine implements InterfaceKrittengine {
   private idAnimation: number;
 
@@ -98,8 +100,17 @@ export class Krittengine implements InterfaceKrittengine {
 
   private update(timestamp: DOMHighResTimeStamp = 0) {
     TimeService.update(timestamp);
-
+    // console.log(timestamp, 'timestamp');
+    // console.log(TimeService.timeDelta, 'TimeService');
+    // const start = performance.now();
+    // for (let i = 0; i < 1000000000; i++) {
+    //   const b = i ** i;
+    //   const foo = b ** b;
+    // }
+    // console.log(performance.now() - start, 'performance.now() - end');
     this.activeRenderingTechnique.render(this.activeScene);
+
+    // console.log(TimeService.timeDelta, 'TimeService');
   }
 
   addScene(scene: Scene): void {

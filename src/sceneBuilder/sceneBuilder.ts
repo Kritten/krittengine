@@ -9,6 +9,8 @@ import { Sphere } from '@/krittengine/model/shapes/sphere';
 import { IDShapeEntity } from '@/krittengine/model/shapes/shapeEntity.types';
 import { IDLight } from '@/krittengine/model/light.types';
 import { Light } from '@/krittengine/model/light';
+import { Material } from '@/krittengine/model/material';
+import { IDMaterial } from '@/krittengine/model/material.types';
 
 export class SceneBuilder implements InterfaceSceneBuilder {
   createScene(id: IDScene): Scene {
@@ -25,5 +27,9 @@ export class SceneBuilder implements InterfaceSceneBuilder {
 
   createLight(id: IDLight): Light {
     return new Light({ id });
+  }
+
+  createMaterial(id: IDMaterial): Material {
+    return new Material({ id });
   }
 }

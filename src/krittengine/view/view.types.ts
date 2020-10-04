@@ -1,13 +1,14 @@
 import { Ray } from '@/krittengine/model/ray';
-import { vec3, vec4 } from 'gl-matrix';
+import { vec3 } from 'gl-matrix';
+import { Material } from '@/krittengine/model/material';
 
 export interface InterfaceDataIntersection {
-  color?: vec4;
-  pointIntersection?: vec3;
-  normal?: vec3;
+  point: vec3;
+  normal: vec3;
+  material: Material;
 }
 
 export interface InterfaceRenderableWithRaytracer {
-  intersectsWithRay(ray: Ray): InterfaceDataIntersection;
+  intersectsWithRay(ray: Ray): InterfaceDataIntersection | false;
   getNormal(point: vec3): vec3;
 }
