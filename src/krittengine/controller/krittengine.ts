@@ -57,6 +57,8 @@ export class Krittengine implements InterfaceKrittengine {
 
     const { loop = true } = this.config;
 
+    this.updateCameras(this.config.dimensions);
+
     TimeService.init();
 
     if (loop) {
@@ -83,11 +85,23 @@ export class Krittengine implements InterfaceKrittengine {
       this.activeRenderingTechnique = this.renderingTechniques[config.renderingTechnique];
     }
 
+    if (config.dimensions !== undefined) {
+      this.updateCameras(config.dimensions);
+    }
+
     this.config = merge(this.config, config);
   }
 
   getSceneBuilder(): SceneBuilder {
     return this.sceneBuilder;
+  }
+
+  private updateCameras(dimensions: { width: number; height: number }) {
+    for (const [, scene] of this.scenes) {
+      for (const [, camera] of scene.cameras) {
+        camera.updateAspectRatio(dimensions.width / dimensions.height);
+      }
+    }
   }
 
   private updateLoop(timestamp: DOMHighResTimeStamp = 0) {
