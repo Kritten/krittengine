@@ -1,6 +1,8 @@
 import { vec3, mat4, glMatrix } from 'gl-matrix';
 import { SpatialEntity } from '@/krittengine/model/spatialEntity';
 import { ParamsCamera } from '@/krittengine/model/camera.types';
+import { TimeService } from '@/krittengine/controller/time.service';
+import { InputService } from '@/krittengine/controller/input.service';
 
 export class Camera extends SpatialEntity {
   viewingDirection: vec3 = vec3.create();
@@ -21,6 +23,10 @@ export class Camera extends SpatialEntity {
     super(params);
 
     this.init();
+  }
+
+  update(): void {
+    this.hookUpdate({ TimeService, InputService });
   }
 
   updateMatrixTransformation(): void {

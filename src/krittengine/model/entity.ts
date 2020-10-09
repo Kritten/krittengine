@@ -1,5 +1,7 @@
 import { IDEntity, ParamsEntity } from '@/krittengine/model/entity.types';
 import { v4 } from 'uuid';
+import { TimeService } from '@/krittengine/controller/time.service';
+import { InputService } from '@/krittengine/controller/input.service';
 
 export abstract class Entity {
   readonly id: IDEntity;
@@ -11,4 +13,7 @@ export abstract class Entity {
       this.id = id;
     }
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  hookUpdate(data: { TimeService: typeof TimeService; InputService: typeof InputService }): void {}
 }

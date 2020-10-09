@@ -10,6 +10,7 @@ export interface InterfaceScene {
   addObject(object: ShapeEntity): void;
   addLight(light: Light): void;
   setActiveCamera(camera: Camera): Camera;
+  update(): void;
 }
 
 export type ParamsScene = ParamsEntity & {

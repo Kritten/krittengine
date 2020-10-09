@@ -12,6 +12,7 @@ import { TimeService } from '@/krittengine/controller/time.service';
 import { IDScene } from '@/krittengine/model/scene.types';
 import { Scene } from '@/krittengine/model/scene';
 import * as Stats from 'stats.js';
+import { InputService } from '@/krittengine/controller/input.service';
 
 // glMatrix.setMatrixArrayType(Array);
 
@@ -44,6 +45,8 @@ export class Krittengine implements InterfaceKrittengine {
     this.activeRenderingTechnique = this.renderingTechniques.raytracer;
 
     this.sceneBuilder = new SceneBuilder();
+
+    InputService.init();
 
     this.initStats();
   }
@@ -122,7 +125,12 @@ export class Krittengine implements InterfaceKrittengine {
     //   const foo = b ** b;
     // }
     // console.log(performance.now() - start, 'performance.now() - end');
+
+    this.activeScene.update();
+
     this.activeRenderingTechnique.render(this.activeScene);
+
+    InputService.pressedKeys = {};
 
     // console.log(TimeService.timeDelta, 'TimeService');
   }

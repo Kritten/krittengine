@@ -23,6 +23,12 @@ export class Scene extends Entity implements InterfaceScene {
     super(params);
   }
 
+  update(): void {
+    for (const [, camera] of this.cameras) {
+      camera.update();
+    }
+  }
+
   addCamera(camera: Camera): void {
     this.cameras.set(camera.id, camera);
 
