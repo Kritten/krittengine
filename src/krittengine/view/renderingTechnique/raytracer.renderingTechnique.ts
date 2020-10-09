@@ -1,11 +1,13 @@
 import { BaseRenderingTechnique, InterfaceBaseRenderingTechnique } from '@/krittengine/view/renderingTechnique/base.renderingTechnique';
 import { Scene } from '@/krittengine/model/scene';
 import { ConfigKrittengine } from '@/krittengine/controller/krittengine.types';
-import { mat4, vec3, vec4 } from 'gl-matrix';
+import { vec3, vec4 } from 'gl-matrix';
 import { Ray } from '@/krittengine/model/ray';
 import { InterfaceDataIntersection } from '@/krittengine/view/view.types';
 import { DUMMY_VEC3 } from '@/krittengine/controller/constants';
 import { Light } from '@/krittengine/model/light';
+import { transformDirectionWithMat4 } from '@/krittengine/controller/helpers';
+import { ShapeEntity } from '@/krittengine/model/shapes/shapeEntity';
 
 export class RaytracerRenderingTechnique extends BaseRenderingTechnique implements InterfaceBaseRenderingTechnique {
   private context: CanvasRenderingContext2D;
@@ -15,6 +17,8 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
   private pixelPerUnit = 1;
 
   private readonly mapUVCoordsToPixels = (value: number, y1: number) => (value * 2) / y1 - 1;
+
+  print = false;
 
   constructor(canvas: HTMLCanvasElement, config: ConfigKrittengine) {
     super(canvas, config);
@@ -26,11 +30,6 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
 
   render(scene: Scene): void {
     const camera = scene.activeCamera;
-
-    camera.updateAspectRatio(this.canvas.width / this.canvas.height);
-
-    const inverseProjectionMatrix = mat4.invert(mat4.create(), camera.matrixPerspective);
-    const inverseMatrixView = mat4.invert(mat4.create(), camera.matrixView);
 
     const widthValues: { [key: number]: number } = {};
     const bar = 1 / this.pixelPerUnit;
@@ -64,10 +63,10 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
             1,
           );
           // console.log(pixelVector, 'pixelVector');
-          const pixelViewSpace = vec3.transformMat4(vec3.create(), pixelVector, inverseProjectionMatrix);
+          const pixelViewSpace = vec3.transformMat4(vec3.create(), pixelVector, camera.matrixPerspectiveInverse);
           // console.log(pixelViewSpace, 'screenSpace');
           // const pixelWorldSpace = vec3.transformMat4(vec3.create(), pixelViewSpace, camera.matrixView);
-          const pixelWorldSpace = vec3.transformMat4(vec3.create(), pixelViewSpace, inverseMatrixView);
+          // const pixelWorldSpace = vec3.transformMat4(vec3.create(), pixelViewSpace, camera.matrixViewInverse);
           // console.log(pixelWorldSpace, 'pixelWorldSpace');
 
           // console.log(positionPixelObjectSpace, 'positionPixelObjectSpace');
@@ -89,14 +88,25 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
 
           // camera.rotation;
 
-          const ray = new Ray({
-            position: camera.position,
-            // rotation,
-            direction: pixelWorldSpace,
-          });
-          // console.log(ray, 'ray');
+          // this.print = indexWidth === 1 && indexHeight === 1;
 
-          const color = this.intersectWithScene(ray, scene);
+          const cameraPositionViewSpace = vec3.transformMat4(vec3.create(), camera.position, camera.matrixView);
+
+          const direction = vec3.subtract(vec3.create(), pixelViewSpace, cameraPositionViewSpace);
+          // const direction = vec3.subtract(vec3.create(), pixelWorldSpace, camera.position);
+          vec3.normalize(direction, direction);
+          // console.log(direction, 'direction');
+          const rayViewSpace = new Ray({
+            position: cameraPositionViewSpace,
+            direction,
+          });
+
+          if (this.print) {
+            // console.log(vec3.transformMat4(vec3.create(), camera.position, camera.matrixView), 'camera.position');
+            // console.log(rayViewSpace, 'rayViewSpace');
+          }
+
+          const color = this.intersectWithScene(rayViewSpace, scene);
 
           vec4.scale(color, color, 255);
 
@@ -124,46 +134,80 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
   }
 
   // eslint-disable-next-line class-methods-use-this
-  private intersectWithScene(ray: Ray, scene: Scene): vec4 {
-    // TODO: direction ray kann vorberechnet werden
-    // const directionRay = vec3.transformQuat(vec3.create(), this.directionRayInitial, ray.rotation);
+  private intersectWithScene(rayViewSpace: Ray, scene: Scene): vec4 {
+    // TODO: direction rayViewSpace kann vorberechnet werden
+    // const directionRay = vec3.transformQuat(vec3.create(), this.directionRayInitial, rayViewSpace.rotation);
     // vec3.normalize(directionRay, directionRay);
 
     // eslint-disable-next-line no-console
     // console.log(scene, 'scene');
     let colorFinal: vec4 = [0, 0, 0, 1];
 
+    const nearestObject: { object?: ShapeEntity; rayObjectSpace?: Ray; t: number } = { t: Infinity };
+
     for (const [, object] of scene.objects) {
-      const dataIntersection = object.intersectsWithRay(ray);
-      // console.log(dataIntersection, 'dataIntersection');
-      if (dataIntersection !== false) {
-        colorFinal = this.computeShading(ray, dataIntersection, scene);
+      const rayWorldSpace = rayViewSpace.transform(scene.activeCamera.matrixViewInverse);
+      const rayObjectSpace = rayWorldSpace.transform(object.matrixTransformationInverse);
+
+      // if (this.print) {
+      //   console.warn(rayViewSpace, 'rayViewSpace');
+      //   console.log(rayObjectSpace, 'rayObjectSpace');
+      // }
+
+      const t = object.intersectsWithRay(rayObjectSpace, this.print);
+      if (t !== undefined && t < nearestObject.t) {
+        nearestObject.object = object;
+        nearestObject.rayObjectSpace = rayObjectSpace;
+        nearestObject.t = t;
+        // const pointViewSpace = vec3.transformMat4(vec3.create(), dataIntersectionNew.pointWorldSpace, scene.activeCamera.matrixView);
       }
+    }
+
+    if (nearestObject.object !== undefined) {
+      const dataIntersection = nearestObject.object.getIntersectionData(nearestObject.rayObjectSpace as Ray, nearestObject.t);
+      // console.log(dataIntersection, 'dataIntersection');
+      colorFinal = this.computeShading(rayViewSpace, dataIntersection, scene);
     }
 
     return colorFinal;
   }
 
-  private computeShading(ray: Ray, dataIntersection: InterfaceDataIntersection, scene: Scene): vec4 {
+  private computeShading(rayViewSpace: Ray, dataIntersection: InterfaceDataIntersection, scene: Scene): vec4 {
     const color = this.computeShadingAmbient(dataIntersection);
 
+    const pointViewSpace = vec3.transformMat4(vec3.create(), dataIntersection.pointWorldSpace, scene.activeCamera.matrixView);
+    const normalViewSpace = transformDirectionWithMat4(dataIntersection.normalWorldSpace, scene.activeCamera.matrixView);
+    vec3.normalize(normalViewSpace, normalViewSpace);
+
     for (const [, light] of scene.lights) {
-      const vectorToLight = vec3.subtract(vec3.create(), light.position, dataIntersection.point);
-      // console.log(vectorToLight, 'vectorToLight');
-      const distanceToLight = vec3.length(vectorToLight);
+      const positionLightViewSpace = vec3.transformMat4(vec3.create(), light.position, scene.activeCamera.matrixView);
+      const vectorToLightViewSpace = vec3.subtract(vec3.create(), positionLightViewSpace, pointViewSpace);
+      // console.log(vectorToLightViewSpace, 'vectorToLightViewSpace');
+      const distanceToLight = vec3.length(vectorToLightViewSpace);
 
+      // TODO: skip if no effect
       const intensityLight = 1 / (light.intensityA * distanceToLight ** 2 + light.intensityB * distanceToLight + light.intensityC);
-      // TODO: slip if no effect
 
-      vec3.normalize(vectorToLight, vectorToLight);
-      const dotNormalAndVectorToLight = vec3.dot(dataIntersection.normal, vectorToLight);
+      vec3.normalize(vectorToLightViewSpace, vectorToLightViewSpace);
+      const dotNormalAndVectorToLight = vec3.dot(normalViewSpace, vectorToLightViewSpace);
+      // console.log(dataIntersection.normalWorldSpace, 'dataIntersection.normalWorldSpace');
+      // console.log(vectorToLightViewSpace, 'vectorToLightViewSpace');
 
       vec3.add(color, color, this.computeShadingDiffuse(dataIntersection, dotNormalAndVectorToLight, light, intensityLight));
 
       vec3.add(
         color,
         color,
-        this.computeShadingSpecular(dataIntersection, dotNormalAndVectorToLight, dataIntersection.normal, vectorToLight, ray, light, intensityLight),
+        this.computeShadingSpecular(
+          dataIntersection,
+          dotNormalAndVectorToLight,
+          pointViewSpace,
+          normalViewSpace,
+          vectorToLightViewSpace,
+          rayViewSpace,
+          light,
+          intensityLight,
+        ),
       );
     }
 
@@ -193,26 +237,29 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
   private computeShadingSpecular(
     dataIntersection: InterfaceDataIntersection,
     dotNormalAndVectorToLight: number,
-    normal: vec3,
-    vectorToLight: vec3,
-    ray: Ray,
+    pointViewSpace: vec3,
+    normalViewSpace: vec3,
+    vectorToLightViewSpace: vec3,
+    rayViewSpace: Ray,
     light: Light,
     intensityLight: number,
   ): vec3 {
-    // DUMMY_VEC3
-    const vectorReflect = vec3.subtract(DUMMY_VEC3, vec3.scale(DUMMY_VEC3, normal, 2 * dotNormalAndVectorToLight), vectorToLight);
-    vec3.normalize(vectorReflect, vectorReflect);
+    if (dataIntersection.material.specularFalloff !== -1) {
+      // DUMMY_VEC3
+      const vectorReflect = vec3.subtract(DUMMY_VEC3, vec3.scale(DUMMY_VEC3, normalViewSpace, 2 * dotNormalAndVectorToLight), vectorToLightViewSpace);
+      vec3.normalize(vectorReflect, vectorReflect);
 
-    const vectorToCamera = vec3.subtract(vec3.create(), ray.position, dataIntersection.point);
-    vec3.normalize(vectorToCamera, vectorToCamera);
+      const vectorToCamera = vec3.subtract(vec3.create(), rayViewSpace.position, pointViewSpace);
+      vec3.normalize(vectorToCamera, vectorToCamera);
 
-    const foo = vec3.dot(vectorReflect, vectorToCamera);
+      const foo = vec3.dot(vectorReflect, vectorToCamera);
 
-    if (foo > 0) {
-      // Todo: only metals have specular hightlights tinted with the material color
-      // const bar = vec3.multiply(DUMMY_VEC3, dataIntersection.material.coefficientSpecular, light.color);
-      const bar = vec3.scale(DUMMY_VEC3, light.color, intensityLight);
-      return vec3.scale(DUMMY_VEC3, bar, foo ** dataIntersection.material.specularFalloff);
+      if (foo > 0) {
+        // Todo: only metals have specular hightlights tinted with the material color
+        // const bar = vec3.multiply(DUMMY_VEC3, dataIntersection.material.coefficientSpecular, light.color);
+        const bar = vec3.scale(DUMMY_VEC3, light.color, intensityLight);
+        return vec3.scale(DUMMY_VEC3, bar, foo ** dataIntersection.material.specularFalloff);
+      }
     }
     return [0, 0, 0];
   }

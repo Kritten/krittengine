@@ -3,12 +3,17 @@ import { vec3 } from 'gl-matrix';
 import { Material } from '@/krittengine/model/material';
 
 export interface InterfaceDataIntersection {
-  point: vec3;
-  normal: vec3;
+  pointObjectSpace: vec3;
+  normalObjectSpace: vec3;
+
+  pointWorldSpace: vec3;
+  normalWorldSpace: vec3;
+
   material: Material;
 }
 
 export interface InterfaceRenderableWithRaytracer {
-  intersectsWithRay(ray: Ray): InterfaceDataIntersection | false;
-  getNormal(point: vec3): vec3;
+  intersectsWithRay(rayObjectSpace: Ray, print: boolean): number | undefined;
+  getIntersectionData(rayObjectSpace: Ray, t: number): InterfaceDataIntersection;
+  getNormal(pointObjectSpace: vec3): vec3;
 }

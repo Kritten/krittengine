@@ -5,5 +5,5 @@ export type IDRay = string;
 
 export type ParamsRay = ParamsSpatialEntity & {
   id?: IDRay;
-  direction?: vec3;
+  direction: vec3;
 };

@@ -9,7 +9,11 @@ export abstract class SpatialEntity extends Entity {
 
   scale: vec3 = vec3.fromValues(1.0, 1.0, 1.0);
 
+  // object -> world
   matrixTransformation: mat4 = mat4.create();
+
+  // world -> object
+  matrixTransformationInverse: mat4 = mat4.create();
 
   protected constructor(params: ParamsSpatialEntity = {}) {
     super(params);
@@ -33,5 +37,6 @@ export abstract class SpatialEntity extends Entity {
 
   updateMatrixTransformation(): void {
     mat4.fromRotationTranslationScale(this.matrixTransformation, this.rotation, this.position, this.scale);
+    mat4.invert(this.matrixTransformationInverse, this.matrixTransformation);
   }
 }

@@ -5,9 +5,17 @@ import { ParamsCamera } from '@/krittengine/model/camera.types';
 export class Camera extends SpatialEntity {
   viewingDirection: vec3 = vec3.create();
 
+  // view -> screen
   matrixPerspective: mat4 = mat4.create();
 
+  // screen -> view
+  matrixPerspectiveInverse: mat4 = mat4.create();
+
+  // world -> view
   matrixView: mat4 = mat4.create();
+
+  // view -> world
+  matrixViewInverse: mat4 = mat4.create();
 
   constructor(params: ParamsCamera = {}) {
     super(params);
@@ -22,11 +30,12 @@ export class Camera extends SpatialEntity {
 
   updateAspectRatio(aspectRatio: number): void {
     mat4.perspective(this.matrixPerspective, glMatrix.toRadian(70), aspectRatio, 0.1, 1000.0);
+    mat4.invert(this.matrixPerspectiveInverse, this.matrixPerspective);
   }
 
   recalculateMatrixView(): void {
-    mat4.fromRotationTranslation(this.matrixView, this.rotation, this.position);
-    mat4.invert(this.matrixView, this.matrixView);
+    mat4.fromRotationTranslation(this.matrixViewInverse, this.rotation, this.position);
+    mat4.invert(this.matrixView, this.matrixViewInverse);
 
     this.updateViewingDirection();
   }

@@ -1,5 +1,3 @@
 import { ParamsSpatialEntity } from '@/krittengine/model/spatialEntity.types';
 
-export type ParamsSphere = ParamsSpatialEntity & {
-  radius?: number;
-};
+export type ParamsSphere = ParamsSpatialEntity;

@@ -3,27 +3,26 @@ import { ShapeEntity } from '@/krittengine/model/shapes/shapeEntity';
 import { Ray } from '@/krittengine/model/ray';
 import { vec3 } from 'gl-matrix';
 import { InterfaceDataIntersection } from '@/krittengine/view/view.types';
+import { transformDirectionWithMat4 } from '@/krittengine/controller/helpers';
 
 export class Sphere extends ShapeEntity {
   radius = 1;
 
   constructor(params: ParamsSphere = {}) {
     super(params);
-
-    if (params.radius !== undefined) {
-      this.radius = params.radius;
-    }
   }
 
-  intersectsWithRay(ray: Ray): InterfaceDataIntersection | false {
-    const sphereToRayOrigin = vec3.subtract(vec3.create(), ray.position, this.position);
-    // const directionRay = vec3.transformQuat(vec3.create(), DIRECTION_RAY_INITIAL, ray.rotation);
-    const directionRay = ray.direction;
-    // const rayOriginToSphere = vec3.subtract(vec3.create(), sphere.position, ray.position);
+  intersectsWithRay(rayObjectSpace: Ray, print: boolean): number | undefined {
+    const sphereToRayOrigin = vec3.subtract(vec3.create(), rayObjectSpace.position, [0, 0, 0]);
+    // const sphereToRayOrigin = vec3.subtract(vec3.create(), rayObjectSpace.position, this.position);
+
+    // const directionRay = vec3.transformQuat(vec3.create(), DIRECTION_RAY_INITIAL, rayObjectSpace.rotation);
+    const directionRay = rayObjectSpace.direction;
+    // const rayOriginToSphere = vec3.subtract(vec3.create(), sphere.position, rayObjectSpace.position);
     // console.log(rayOriginToSphere, 'rayOriginToSphere');
     // console.log(directionRay, 'directionRay');
     // const t = vec3.dot(rayOriginToSphere, directionRay);
-    // const p = vec3.scaleAndAdd(vec3.create(), ray.position, directionRay, t);
+    // const p = vec3.scaleAndAdd(vec3.create(), rayObjectSpace.position, directionRay, t);
     // const y = vec3.len(vec3.subtract(vec3.create(), sphere.position, p));
     //
     // if (y <= sphere.radius) {
@@ -31,37 +30,39 @@ export class Sphere extends ShapeEntity {
     // }
 
     const a = vec3.dot(directionRay, directionRay);
+    // const a = 1;
     const b = 2.0 * vec3.dot(sphereToRayOrigin, directionRay);
-    const c = vec3.dot(sphereToRayOrigin, sphereToRayOrigin) - this.radius ** 2;
+    const c = vec3.dot(sphereToRayOrigin, sphereToRayOrigin) - 1 ** 2;
+    // const c = vec3.dot(sphereToRayOrigin, sphereToRayOrigin) - this.radius ** 2;
 
     const discriminant = b ** 2 - 4 * a * c;
-    // console.warn(discriminant, 'discriminant');
+    if (print) {
+      // eslint-disable-next-line no-console
+      console.log(rayObjectSpace, 'rayObjectSpace');
+      // eslint-disable-next-line no-console
+      console.warn(discriminant, 'discriminant');
+    }
 
     if (discriminant < 0) {
-      return false;
+      return undefined;
     }
+    // console.log(discriminant, 'discriminant');
+    // treats the case of discriminant = 0 (rayObjectSpace way tangential to the sphere) the same as an intersection
 
-    // treats the case of discriminant = 0 (ray way tangential to the sphere) the same as an intersection
     const numerator = -b - Math.sqrt(discriminant);
+    // const numerator2 = -b + Math.sqrt(discriminant);
+    // const numerator = Math.min(numerator1, numerator2);
+
+    if (print) {
+      // eslint-disable-next-line no-console
+      console.warn(numerator, 'numerator');
+    }
     if (numerator >= 0) {
-      const t = numerator / (2.0 * a);
-      // console.warn(t, '+++++++++++++++++++++++++');
-
-      const pointIntersection = vec3.scaleAndAdd(vec3.create(), ray.position, ray.direction, t);
-      // console.log(pointIntersection, 'pointIntersection');
-
-      const normal = this.getNormal(pointIntersection);
-      // console.log(normal, 'normal');
-
-      return {
-        material: this.material,
-        point: pointIntersection,
-        normal,
-      };
+      return numerator / (2.0 * a);
     }
 
-    return false;
-    // ray starts inside of sphere
+    return undefined;
+    // rayObjectSpace starts inside of sphere
     // numerator = -b + Math.sqrt(discriminant);
     // if (numerator > 0) {
     //   // console.warn(numerator / (2.0 * a), '+++++++++++++++++++++++++');
@@ -71,8 +72,23 @@ export class Sphere extends ShapeEntity {
     // console.warn(-1, '+++++++++++++++++++++++++');
   }
 
-  getNormal(point: vec3): vec3 {
-    const dummy = vec3.create();
-    return vec3.normalize(dummy, vec3.subtract(dummy, point, this.position));
+  getIntersectionData(rayObjectSpace: Ray, t: number): InterfaceDataIntersection {
+    const pointIntersection = vec3.scaleAndAdd(vec3.create(), rayObjectSpace.position, rayObjectSpace.direction, t);
+    const normalObjectSpace = this.getNormal(pointIntersection);
+
+    const pointWorldSpace = vec3.transformMat4(vec3.create(), pointIntersection, this.matrixTransformation);
+    const normalWorldSpace = transformDirectionWithMat4(normalObjectSpace, this.matrixTransformation);
+
+    return {
+      material: this.material,
+      pointObjectSpace: pointIntersection,
+      normalObjectSpace,
+      pointWorldSpace,
+      normalWorldSpace,
+    };
+  }
+
+  getNormal(pointObjectSpace: vec3): vec3 {
+    return pointObjectSpace; // unit sphere: intersection point is normal
   }
 }

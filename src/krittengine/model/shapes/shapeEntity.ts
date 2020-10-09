@@ -16,7 +16,9 @@ export abstract class ShapeEntity extends SpatialEntity implements InterfaceRend
     }
   }
 
-  abstract intersectsWithRay(ray: Ray): InterfaceDataIntersection | false;
+  abstract intersectsWithRay(rayObjectSpace: Ray, print: boolean): number | undefined;
 
-  abstract getNormal(point: vec3): vec3;
+  abstract getIntersectionData(rayObjectSpace: Ray, t: number): InterfaceDataIntersection;
+
+  abstract getNormal(pointObjectSpace: vec3): vec3;
 }
