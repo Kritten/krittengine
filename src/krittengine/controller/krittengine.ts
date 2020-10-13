@@ -13,6 +13,7 @@ import { IDScene } from '@/krittengine/model/scene.types';
 import { Scene } from '@/krittengine/model/scene';
 import * as Stats from 'stats.js';
 import { InputService } from '@/krittengine/controller/input.service';
+import { CanvasService } from '@/krittengine/controller/canvas.service';
 
 // glMatrix.setMatrixArrayType(Array);
 
@@ -40,7 +41,9 @@ export class Krittengine implements InterfaceKrittengine {
   constructor(canvas: HTMLCanvasElement, config: ConfigKrittengineInitial = {}) {
     this.config = merge(this.config, config);
 
-    this.renderingTechniques = { raytracer: new RaytracerRenderingTechnique(canvas, this.config) };
+    CanvasService.init(canvas, this.config);
+
+    this.renderingTechniques = { raytracer: new RaytracerRenderingTechnique() };
 
     this.activeRenderingTechnique = this.renderingTechniques.raytracer;
 
@@ -49,6 +52,10 @@ export class Krittengine implements InterfaceKrittengine {
     InputService.init();
 
     this.initStats();
+
+    CanvasService.hookFullscreenChange = () => {
+      this.screenResized();
+    };
   }
 
   start(config: ConfigKrittengineInitial = {}): void {
@@ -60,7 +67,7 @@ export class Krittengine implements InterfaceKrittengine {
 
     const { loop = true } = this.config;
 
-    this.updateCameras(this.config.dimensions);
+    this.updateCameras();
 
     TimeService.init();
 
@@ -89,7 +96,7 @@ export class Krittengine implements InterfaceKrittengine {
     }
 
     if (config.dimensions !== undefined) {
-      this.updateCameras(config.dimensions);
+      this.updateCameras();
     }
 
     this.config = merge(this.config, config);
@@ -99,10 +106,10 @@ export class Krittengine implements InterfaceKrittengine {
     return this.sceneBuilder;
   }
 
-  private updateCameras(dimensions: { width: number; height: number }) {
+  private updateCameras() {
     for (const [, scene] of this.scenes) {
       for (const [, camera] of scene.cameras) {
-        camera.updateAspectRatio(dimensions.width / dimensions.height);
+        camera.updateAspectRatio();
       }
     }
   }
@@ -152,5 +159,24 @@ export class Krittengine implements InterfaceKrittengine {
     (this.stats.dom.childNodes[1] as HTMLCanvasElement).style.display = 'block';
 
     document.body.appendChild(this.stats.dom);
+  }
+
+  startFullscreen(): Promise<void> {
+    return CanvasService.startFullscreen();
+  }
+
+  lockMouse(): void {
+    CanvasService.lockMouse();
+  }
+
+  endFullscreen(): Promise<void> {
+    return CanvasService.endFullscreen();
+  }
+
+  private screenResized() {
+    this.updateCameras();
+    this.activeRenderingTechnique.screenResized();
+    // TODO: remove
+    // this.activeRenderingTechnique.render(this.activeScene);
   }
 }

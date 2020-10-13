@@ -1,6 +1,5 @@
 import { BaseRenderingTechnique, InterfaceBaseRenderingTechnique } from '@/krittengine/view/renderingTechnique/base.renderingTechnique';
 import { Scene } from '@/krittengine/model/scene';
-import { ConfigKrittengine } from '@/krittengine/controller/krittengine.types';
 import { vec3, vec4 } from 'gl-matrix';
 import { Ray } from '@/krittengine/model/ray';
 import { InterfaceDataIntersection } from '@/krittengine/view/view.types';
@@ -8,11 +7,12 @@ import { DUMMY_VEC3 } from '@/krittengine/controller/constants';
 import { Light } from '@/krittengine/model/light';
 import { transformDirectionWithMat4 } from '@/krittengine/controller/helpers';
 import { ShapeEntity } from '@/krittengine/model/shapes/shapeEntity';
+import { CanvasService } from '@/krittengine/controller/canvas.service';
 
 export class RaytracerRenderingTechnique extends BaseRenderingTechnique implements InterfaceBaseRenderingTechnique {
   private context: CanvasRenderingContext2D;
 
-  private readonly imageData: ImageData;
+  private imageData: ImageData;
 
   private pixelPerUnit = 1;
 
@@ -20,12 +20,12 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
 
   print = false;
 
-  constructor(canvas: HTMLCanvasElement, config: ConfigKrittengine) {
-    super(canvas, config);
+  constructor() {
+    super();
 
-    this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+    this.context = CanvasService.canvas.getContext('2d') as CanvasRenderingContext2D;
     // this.imageData = this.context.createImageData(this.canvas.width, this.canvas.height);
-    this.imageData = new ImageData(config.dimensions.width, config.dimensions.height);
+    this.imageData = new ImageData(CanvasService.canvas.width, CanvasService.canvas.height);
   }
 
   render(scene: Scene): void {
@@ -34,19 +34,22 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
     const widthValues: { [key: number]: number } = {};
     const bar = 1 / this.pixelPerUnit;
 
-    let widthSpace = -(((this.canvas.width - 1) * 0.5) / this.pixelPerUnit - bar);
+    let widthSpace = -(((CanvasService.canvas.width - 1) * 0.5) / this.pixelPerUnit - bar);
     // console.log(heightSpace, 'heightSpace');
     // console.log(widthSpace, 'widthSpace');
 
-    const widthCanvasMinusOne = this.canvas.width - 1;
-    const heightCanvasMinusOne = this.canvas.height - 1;
+    const widthCanvasMinusOne = CanvasService.canvas.width - 1;
+    const heightCanvasMinusOne = CanvasService.canvas.height - 1;
+
+    let numberOfProcessedPixels = 0;
+    const sizeChunkPixels = CanvasService.numberOfPixels / 20.0;
 
     const start = performance.now();
     (async () => {
-      for (let indexHeight = 0; indexHeight < this.canvas.height; indexHeight += 1) {
+      for (let indexHeight = 0; indexHeight < CanvasService.canvas.height; indexHeight += 1) {
         // console.warn('###################################');
 
-        for (let indexWidth = 0; indexWidth < this.canvas.width; indexWidth += 1) {
+        for (let indexWidth = 0; indexWidth < CanvasService.canvas.width; indexWidth += 1) {
           let widthSpaceLocal = widthValues[indexWidth];
           if (widthSpaceLocal === undefined) {
             widthSpace += bar;
@@ -110,8 +113,17 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
 
           vec4.scale(color, color, 255);
 
-          const index = (this.canvas.width * indexHeight + indexWidth) * 4;
+          const index = (CanvasService.canvas.width * indexHeight + indexWidth) * 4;
           [this.imageData.data[index], this.imageData.data[index + 1], this.imageData.data[index + 2], this.imageData.data[index + 3]] = color;
+
+          numberOfProcessedPixels += 1;
+          if (numberOfProcessedPixels % sizeChunkPixels === 0) {
+            const now = performance.now();
+            const time = ((now - start) * 0.001).toFixed(2);
+            const percentage = ((numberOfProcessedPixels / CanvasService.numberOfPixels) * 100).toFixed(2);
+            // eslint-disable-next-line no-console
+            console.log(`Process: ${percentage}% (${time}s)`);
+          }
 
           // this.imageData.data[index] = color[0];
           // this.imageData.data[index + 1] = color[1];
@@ -129,7 +141,7 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
     })();
     const endRaytracing = performance.now();
     // eslint-disable-next-line no-console
-    console.warn(endRaytracing - start, 'raytracing');
+    console.warn(`Rendered in ${((endRaytracing - start) * 0.001).toFixed(2)}s`);
     this.context.putImageData(this.imageData, 0, 0);
   }
 
@@ -141,7 +153,7 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
 
     // eslint-disable-next-line no-console
     // console.log(scene, 'scene');
-    let colorFinal: vec4 = [0, 0, 0, 1];
+    let colorFinal: vec4 = [1, 0, 0, 1];
 
     const nearestObject: { object?: ShapeEntity; rayObjectSpace?: Ray; t: number } = { t: Infinity };
 
@@ -262,5 +274,9 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
       }
     }
     return [0, 0, 0];
+  }
+
+  screenResized(): void {
+    this.imageData = new ImageData(CanvasService.canvas.width, CanvasService.canvas.height);
   }
 }

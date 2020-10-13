@@ -2,6 +2,7 @@ import { mean } from 'lodash';
 import { glMatrix, quat, vec3 } from 'gl-matrix';
 
 // const krittengine = new window.Krittengine(document.getElementById('canvas') as HTMLCanvasElement, { dimensions: { width: 3, height: 3 } });
+// const krittengine = new window.Krittengine(document.getElementById('canvas') as HTMLCanvasElement, { dimensions: { width: 50, height: 100 } });
 // const krittengine = new window.Krittengine(document.getElementById('canvas') as HTMLCanvasElement, { dimensions: { width: 300, height: 200 } });
 const krittengine = new window.Krittengine(document.getElementById('canvas') as HTMLCanvasElement, { dimensions: { width: 100, height: 50 } });
 // const krittengine = new window.Krittengine(document.getElementById('canvas') as HTMLCanvasElement, { dimensions: { width: 150, height: 100 } });
@@ -168,3 +169,17 @@ const benchmark = () => {
 //   // console.log('continue');
 //   krittengine.stop();
 // }, 1000);
+
+const buttonStartFullscreen = document.querySelector('button[data-onclick="enterFullscreen"]');
+if (buttonStartFullscreen !== null) {
+  buttonStartFullscreen.addEventListener('click', () => {
+    krittengine.startFullscreen();
+  });
+}
+
+const buttonLockMouse = document.querySelector('button[data-onclick="lockMouse"]');
+if (buttonLockMouse !== null) {
+  buttonLockMouse.addEventListener('click', () => {
+    krittengine.lockMouse();
+  });
+}

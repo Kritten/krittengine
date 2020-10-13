@@ -3,6 +3,7 @@ import { SpatialEntity } from '@/krittengine/model/spatialEntity';
 import { ParamsCamera } from '@/krittengine/model/camera.types';
 import { TimeService } from '@/krittengine/controller/time.service';
 import { InputService } from '@/krittengine/controller/input.service';
+import { CanvasService } from '@/krittengine/controller/canvas.service';
 
 export class Camera extends SpatialEntity {
   viewingDirection: vec3 = vec3.create();
@@ -34,7 +35,8 @@ export class Camera extends SpatialEntity {
     this.recalculateMatrixView();
   }
 
-  updateAspectRatio(aspectRatio: number): void {
+  updateAspectRatio(): void {
+    const aspectRatio = CanvasService.canvas.width / CanvasService.canvas.height;
     mat4.perspective(this.matrixPerspective, glMatrix.toRadian(70), aspectRatio, 0.1, 1000.0);
     mat4.invert(this.matrixPerspectiveInverse, this.matrixPerspective);
   }
