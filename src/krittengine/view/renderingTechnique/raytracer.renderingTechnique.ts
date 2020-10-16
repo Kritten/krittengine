@@ -24,19 +24,11 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
     super();
 
     this.context = CanvasService.canvas.getContext('2d') as CanvasRenderingContext2D;
-    // this.imageData = this.context.createImageData(this.canvas.width, this.canvas.height);
     this.imageData = new ImageData(CanvasService.canvas.width, CanvasService.canvas.height);
   }
 
   render(scene: Scene): void {
     const camera = scene.activeCamera;
-
-    const widthValues: { [key: number]: number } = {};
-    const bar = 1 / this.pixelPerUnit;
-
-    let widthSpace = -(((CanvasService.canvas.width - 1) * 0.5) / this.pixelPerUnit - bar);
-    // console.log(heightSpace, 'heightSpace');
-    // console.log(widthSpace, 'widthSpace');
 
     const widthCanvasMinusOne = CanvasService.canvas.width - 1;
     const heightCanvasMinusOne = CanvasService.canvas.height - 1;
@@ -50,14 +42,6 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
         // console.warn('###################################');
 
         for (let indexWidth = 0; indexWidth < CanvasService.canvas.width; indexWidth += 1) {
-          let widthSpaceLocal = widthValues[indexWidth];
-          if (widthSpaceLocal === undefined) {
-            widthSpace += bar;
-            widthValues[indexWidth] = widthSpace;
-            widthSpaceLocal = widthSpace;
-          }
-          // console.log('############################');
-
           const pixelVector = vec3.fromValues(
             this.mapUVCoordsToPixels(indexWidth, widthCanvasMinusOne),
             -this.mapUVCoordsToPixels(indexHeight, heightCanvasMinusOne),
@@ -68,30 +52,6 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
           // console.log(pixelVector, 'pixelVector');
           const pixelViewSpace = vec3.transformMat4(vec3.create(), pixelVector, camera.matrixPerspectiveInverse);
           // console.log(pixelViewSpace, 'screenSpace');
-          // const pixelWorldSpace = vec3.transformMat4(vec3.create(), pixelViewSpace, camera.matrixView);
-          // const pixelWorldSpace = vec3.transformMat4(vec3.create(), pixelViewSpace, camera.matrixViewInverse);
-          // console.log(pixelWorldSpace, 'pixelWorldSpace');
-
-          // console.log(positionPixelObjectSpace, 'positionPixelObjectSpace');
-          // console.log(positionPixelWorldSpace, 'positionPixelWorldSpace');
-
-          // const directionCameraToPixel = vec3.normalize(vec3.create(), vec3.subtract(vec3.create(), positionPixelWorldSpace, camera.position));
-          // console.log(directionCameraToPixel, 'directionCameraToPixel');
-          // const cross = vec3.cross(vec3.create());
-
-          // const lookAt = mat4.lookAt(mat4.create(), camera.position, positionPixelWorldSpace, vec3.fromValues(0, 1, 0));
-          // const lookAt = mat4.targetTo(DUMMY_MAT4, camera.position, pixelWorldSpace, VECTOR_UP);
-          // // console.log(lookAt, 'lookAt');
-          // const rotation = mat4.getRotation(quat.create(), lookAt);
-          // console.log(rotation, 'rotation');
-
-          // const axis = vec3.create();
-          // console.log(quat.getAxisAngle(axis, rotation), 'rotation');
-          // console.log(axis, 'axis');
-
-          // camera.rotation;
-
-          // this.print = indexWidth === 1 && indexHeight === 1;
 
           const cameraPositionViewSpace = vec3.transformMat4(vec3.create(), camera.position, camera.matrixView);
 
@@ -103,11 +63,6 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
             position: cameraPositionViewSpace,
             direction,
           });
-
-          if (this.print) {
-            // console.log(vec3.transformMat4(vec3.create(), camera.position, camera.matrixView), 'camera.position');
-            // console.log(rayViewSpace, 'rayViewSpace');
-          }
 
           const color = this.intersectWithScene(rayViewSpace, scene);
 
@@ -124,18 +79,6 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
             // eslint-disable-next-line no-console
             console.log(`Process: ${percentage}% (${time}s)`);
           }
-
-          // this.imageData.data[index] = color[0];
-          // this.imageData.data[index + 1] = color[1];
-          // this.imageData.data[index + 2] = color[2];
-          // this.imageData.data[index + 3] = color[3];
-
-          // console.log(widthSpaceLocal);
-          // await new Promise((resolve) => {
-          //   setTimeout(() => {
-          //     resolve();
-          //   }, 0);
-          // });
         }
       }
     })();
