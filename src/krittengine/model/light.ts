@@ -1,8 +1,8 @@
 import { SpatialEntity } from '@/krittengine/model/spatialEntity';
-import { ParamsLight } from '@/krittengine/model/light.types';
+import { InterfaceLight, ParamsLight, SerializedLight } from '@/krittengine/model/light.types';
 import { vec3 } from 'gl-matrix';
 
-export class Light extends SpatialEntity {
+export class Light extends SpatialEntity implements InterfaceLight {
   color = vec3.fromValues(1.0, 1.0, 1.0);
 
   intensityA = 0;
@@ -29,5 +29,15 @@ export class Light extends SpatialEntity {
     if (params.intensityC !== undefined) {
       this.intensityC = params.intensityC;
     }
+  }
+
+  serialize(): SerializedLight {
+    return {
+      ...super.serialize(),
+      color: this.color,
+      intensityA: this.intensityA,
+      intensityB: this.intensityB,
+      intensityC: this.intensityC,
+    };
   }
 }

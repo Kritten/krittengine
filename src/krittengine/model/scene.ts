@@ -1,4 +1,4 @@
-import { InterfaceScene, ParamsScene } from '@/krittengine/model/scene.types';
+import { InterfaceScene, ParamsScene, SerializedScene } from '@/krittengine/model/scene.types';
 import { IDCamera } from '@/krittengine/model/camera.types';
 import { Camera } from '@/krittengine/model/camera';
 import { Entity } from '@/krittengine/model/entity';
@@ -55,5 +55,29 @@ export class Scene extends Entity implements InterfaceScene {
 
   addLight(light: Light): void {
     this.lights.set(light.id, light);
+  }
+
+  serialize(): SerializedScene {
+    const cameras = [];
+    for (const [, camera] of this.cameras) {
+      cameras.push(camera.serialize());
+    }
+    const lights = [];
+    for (const [, light] of this.lights) {
+      lights.push(light.serialize());
+    }
+    const objects = [];
+    for (const [, object] of this.objects) {
+      objects.push(object.serialize());
+    }
+
+    return {
+      ...super.serialize(),
+      cameras,
+      objects,
+      lights,
+      lightAmbient: this.lightAmbient,
+      activeCamera: this.activeCamera.serialize(),
+    };
   }
 }

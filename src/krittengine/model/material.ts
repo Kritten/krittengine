@@ -1,8 +1,8 @@
 import { Entity } from '@/krittengine/model/entity';
-import { ParamsMaterial } from '@/krittengine/model/material.types';
+import { InterfaceMaterial, ParamsMaterial, SerializedMaterial } from '@/krittengine/model/material.types';
 import { vec3 } from 'gl-matrix';
 
-export class Material extends Entity {
+export class Material extends Entity implements InterfaceMaterial {
   coefficientAmbient = vec3.create();
 
   coefficientDiffuse = vec3.create();
@@ -13,5 +13,15 @@ export class Material extends Entity {
 
   constructor(params: ParamsMaterial = {}) {
     super(params);
+  }
+
+  serialize(): SerializedMaterial {
+    return {
+      ...super.serialize(),
+      coefficientAmbient: this.coefficientAmbient,
+      coefficientDiffuse: this.coefficientDiffuse,
+      coefficientSpecular: this.coefficientSpecular,
+      specularFalloff: this.specularFalloff,
+    };
   }
 }

@@ -2,10 +2,10 @@ import { ShapeEntity } from '@/krittengine/model/shapes/shapeEntity';
 import { Ray } from '@/krittengine/model/ray';
 import { vec3 } from 'gl-matrix';
 import { InterfaceDataIntersection } from '@/krittengine/view/view.types';
-import { ParamsBox } from '@/krittengine/model/shapes/box.types';
+import { InterfaceBox, ParamsBox, SerializedBox } from '@/krittengine/model/shapes/box.types';
 import { transformDirectionWithMat4 } from '@/krittengine/controller/helpers';
 
-export class Box extends ShapeEntity {
+export class Box extends ShapeEntity implements InterfaceBox {
   cornerMin = vec3.fromValues(0.5, 0.5, 0.5);
 
   cornerMax = vec3.fromValues(0.5, 0.5, 0.5);
@@ -94,5 +94,13 @@ export class Box extends ShapeEntity {
       return [0, 0, -1];
     }
     return [0, 0, 1];
+  }
+
+  serialize(): SerializedBox {
+    return {
+      ...super.serialize(),
+      cornerMin: this.cornerMin,
+      cornerMax: this.cornerMax,
+    };
   }
 }

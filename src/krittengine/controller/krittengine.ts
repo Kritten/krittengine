@@ -1,5 +1,5 @@
 import { BaseRenderingTechnique } from '@/krittengine/view/renderingTechnique/base.renderingTechnique';
-import { RaytracerRenderingTechnique } from '@/krittengine/view/renderingTechnique/raytracer.renderingTechnique';
+import { RaytracerRenderingTechnique } from '@/krittengine/view/renderingTechnique/raytracer/raytracer.renderingTechnique';
 import { merge } from 'lodash';
 import {
   ConfigKrittengine,

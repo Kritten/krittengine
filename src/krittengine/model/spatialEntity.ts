@@ -1,8 +1,8 @@
 import { mat4, quat, vec3 } from 'gl-matrix';
 import { Entity } from '@/krittengine/model/entity';
-import { ParamsSpatialEntity } from '@/krittengine/model/spatialEntity.types';
+import type { InterfaceSpatialEntity, ParamsSpatialEntity, SerializedSpatialEntity } from '@/krittengine/model/spatialEntity.types';
 
-export abstract class SpatialEntity extends Entity {
+export abstract class SpatialEntity extends Entity implements InterfaceSpatialEntity {
   position: vec3 = vec3.create();
 
   rotation: quat = quat.create();
@@ -38,5 +38,14 @@ export abstract class SpatialEntity extends Entity {
   updateMatrixTransformation(): void {
     mat4.fromRotationTranslationScale(this.matrixTransformation, this.rotation, this.position, this.scale);
     mat4.invert(this.matrixTransformationInverse, this.matrixTransformation);
+  }
+
+  serialize(): SerializedSpatialEntity {
+    return {
+      ...super.serialize(),
+      position: this.position,
+      rotation: this.rotation,
+      scale: this.scale,
+    };
   }
 }

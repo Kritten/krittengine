@@ -1,11 +1,11 @@
-import { vec3, mat4, glMatrix } from 'gl-matrix';
+import { glMatrix, mat4, vec3 } from 'gl-matrix';
 import { SpatialEntity } from '@/krittengine/model/spatialEntity';
-import { ParamsCamera } from '@/krittengine/model/camera.types';
+import { InterfaceCamera, ParamsCamera, SerializedCamera } from '@/krittengine/model/camera.types';
 import { TimeService } from '@/krittengine/controller/time.service';
 import { InputService } from '@/krittengine/controller/input.service';
 import { CanvasService } from '@/krittengine/controller/canvas.service';
 
-export class Camera extends SpatialEntity {
+export class Camera extends SpatialEntity implements InterfaceCamera {
   viewingDirection: vec3 = vec3.create();
 
   // view -> screen
@@ -50,6 +50,13 @@ export class Camera extends SpatialEntity {
 
   updateViewingDirection(): void {
     this.viewingDirection = vec3.fromValues(-this.matrixView[2], -this.matrixView[6], -this.matrixView[10]);
+  }
+
+  serialize(): SerializedCamera {
+    return {
+      ...super.serialize(),
+      matrixPerspective: this.matrixPerspective,
+    };
   }
 }
 

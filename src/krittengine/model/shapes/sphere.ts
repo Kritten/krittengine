@@ -1,11 +1,11 @@
-import { ParamsSphere } from '@/krittengine/model/shapes/sphere.types';
+import { InterfaceSphere, ParamsSphere, SerializedSphere } from '@/krittengine/model/shapes/sphere.types';
 import { ShapeEntity } from '@/krittengine/model/shapes/shapeEntity';
 import { Ray } from '@/krittengine/model/ray';
 import { vec3 } from 'gl-matrix';
 import { InterfaceDataIntersection } from '@/krittengine/view/view.types';
 import { transformDirectionWithMat4 } from '@/krittengine/controller/helpers';
 
-export class Sphere extends ShapeEntity {
+export class Sphere extends ShapeEntity implements InterfaceSphere {
   radius = 1;
 
   constructor(params: ParamsSphere = {}) {
@@ -90,5 +90,12 @@ export class Sphere extends ShapeEntity {
 
   getNormal(pointObjectSpace: vec3): vec3 {
     return pointObjectSpace; // unit sphere: intersection point is normal
+  }
+
+  serialize(): SerializedSphere {
+    return {
+      ...super.serialize(),
+      radius: this.radius,
+    };
   }
 }
