@@ -10,6 +10,10 @@ export class Sphere extends ShapeEntity implements InterfaceSphere {
 
   constructor(params: ParamsSphere = {}) {
     super(params);
+
+    if (params.radius !== undefined) {
+      this.radius = params.radius;
+    }
   }
 
   intersectsWithRay(rayObjectSpace: Ray, print: boolean): number | undefined {
@@ -95,6 +99,7 @@ export class Sphere extends ShapeEntity implements InterfaceSphere {
   serialize(): SerializedSphere {
     return {
       ...super.serialize(),
+      class: 'Sphere',
       radius: this.radius,
     };
   }

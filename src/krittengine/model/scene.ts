@@ -7,6 +7,8 @@ import { IDShapeEntity } from '@/krittengine/model/shapes/shapeEntity.types';
 import { Light } from '@/krittengine/model/light';
 import { IDLight } from '@/krittengine/model/light.types';
 import { vec4 } from 'gl-matrix';
+import { Box } from '@/krittengine/model/shapes/box';
+import { Sphere } from '@/krittengine/model/shapes/sphere';
 
 export class Scene extends Entity implements InterfaceScene {
   cameras: Map<IDCamera, Camera> = new Map();
@@ -41,13 +43,13 @@ export class Scene extends Entity implements InterfaceScene {
     this.objects.set(object.id, object);
   }
 
-  setActiveCamera(camera: Camera): Camera {
-    const cameraActive = this.cameras.get(camera.id);
+  setActiveCamera(camera: Camera | IDCamera): Camera {
+    const cameraActive = this.cameras.get(typeof camera === 'string' ? camera : camera.id);
 
     if (cameraActive !== undefined) {
       this.activeCamera = cameraActive;
     } else {
-      throw new Error(`Camera '${camera.id}' not found`);
+      throw new Error(`Camera '${camera}' not found`);
     }
 
     return this.activeCamera;
@@ -79,5 +81,48 @@ export class Scene extends Entity implements InterfaceScene {
       lightAmbient: this.lightAmbient,
       activeCamera: this.activeCamera.serialize(),
     };
+  }
+
+  static deserialize(serializedScene: SerializedScene): Scene {
+    const scene = new Scene(serializedScene);
+
+    /**
+     * Cameras
+     */
+    for (let i = 0; i < serializedScene.cameras.length; i += 1) {
+      scene.addCamera(Camera.deserialize(serializedScene.cameras[i]));
+    }
+
+    scene.setActiveCamera(serializedScene.activeCamera.id);
+
+    /**
+     * Lights
+     */
+    for (let i = 0; i < serializedScene.lights.length; i += 1) {
+      scene.addLight(Light.deserialize(serializedScene.lights[i]));
+    }
+
+    /**
+     * Objects
+     */
+    for (let i = 0; i < serializedScene.objects.length; i += 1) {
+      const serializedObject = serializedScene.objects[i];
+      let object;
+
+      switch (serializedObject.class) {
+        case 'Box':
+          object = Box.deserialize(serializedObject);
+          break;
+        case 'Sphere':
+          object = Sphere.deserialize(serializedObject);
+          break;
+        default:
+          throw new Error('unknown object type');
+      }
+
+      scene.addObject(object);
+    }
+
+    return scene;
   }
 }

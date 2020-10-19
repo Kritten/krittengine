@@ -10,6 +10,7 @@ export type ParamsShapeEntity = ParamsSpatialEntity & {
 };
 
 export type SerializedShapeEntity = SerializedSpatialEntity & {
+  class: string | null;
   material: SerializedMaterial;
 };
 

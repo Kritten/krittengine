@@ -58,7 +58,7 @@ export class Krittengine implements InterfaceKrittengine {
     };
   }
 
-  start(config: ConfigKrittengineInitial = {}): void {
+  async start(config: ConfigKrittengineInitial = {}): Promise<void> {
     if (this.scenes.size === 0) {
       throw Error('At least on scene is required');
     }
@@ -72,9 +72,9 @@ export class Krittengine implements InterfaceKrittengine {
     TimeService.init();
 
     if (loop) {
-      this.updateLoop();
+      await this.updateLoop();
     } else {
-      this.update();
+      await this.update();
     }
   }
 
@@ -114,15 +114,15 @@ export class Krittengine implements InterfaceKrittengine {
     }
   }
 
-  private updateLoop(timestamp: DOMHighResTimeStamp = 0) {
+  private async updateLoop(timestamp: DOMHighResTimeStamp = 0) {
     this.stats.begin();
-    this.update(timestamp);
+    await this.update(timestamp);
     this.stats.end();
 
     this.idAnimation = window.requestAnimationFrame(this.updateLoop.bind(this));
   }
 
-  private update(timestamp: DOMHighResTimeStamp = 0) {
+  private async update(timestamp: DOMHighResTimeStamp = 0): Promise<void> {
     TimeService.update(timestamp);
     // console.log(timestamp, 'timestamp');
     // console.log(TimeService.timeDelta, 'TimeService');
@@ -135,7 +135,7 @@ export class Krittengine implements InterfaceKrittengine {
 
     this.activeScene.update();
 
-    this.activeRenderingTechnique.render(this.activeScene);
+    await this.activeRenderingTechnique.render(this.activeScene);
 
     InputService.pressedKeys = {};
 

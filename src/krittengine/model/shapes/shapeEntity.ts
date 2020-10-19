@@ -25,7 +25,16 @@ export abstract class ShapeEntity extends SpatialEntity implements InterfaceShap
   serialize(): SerializedShapeEntity {
     return {
       ...super.serialize(),
+      class: null,
       material: this.material.serialize(),
     };
+  }
+
+  static deserialize(data: SerializedShapeEntity): ShapeEntity {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const object = new this(data);
+    object.updateMatrixTransformation();
+    return object;
   }
 }

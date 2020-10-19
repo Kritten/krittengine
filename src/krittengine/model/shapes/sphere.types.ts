@@ -1,7 +1,9 @@
 import type { ParamsSpatialEntity } from '@/krittengine/model/spatialEntity.types';
 import { InterfaceShapeEntity, SerializedShapeEntity } from '@/krittengine/model/shapes/shapeEntity.types';
 
-export type ParamsSphere = ParamsSpatialEntity;
+export type ParamsSphere = ParamsSpatialEntity & {
+  radius?: number;
+};
 
 export type SerializedSphere = SerializedShapeEntity & {
   radius: number;

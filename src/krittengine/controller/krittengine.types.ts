@@ -15,7 +15,7 @@ export type ConfigKrittengine = {
 export type ConfigKrittengineInitial = Partial<ConfigKrittengine>;
 
 export interface InterfaceKrittengine {
-  start(config: ConfigKrittengine): void;
+  start(config: ConfigKrittengine): Promise<void>;
   stop(): void;
   continue(): void;
   updateConfig(config: ConfigKrittengine): void;

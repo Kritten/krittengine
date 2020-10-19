@@ -4,6 +4,7 @@ import { InterfaceCamera, ParamsCamera, SerializedCamera } from '@/krittengine/m
 import { TimeService } from '@/krittengine/controller/time.service';
 import { InputService } from '@/krittengine/controller/input.service';
 import { CanvasService } from '@/krittengine/controller/canvas.service';
+import type { Dimensions } from '@/krittengine/controller/krittengine.types';
 
 export class Camera extends SpatialEntity implements InterfaceCamera {
   viewingDirection: vec3 = vec3.create();
@@ -20,8 +21,15 @@ export class Camera extends SpatialEntity implements InterfaceCamera {
   // view -> world
   matrixViewInverse: mat4 = mat4.create();
 
+  aspectRatio: number;
+
   constructor(params: ParamsCamera = {}) {
     super(params);
+
+    if (params.aspectRatio !== undefined) {
+      this.aspectRatio = params.aspectRatio;
+      this.recalculatePerspectiveMatrix();
+    }
 
     this.init();
   }
@@ -35,9 +43,18 @@ export class Camera extends SpatialEntity implements InterfaceCamera {
     this.recalculateMatrixView();
   }
 
-  updateAspectRatio(): void {
-    const aspectRatio = CanvasService.canvas.width / CanvasService.canvas.height;
-    mat4.perspective(this.matrixPerspective, glMatrix.toRadian(70), aspectRatio, 0.1, 1000.0);
+  updateAspectRatio(dimensions?: Dimensions): void {
+    if (dimensions === undefined) {
+      this.aspectRatio = CanvasService.canvas.width / CanvasService.canvas.height;
+    } else {
+      this.aspectRatio = dimensions.width / dimensions.height;
+    }
+
+    this.recalculatePerspectiveMatrix();
+  }
+
+  private recalculatePerspectiveMatrix(): void {
+    mat4.perspective(this.matrixPerspective, glMatrix.toRadian(70), this.aspectRatio, 0.1, 1000.0);
     mat4.invert(this.matrixPerspectiveInverse, this.matrixPerspective);
   }
 
@@ -55,8 +72,14 @@ export class Camera extends SpatialEntity implements InterfaceCamera {
   serialize(): SerializedCamera {
     return {
       ...super.serialize(),
+
+      aspectRatio: this.aspectRatio,
       matrixPerspective: this.matrixPerspective,
     };
+  }
+
+  static deserialize(data: SerializedCamera): Camera {
+    return new Camera(data);
   }
 }
 

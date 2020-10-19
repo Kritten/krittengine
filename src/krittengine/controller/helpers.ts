@@ -6,3 +6,5 @@ export const map = (value: number, fromMin: number, fromMax: number, ToMin: numb
 export const transformDirectionWithMat4 = (direction: vec3, matrix: mat4): vec3 => {
   return vec4.transformMat4(vec4.create(), [direction[0], direction[1], direction[2], 0], matrix).slice(0, 3) as vec3;
 };
+
+export const mapUVCoordsToPixels = (value: number, y1: number): number => (value * 2) / y1 - 1;

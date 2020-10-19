@@ -99,6 +99,7 @@ export class Box extends ShapeEntity implements InterfaceBox {
   serialize(): SerializedBox {
     return {
       ...super.serialize(),
+      class: 'Box',
       cornerMin: this.cornerMin,
       cornerMax: this.cornerMax,
     };

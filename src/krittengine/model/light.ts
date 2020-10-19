@@ -40,4 +40,8 @@ export class Light extends SpatialEntity implements InterfaceLight {
       intensityC: this.intensityC,
     };
   }
+
+  static deserialize(data: SerializedLight): Light {
+    return new Light(data);
+  }
 }
