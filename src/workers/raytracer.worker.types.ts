@@ -1,10 +1,16 @@
 import type { SerializedScene } from '@/krittengine/model/scene.types';
 import type { Dimensions } from '@/krittengine/controller/krittengine.types';
 
+type InfoWorker = {
+  id: number;
+  numberOfLines: number;
+  offset: number;
+};
+
 export type DataEventWorkerRaytracer = {
   scene: SerializedScene;
   dimensionsCanvas: Dimensions;
-  infoWorker: { numberOfLines: number; offset: number };
+  infoWorker: InfoWorker;
 };
 
 export type ResponseEventWorkerRaytracer = {
@@ -13,5 +19,5 @@ export type ResponseEventWorkerRaytracer = {
 
 export type ResultEventWorkerRaytracer = {
   result: ResponseEventWorkerRaytracer;
-  infoWorker: { numberOfLines: number; offset: number };
+  infoWorker: InfoWorker;
 };

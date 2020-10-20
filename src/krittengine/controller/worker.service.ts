@@ -63,6 +63,7 @@ class WorkerServiceClass implements InterfaceWorkerService {
       const worker = this.workersRaytracer[i];
 
       const infoWorker = {
+        id: i,
         numberOfLines: numberOfLinesPerWorker,
         offset: offsetForWorkers[i],
       };

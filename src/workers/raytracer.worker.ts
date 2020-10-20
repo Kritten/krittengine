@@ -13,16 +13,24 @@ const ctx: Worker = (self as unknown) as Worker;
 
 // Respond to message from parent thread
 ctx.addEventListener('message', (event: MessageEvent<DataEventWorkerRaytracer>) => {
-  // console.log(event.data);
+  const start = performance.now();
+
+  const times = {
+    total: -1,
+    deserializing: -1,
+    rendering: -1,
+  };
 
   const widthCanvas = event.data.dimensionsCanvas.width;
   const heightCanvas = event.data.dimensionsCanvas.height;
   const widthCanvasMinusOne = widthCanvas - 1;
   const heightCanvasMinusOne = heightCanvas - 1;
 
+  const startDeserializing = performance.now();
   const scene = Scene.deserialize(event.data.scene);
 
   const camera = Camera.deserialize(event.data.scene.activeCamera);
+  times.deserializing = performance.now() - startDeserializing;
 
   const result: number[] = [];
 
@@ -31,6 +39,7 @@ ctx.addEventListener('message', (event: MessageEvent<DataEventWorkerRaytracer>) 
   const maxHeight = Math.min(event.data.infoWorker.offset + event.data.infoWorker.numberOfLines, heightCanvas);
   // console.warn(event.data.infoWorker.offset, maxHeight, 'maxHeight');
 
+  const startRendering = performance.now();
   for (let indexHeight = event.data.infoWorker.offset; indexHeight < maxHeight; indexHeight += 1) {
     // console.warn('###################################');
 
@@ -76,6 +85,18 @@ ctx.addEventListener('message', (event: MessageEvent<DataEventWorkerRaytracer>) 
       // }
     }
   }
+  times.rendering = performance.now() - startRendering;
+
+  // if (this.print) {
+  // eslint-disable-next-line no-console
+  console.group(`Worker ${event.data.infoWorker.id}: Rendered in ${performance.now() - start}`);
+  // eslint-disable-next-line no-console
+  console.log(`Worker ${event.data.infoWorker.id}: deserializing`, times.deserializing);
+  // eslint-disable-next-line no-console
+  console.log(`Worker ${event.data.infoWorker.id}: rendering`, times.rendering);
+  // eslint-disable-next-line no-console
+  console.groupEnd();
+  // }
 
   ctx.postMessage({ result });
 });

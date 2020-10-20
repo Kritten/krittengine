@@ -20,7 +20,7 @@ export class RaytracerRenderingTechnique extends BaseRenderingTechnique implemen
     this.context = CanvasService.canvas.getContext('2d') as CanvasRenderingContext2D;
     this.imageData = new ImageData(CanvasService.canvas.width, CanvasService.canvas.height);
 
-    WorkerService.initWorkersRaytracer({ countWorkers: undefined });
+    WorkerService.initWorkersRaytracer({ countWorkers: 1 });
   }
 
   async render(scene: Scene): Promise<void> {
